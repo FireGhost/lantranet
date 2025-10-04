@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import { inlineConfig } from '#build/types/app.config';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 definePageMeta({
   layout: 'buvette',
