@@ -1,0 +1,20 @@
+services:
+  lantranet:
+    image: node:24
+    working_dir: /home/node/lantranet
+    user: "node"
+    env_file:
+      - .env
+    environment:
+      PORT: 80
+    ports:
+      - 80:80
+      - 5555:5555
+    volumes:
+      - ./:/home/node/lantranet
+    command:
+      - "bash"
+      - "-c"
+      - "npm i \
+         && npx prisma migrate deploy \
+         && npm run dev"
