@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SelectItem } from '@nuxt/ui';
-import type { Animation } from '@prisma/client';
+import type { AnimationModel } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   layout: 'animations',
@@ -18,7 +18,7 @@ const { data: lanDays } = await useFetch('/api/lan-days');
 const lanDaysItems: ComputedRef<SelectItem[] | undefined> =
   computed(() => lanDays.value?.map((lanDay) => {return {label: lanDay.name, value: lanDay.id}}));
 
-const lanAnimationState = reactive<Partial<Animation>>({});
+const lanAnimationState = reactive<Partial<AnimationModel>>({});
 async function submit() {
   $fetch('/api/animations/add', {
     method: 'POST',

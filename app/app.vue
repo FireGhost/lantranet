@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui'
-import { Role } from '@prisma/client';
+import type { NavigationMenuItem } from '@nuxt/ui';
+import { Role } from '~~/prisma/generated/prisma/enums';
 
 const { loggedIn, clear: clearUserSession, user } = useUserSession()
 

@@ -27,7 +27,7 @@ async function register() {
 </script>
 
 <template>
-  <UForm>
+  <UForm @submit="register()">
     <UFormField label="Username" name="username">
       <UInput v-model="userLoginState.username" />
     </UFormField>
@@ -36,7 +36,7 @@ async function register() {
       <UInput type="password" v-model="userLoginState.password" />
     </UFormField>
 
-    <UButton @click="register()">
+    <UButton type="submit">
       Register
     </UButton>
   </UForm>

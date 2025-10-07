@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { TableColumn } from '@nuxt/ui';
-import type { Prisma } from '@prisma/client';
+import type { LanDayGetPayload, UserGetPayload } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   layout: 'animations',
 });
 
-const { data: lanDays } = await useFetch<Prisma.LanDayGetPayload<{
+const { data: lanDays } = await useFetch<LanDayGetPayload<{
   include: {animations: true}
 }>[]>('/api/lan-days', {
   query: {includeAnimations: true}
@@ -16,7 +16,7 @@ const lanDaysSorted = computed(() => {
   return lanDays.value?.sort((a, b) => a.weight - b.weight)
 });
 
-const { data: usersScores } = await useFetch<Prisma.UserGetPayload<{
+const { data: usersScores } = await useFetch<UserGetPayload<{
   include: {
     animationsAsPlayer: {
       include: {

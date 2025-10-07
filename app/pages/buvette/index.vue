@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { type Prisma, type MenuItem, Role } from '@prisma/client';
+import type { MenuItemModel, MenuCategoryGetPayload } from '~~/prisma/generated/prisma/models';
+import { Role } from '~~/prisma/generated/prisma/enums';
 
 definePageMeta({
   layout: 'buvette',
@@ -10,7 +11,7 @@ const { user } = useUserSession();
 
 const isAdmin = computed(() => user.value?.role === Role.ADMIN);
 
-const { data: menuCategories, refresh: refreshMenuCategories } = await useFetch<Prisma.MenuCategoryGetPayload<{
+const { data: menuCategories, refresh: refreshMenuCategories } = await useFetch<MenuCategoryGetPayload<{
   include: {
     menuItems: true
   }
@@ -45,7 +46,7 @@ function deleteMenuItem(menuItemId: number) {
   });
 }
 
-function addItemToCart(menuItem: MenuItem) {
+function addItemToCart(menuItem: MenuItemModel) {
   cartItems.value.push({
     menuItemId: menuItem.id,
     name: menuItem.name,

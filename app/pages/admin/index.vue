@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Role, type User, type Animation, type LanDay, type MenuCategory, type MenuItem, type OrderStatus } from '@prisma/client';
+import { Role } from '~~/prisma/generated/prisma/enums';
+import type { UserModel, AnimationModel, LanDayModel, MenuCategoryModel, MenuItemModel, OrderStatusModel } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   middleware: "need-admin",
@@ -7,23 +8,23 @@ definePageMeta({
 
 const toast = useToast();
 
-const { data: lanDays, refresh: refreshLanDays } = await useFetch<LanDay[]>('/api/lan-days');
+const { data: lanDays, refresh: refreshLanDays } = await useFetch<LanDayModel[]>('/api/lan-days');
 const lanDaysSorted = computed(() => lanDays.value?.toSorted((a, b) => a.weight - b.weight));
 
-const { data: animations } = await useFetch<Animation[]>('/api/animations');
+const { data: animations } = await useFetch<AnimationModel[]>('/api/animations');
 
-const { data: users } = await useFetch<User[]>('/api/users');
+const { data: users } = await useFetch<UserModel[]>('/api/users');
 
-const { data: menuCategories, refresh: refreshMenuCategories } = await useFetch<MenuCategory[]>('/api/buvette/categories');
+const { data: menuCategories, refresh: refreshMenuCategories } = await useFetch<MenuCategoryModel[]>('/api/buvette/categories');
 
-const { data: menuItems } = await useFetch<MenuItem[]>('/api/buvette/menu-items');
+const { data: menuItems } = await useFetch<MenuItemModel[]>('/api/buvette/menu-items');
 
-const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<OrderStatus[]>('/api/buvette/status');
+const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<OrderStatusModel[]>('/api/buvette/status');
 const orderStatusesSorted = computed(() => {
   return orderStatuses.value?.sort((a, b) => a.weight - b.weight);
 });
 
-const newLanDay = reactive<Partial<LanDay>>({});
+const newLanDay = reactive<Partial<LanDayModel>>({});
 function addLanDay() {
   $fetch('/api/lan-days/add', {
     method: 'POST',
@@ -42,7 +43,7 @@ function addLanDay() {
   });
 }
 
-function deleteLanDay(lanDay: LanDay) {
+function deleteLanDay(lanDay: LanDayModel) {
   $fetch('/api/lan-days/delete', {
     method: 'POST',
     body: lanDay
@@ -59,7 +60,7 @@ function deleteLanDay(lanDay: LanDay) {
   });
 }
 
-function updateLanDay(lanDay: LanDay, operation: 'up' | 'down' | 'edit') {
+function updateLanDay(lanDay: LanDayModel, operation: 'up' | 'down' | 'edit') {
   switch(operation) {
     case 'up':
       lanDay.weight--;
@@ -101,7 +102,7 @@ function onAdminChange(userId: number) {
   });
 }
 
-function updateMenuCategory(menuCategory: MenuCategory) {
+function updateMenuCategory(menuCategory: MenuCategoryModel) {
   $fetch('/api/buvette/categories/update', {
     method: 'POST',
     body: menuCategory,
@@ -135,7 +136,7 @@ function deleteMenuCategory(menuCategoryId: number) {
   });
 }
 
-const newMenuCategory = reactive<Partial<MenuCategory>>({});
+const newMenuCategory = reactive<Partial<MenuCategoryModel>>({});
 function createMenuCategory() {
   $fetch('/api/buvette/categories/add', {
     method: 'POST',
@@ -180,7 +181,7 @@ function onMenuItemChange(menuItemId: number) {
   });
 }
 
-const newOrderStatus = reactive<Partial<OrderStatus>>({});
+const newOrderStatus = reactive<Partial<OrderStatusModel>>({});
 function createOrderStatus() {
   $fetch('/api/buvette/status/add', {
     method: 'POST',
@@ -201,7 +202,7 @@ function createOrderStatus() {
   });
 }
 
-function updateOrderStatus(orderStatus: OrderStatus) {
+function updateOrderStatus(orderStatus: OrderStatusModel) {
   $fetch('/api/buvette/status/update', {
     method: 'POST',
     body: orderStatus,

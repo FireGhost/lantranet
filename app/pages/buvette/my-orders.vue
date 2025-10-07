@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Prisma } from '@prisma/client';
+import type { OrderGetPayload } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   layout: 'buvette',
@@ -7,7 +7,7 @@ definePageMeta({
 
 const availableColors = ["error", "neutral", "primary", "secondary", "success", "info", "warning"];
 
-type FetchedOrderType = Prisma.OrderGetPayload<{
+type FetchedOrderType = OrderGetPayload<{
   include: {
     orderItems: true,
     status: true

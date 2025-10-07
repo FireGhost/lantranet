@@ -1,9 +1,9 @@
-import { Prisma } from "@prisma/client";
+import type { AnimationInclude } from "~~/prisma/generated/prisma/models"
 
 export default defineEventHandler((event) => {
   const animationId = Number.parseInt(getRouterParam(event, 'id') ?? '');
   const query = getQuery(event);
-  const includeData: Prisma.AnimationInclude = {};
+  const includeData: AnimationInclude = {};
   if (query.withAdminUser) {
     includeData.adminUser = true;
   }

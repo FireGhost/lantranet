@@ -1,0 +1,128 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("APP_DB_URL")
+}
+
+generator client {
+  provider  = "prisma-client"
+  output    = "./generated/prisma"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model User {
+  id                  Int         @id @default(autoincrement())
+  username            String      @unique
+  passwordHash        String
+  salt                String
+  role                Role        @default(USER)
+  animationsAsAdmin   Animation[]
+  teams               PlayersTeams[]
+  animationsAsPlayer  AnimationsPlayers[]
+  orders              Order[]
+}
+
+model AnimationsPlayers {
+  player      User        @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId    Int
+  animation   Animation   @relation(fields: [animationId], references: [id])
+  animationId Int
+  score       Int?
+
+  @@id([playerId, animationId])
+}
+
+model Animation {
+  id                Int       @id @default(autoincrement())
+  name              String
+  shortName         String?
+  description       String?
+  adminUser         User?     @relation(fields: [adminUserId], references: [id])
+  adminUserId       Int?
+  lanDay            LanDay?   @relation(fields: [lanDayId], references: [id])
+  lanDayId          Int?
+  startTime         String?
+  weight            Int
+  isTeamed          Boolean   @default(false)
+  maxPlayerPerTeam  Int?
+  openSubscription  Boolean   @default(false)
+  teams             Team[]
+  players           AnimationsPlayers[]
+}
+
+model LanDay {
+  id            Int         @id @default(autoincrement())
+  name          String
+  weight        Int
+  animations    Animation[]
+}
+
+model PlayersTeams {
+  team        Team    @relation(fields: [teamId], references: [id], onDelete: Cascade)
+  teamId      Int
+  player      User    @relation(fields: [playerId], references: [id], onDelete: Cascade)
+  playerId    Int
+
+  @@id([teamId, playerId])
+}
+
+model Team {
+  id            Int             @id @default(autoincrement())
+  name          String
+  players       PlayersTeams[]
+  animation     Animation       @relation(fields: [animationId], references: [id])
+  animationId   Int
+  score         Int?
+}
+
+model MenuItem {
+  id              Int             @id @default(autoincrement())
+  name            String
+  description     String?
+  price           Float           @default(0)
+  isAvailable     Boolean         @default(true)
+  category        MenuCategory    @relation(fields: [categoryId], references: [id])
+  categoryId      Int
+  orders          OrdersItems[]
+}
+
+model OrdersItems {
+  item          MenuItem    @relation(fields: [itemId], references: [id])
+  itemId        Int
+  order         Order       @relation(fields: [orderId], references: [id])
+  orderId       Int
+  priceAtOrder  Float
+  nameAtOrder   String
+  comment       String?
+
+  @@id([itemId, orderId])
+}
+
+model Order {
+  id            Int             @id @default(autoincrement())
+  orderItems    OrdersItems[]
+  status        OrderStatus?    @relation(fields: [statusId], references: [id])
+  statusId      Int?
+  user          User            @relation(fields: [userId], references: [id])
+  userId        Int
+  createdAt     DateTime        @default(now())
+}
+
+model OrderStatus {
+  id              Int             @id @default(autoincrement())
+  name            String
+  color           String
+  weight          Int             @unique
+  orders          Order[]
+}
+
+model MenuCategory {
+  id          Int         @id @default(autoincrement())
+  name        String
+  menuItems   MenuItem[]
+}
+
+// Once edited, run "npx prisma migrate dev" to generate de migration file.

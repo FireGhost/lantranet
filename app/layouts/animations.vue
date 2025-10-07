@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { Role, type Prisma } from '@prisma/client';
+import { Role } from '~~/prisma/generated/prisma/enums';
+import type { LanDayGetPayload } from '~~/prisma/generated/prisma/models';
 
 const { user } = useUserSession();
 const isAdmin = computed(() => user.value?.role === Role.ADMIN);
 
-const { data: lanDays, refresh: refreshAnimations } = await useFetch<Prisma.LanDayGetPayload<{include: {animations: true}}>[]>('/api/lan-days', {
+const { data: lanDays, refresh: refreshAnimations } = await useFetch<LanDayGetPayload<{include: {animations: true}}>[]>('/api/lan-days', {
   query: {includeAnimations: true}
 });
 

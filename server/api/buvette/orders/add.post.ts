@@ -1,4 +1,4 @@
-import type { Prisma } from "@prisma/client";
+import type { OrdersItemsCreateManyOrderInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<CartItem[]>(event);
@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     throw createError('No user logged in.');
   }
 
-  const ordersInput: Prisma.OrdersItemsCreateManyOrderInput[] = body.map((orderItem) => {
+  const ordersInput: OrdersItemsCreateManyOrderInput[] = body.map((orderItem) => {
     return {
       itemId: orderItem.menuItemId,
       nameAtOrder: orderItem.name,

@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Role } from "~~/prisma/generated/prisma/enums";
 import { randomBytes } from "crypto";
 
 export default defineEventHandler(async (event) => {

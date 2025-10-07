@@ -1,8 +1,8 @@
-import { Prisma } from "@prisma/client";
+import { MenuCategoryInclude } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
-  const menuCategoryInclude: Prisma.MenuCategoryInclude = {};
+  const menuCategoryInclude: MenuCategoryInclude = {};
 
   if (query.withMenuItems) {
     menuCategoryInclude.menuItems = true;

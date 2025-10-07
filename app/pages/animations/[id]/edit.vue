@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { SelectItem } from '@nuxt/ui';
-import type { Animation } from '@prisma/client';
+import type { AnimationModel } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   layout: 'animations',
@@ -19,8 +19,8 @@ const { data: lanDays } = await useFetch('/api/lan-days');
 const lanDaysItems: ComputedRef<SelectItem[] | undefined> =
   computed(() => lanDays.value?.map((lanDay) => {return {label: lanDay.name, value: lanDay.id}}));
 
-const { data: animation } = await useFetch<Animation>(`/api/animations/${route.params.id}`);
-const animationState = reactive<Partial<Animation>>(animation.value ?? {});
+const { data: animation } = await useFetch<AnimationModel>(`/api/animations/${route.params.id}`);
+const animationState = reactive<Partial<AnimationModel>>(animation.value ?? {});
 async function updateAnimation() {
   $fetch('/api/animations/update', {
     method: 'POST',

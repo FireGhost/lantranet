@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { OrderStatus, Prisma } from '@prisma/client';
+import type { OrderGetPayload, OrderStatusModel } from '~~/prisma/generated/prisma/models';
 
 const toast = useToast();
 
 const availableColors = ["error", "neutral", "primary", "secondary", "success", "info", "warning"];
 
-type FetchedOrderType = Prisma.OrderGetPayload<{
+type FetchedOrderType = OrderGetPayload<{
   include: {
     user: true,
     status: true,
@@ -16,12 +16,12 @@ const { data: orders, refresh: refreshOrders } = useFetch<FetchedOrderType[]>('/
   query: {withUser: true, withStatus: true, withOrderItems: true}
 });
 
-const { data: orderStatuses } = await useFetch<OrderStatus[]>('/api/buvette/status');
+const { data: orderStatuses } = await useFetch<OrderStatusModel[]>('/api/buvette/status');
 const orderStatusesSorted = computed(() => {
   return orderStatuses.value?.sort((a, b) => a.weight - b.weight) ?? [];
 });
 
-type FetchedOrderImproved = FetchedOrderType & {totalPrice: number, nextStatus: OrderStatus | undefined};
+type FetchedOrderImproved = FetchedOrderType & {totalPrice: number, nextStatus: OrderStatusModel | undefined};
 
 const ordersImproved = computed(() => {
   const ordersImproved: FetchedOrderImproved[] = [];
@@ -55,7 +55,7 @@ const doneOrders = computed(() => ordersImproved
   .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
 );
 
-function findNextStatus(orderStatus?: OrderStatus | null): OrderStatus | undefined {
+function findNextStatus(orderStatus?: OrderStatusModel | null): OrderStatusModel | undefined {
   if (!orderStatus) {
     return orderStatusesSorted.value.at(0);
   }

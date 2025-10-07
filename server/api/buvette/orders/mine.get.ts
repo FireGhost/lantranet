@@ -1,4 +1,4 @@
-import { Prisma } from "@prisma/client";
+import { OrderInclude } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const session = await getUserSession(event);
@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   }
 
   const query = getQuery(event);
-  const ordersIncludes: Prisma.OrderInclude = {};
+  const ordersIncludes: OrderInclude = {};
 
   if (query.withOrderItems) {
     ordersIncludes.orderItems = true;

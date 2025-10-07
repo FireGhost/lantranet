@@ -1,9 +1,9 @@
-import { Order } from "@prisma/client";
+import { OrderModel } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   await needAdmin(event);
 
-  const body = await readBody<Partial<Order>>(event);
+  const body = await readBody<Partial<OrderModel>>(event);
   const orderId = body.id;
   body.id = undefined;
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { type MenuCategory, type MenuItem } from '@prisma/client';
+import type { MenuCategoryModel, MenuItemModel } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   layout: 'buvette',
@@ -9,10 +9,10 @@ definePageMeta({
 const toast = useToast();
 const route = useRoute();
 
-const { data: menuCategories } = await useFetch<MenuCategory[]>('/api/buvette/categories');
+const { data: menuCategories } = await useFetch<MenuCategoryModel[]>('/api/buvette/categories');
 
-const { data: menuItem } = await useFetch<MenuItem>(`/api/buvette/menu-items/${route.params.id}`);
-const menuItemState = reactive<Partial<MenuItem>>(menuItem.value ?? {});
+const { data: menuItem } = await useFetch<MenuItemModel>(`/api/buvette/menu-items/${route.params.id}`);
+const menuItemState = reactive<Partial<MenuItemModel>>(menuItem.value ?? {});
 
 function formSubmit() {
   $fetch(`/api/buvette/menu-items/update`, {

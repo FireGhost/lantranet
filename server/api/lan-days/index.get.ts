@@ -1,9 +1,9 @@
-import { Prisma } from "@prisma/client";
+import { LanDayFindManyArgs } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
-  const findArgs: Prisma.LanDayFindManyArgs = {};
+  const findArgs: LanDayFindManyArgs = {};
   if (query.includeAnimations) {
     findArgs.include = {
       animations: true,

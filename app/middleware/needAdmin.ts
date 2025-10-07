@@ -1,4 +1,4 @@
-import { Role } from "@prisma/client";
+import { Role } from "~~/prisma/generated/prisma/enums";
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
   const { user } = useUserSession();

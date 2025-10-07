@@ -1,7 +1,7 @@
-import { Prisma } from "@prisma/client";
+import type { TeamCreateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
-  const body = await readBody<Prisma.TeamCreateInput>(event);
+  const body = await readBody<TeamCreateInput>(event);
   
   const animationIdParam = getRouterParam(event, 'id');
   if (!animationIdParam) {

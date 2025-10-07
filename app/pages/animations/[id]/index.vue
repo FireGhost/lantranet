@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { ButtonProps } from '@nuxt/ui';
-import type { Prisma, Team } from '@prisma/client';
+import type { TeamModel, TeamCreateInput, AnimationGetPayload } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   layout: 'animations',
@@ -9,12 +9,12 @@ definePageMeta({
 const route = useRoute();
 const toast = useToast();
 
-const { data: myTeam, refresh: refreshMyTeam } = await useFetch<Partial<Team>>(`/api/animations/${route.params.id}/teams/my-team`);
-const newTeam = ref<Partial<Prisma.TeamCreateInput>>({});
+const { data: myTeam, refresh: refreshMyTeam } = await useFetch<Partial<TeamModel>>(`/api/animations/${route.params.id}/teams/my-team`);
+const newTeam = ref<Partial<TeamCreateInput>>({});
 
 const { data: isAdmin } = await useFetch('/api/users/is-admin');
 
-const { data: animation, refresh: refreshAnimation } = await useFetch<Partial<Prisma.AnimationGetPayload<{
+const { data: animation, refresh: refreshAnimation } = await useFetch<Partial<AnimationGetPayload<{
   include: {
     adminUser: true,
     lanDay: true,
