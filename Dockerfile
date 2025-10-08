@@ -6,8 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-#RUN npm ci --verbose
-RUN npm install --verbose
+RUN npm clean-install --verbose
 RUN npx prisma generate
 RUN npm run build
 
