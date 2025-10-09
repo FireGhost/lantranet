@@ -1,7 +1,7 @@
 services:
   lantranet:
     image: node:24
-    working_dir: /app/lantranet
+    working_dir: /app
     user: "node"
     env_file: .env
     environment:
@@ -10,7 +10,7 @@ services:
       - 80:80
       - 5555:5555
     volumes:
-      - ./:/app/lantranet
+      - ./:/app
     command:
       - "bash"
       - "-c"
