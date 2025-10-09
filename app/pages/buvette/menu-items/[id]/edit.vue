@@ -15,20 +15,17 @@ const { data: menuItem } = await useFetch<MenuItemModel>(`/api/buvette/menu-item
 const menuItemState = reactive<Partial<MenuItemModel>>(menuItem.value ?? {});
 
 function formSubmit() {
-  $fetch(`/api/buvette/menu-items/update`, {
-    method: 'POST',
-    body: menuItemState,
-  })
-  .then(async (success) => {
-    toast.add({title: 'Item updated with success !'});
-    await navigateTo('/buvette');
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating the item',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/menu-items/update',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: menuItemState,
+      },
+      successString: 'Item updated !',
+      onSuccess: () => navigateTo('/buvette'),
+    }
+  );
 }
 </script>
 

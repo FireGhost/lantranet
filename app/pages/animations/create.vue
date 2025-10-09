@@ -20,21 +20,17 @@ const lanDaysItems: ComputedRef<SelectItem[] | undefined> =
 
 const lanAnimationState = reactive<Partial<AnimationModel>>({});
 async function submit() {
-  $fetch('/api/animations/add', {
-    method: 'POST',
-    body: lanAnimationState,
-  })
-  .then((success) => {
-    toast.add({title: 'Animation created !'});
-    emit('refreshAnimations');
-    navigateTo('/animations');
-  }, (error) => {
-    toast.add({
-      title: 'Error while creating animation',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/animations/add',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: lanAnimationState,
+      },
+      successString: 'Animation created !',
+      onSuccess: () => navigateTo('/animations'),
+    }
+  );
 }
 </script>
 

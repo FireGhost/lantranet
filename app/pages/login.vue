@@ -1,5 +1,6 @@
 <script setup lang="ts">
-const toast = useToast();
+import { useApi } from '~/composables/useApi';
+
 const { fetch: refreshUserSession } = useUserSession();
 
 const userLoginState = reactive<UserLogin>({
@@ -8,21 +9,20 @@ const userLoginState = reactive<UserLogin>({
 });
 
 async function login() {
-  $fetch('/api/login', {
-    method: 'POST',
-    body: userLoginState
-  })
-  .then(async (success) => {
-    toast.add({title: 'You are now logged in !'});
-    await refreshUserSession();
-    navigateTo('/');
-  }, (error) => {
-    toast.add({
-      title: 'Error while login',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/login',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: userLoginState
+      },
+      onSuccess: async () => {
+        refreshUserSession();
+        navigateTo('/');
+      },
+      successString: 'You are logged in !',
+    }
+  );
 }
 </script>
 

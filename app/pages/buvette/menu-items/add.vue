@@ -13,20 +13,17 @@ const { data: menuCategories } = await useFetch<MenuCategoryModel[]>('/api/buvet
 const menuItemState = reactive<Partial<MenuItemModel>>({});
 
 function formSubmit() {
-  $fetch('/api/buvette/menu-items/add', {
-    method: 'POST',
-    body: menuItemState,
-  })
-  .then(async (success) => {
-    toast.add({title: 'Item created with success !'});
-    await navigateTo('/buvette');
-  }, (error) => {
-    toast.add({
-      title: 'Error while creating the item',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/menu-items/add',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: menuItemState,
+      },
+      successString: 'Item created !',
+      onSuccess: () => navigateTo('/buvette'),
+    }
+  );
 }
 </script>
 

@@ -26,38 +26,34 @@ const orderStatusesSorted = computed(() => {
 
 const newLanDay = reactive<Partial<LanDayModel>>({});
 function addLanDay() {
-  $fetch('/api/lan-days/add', {
-    method: 'POST',
-    body: newLanDay,
-  })
-  .then((success) => {
-    toast.add({title: 'New day added'});
-    newLanDay.name = '';
-    refreshLanDays();
-  }, (error) => {
-    toast.add({
-      title: 'Error while adding new day',
-      description: error.data.message,
-      color: 'error',
-    })
-  });
+  useApi(
+    '/api/lan-days/add',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: newLanDay,
+      },
+      successString: 'New day added',
+      onSuccess: () => {
+        newLanDay.name = '';
+        refreshLanDays();
+      },
+    }
+  )
 }
 
 function deleteLanDay(lanDay: LanDayModel) {
-  $fetch('/api/lan-days/delete', {
-    method: 'POST',
-    body: lanDay
-  })
-  .then((success) => {
-    toast.add({title: 'Day removed'});
-    refreshLanDays();
-  }, (error) => {
-    toast.add({
-      title: 'Error while removing day',
-      description: error.data.message,
-      color: 'error',
-    })
-  });
+  useApi(
+    '/api/lan-days/delete',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: lanDay,
+      },
+      successString: 'Day removed',
+      onSuccess: refreshLanDays,
+    }
+  );
 }
 
 function updateLanDay(lanDay: LanDayModel, operation: 'up' | 'down' | 'edit') {
@@ -71,88 +67,75 @@ function updateLanDay(lanDay: LanDayModel, operation: 'up' | 'down' | 'edit') {
       break;
   }
 
-  $fetch('/api/lan-days/update', {
-    method: 'POST',
-    body: lanDay
-  })
-  .then((success) => {
-    toast.add({title: 'Day updated'});
-    refreshLanDays();
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating day',
-      description: error.data.message,
-      color: 'error',
-    })
-  });
+  useApi(
+    '/api/lan-days/update',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: lanDay
+      },
+      successString: 'Day updated',
+      onSuccess: refreshLanDays,
+    }
+  );
 }
 
 function onAdminChange(userId: number) {
-  $fetch(`/api/users/${userId}/toggle-admin`, {
-    method: 'POST',
-  })
-  .then((success) => {
-    toast.add({title: 'User updated'});
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating the user',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/users/${userId}/toggle-admin`,
+    {
+      fetchOptions: {
+        method: 'POST',
+      },
+      successString: 'User updated',
+    }
+  );
 }
 
 function updateMenuCategory(menuCategory: MenuCategoryModel) {
-  $fetch('/api/buvette/categories/update', {
-    method: 'POST',
-    body: menuCategory,
-  })
-  .then((success) => {
-    toast.add({title: 'Category updated'});
-    refreshMenuCategories();
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating menu category',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/categories/update',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: menuCategory,
+      },
+      successString: 'Category updated',
+      onSuccess: refreshMenuCategories,
+    }
+  );
 }
 
 function deleteMenuCategory(menuCategoryId: number) {
-  $fetch('/api/buvette/categories/delete', {
-    method: 'POST',
-    body: {id: menuCategoryId},
-  })
-  .then((success) => {
-    toast.add({title: 'Category updated'});
-    refreshMenuCategories();
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating menu category',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/categories/delete',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: {id: menuCategoryId},
+      },
+      successString: 'Category updated',
+      onSuccess: refreshMenuCategories,
+    }
+  );
 }
 
 const newMenuCategory = reactive<Partial<MenuCategoryModel>>({});
 function createMenuCategory() {
-  $fetch('/api/buvette/categories/add', {
-    method: 'POST',
-    body: newMenuCategory,
-  })
-  .then((success) => {
-    toast.add({title: 'Category created'});
-    refreshMenuCategories();
-    newMenuCategory.name = '';
-  }, (error) => {
-    toast.add({
-      title: 'Error while creating new menu category',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/categories/add',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: newMenuCategory,
+      },
+      successString: 'Category created',
+      onSuccess: () => {
+        refreshMenuCategories();
+        newMenuCategory.name = '';
+      }
+    }
+  );
 }
 
 function onMenuItemChange(menuItemId: number) {
@@ -166,74 +149,64 @@ function onMenuItemChange(menuItemId: number) {
   }
   menuItemUpdated.isAvailable = !menuItemUpdated?.isAvailable;
 
-  $fetch('/api/buvette/menu-items/update', {
-    method: 'POST',
-    body: menuItemUpdated,
-  })
-  .then((success) => {
-    toast.add({title: 'Menu item updated'});
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating menu item',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/menu-items/update',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: menuItemUpdated,
+      },
+      successString: 'Menu item updated',
+    }
+  );
 }
 
 const newOrderStatus = reactive<Partial<OrderStatusModel>>({});
 function createOrderStatus() {
-  $fetch('/api/buvette/status/add', {
-    method: 'POST',
-    body: newOrderStatus,
-  })
-  .then((success) => {
-    toast.add({title: 'Status created'});
-    refreshOrderStatus();
-    newOrderStatus.name = '';
-    newOrderStatus.weight = undefined;
-    newOrderStatus.color = '';
-  }, (error) => {
-    toast.add({
-      title: 'Error while creating status',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+
+  useApi(
+    '/api/buvette/status/add',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: newOrderStatus,
+      },
+      successString: 'Status created',
+      onSuccess: () => {
+        newOrderStatus.name = '';
+        newOrderStatus.weight = undefined;
+        newOrderStatus.color = '';
+      },
+    }
+  );
 }
 
 function updateOrderStatus(orderStatus: OrderStatusModel) {
-  $fetch('/api/buvette/status/update', {
-    method: 'POST',
-    body: orderStatus,
-  })
-  .then((success) => {
-    toast.add({title: 'Status updated'});
-    refreshOrderStatus();
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating status',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/status/update',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: orderStatus,
+      },
+      successString: 'Status updated',
+      onSuccess: refreshOrderStatus,
+    }
+  );
 }
 
 function deleteOrderStatus(orderStatusId: number) {
-  $fetch('/api/buvette/status/delete', {
-    method: 'POST',
-    body: {id: orderStatusId},
-  })
-  .then((success) => {
-    toast.add({title: 'Status deleted'});
-    refreshOrderStatus();
-  }, (error) => {
-    toast.add({
-      title: 'Error while deleting status',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/status/delete',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: {id: orderStatusId},
+      },
+      successString: 'Status deleted',
+      onSuccess: refreshOrderStatus,
+    }
+  );
 }
 </script>
 

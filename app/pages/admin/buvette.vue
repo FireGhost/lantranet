@@ -1,8 +1,6 @@
 <script setup lang="ts">
 import type { OrderGetPayload, OrderStatusModel } from '~~/prisma/generated/prisma/models';
 
-const toast = useToast();
-
 const availableColors = ["error", "neutral", "primary", "secondary", "success", "info", "warning"];
 
 type FetchedOrderType = OrderGetPayload<{
@@ -67,20 +65,18 @@ function findNextStatus(orderStatus?: OrderStatusModel | null): OrderStatusModel
 function updateNextStatus(order: FetchedOrderImproved) {
   order.status = order.nextStatus ?? null;
   order.statusId = order.nextStatus?.id ?? null;
-  $fetch('/api/buvette/orders/update', {
-    method: 'POST',
-    body: order,
-  })
-  .then((success) => {
-    toast.add({title: 'Order updated with success'});
-    refreshOrders();
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating order',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+
+  useApi(
+    '/api/buvette/orders/update',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: order,
+      },
+      successString: 'Order updated with success',
+      onSuccess: refreshOrders,
+    }
+  );
 }
 </script>
 

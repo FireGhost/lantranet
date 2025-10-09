@@ -30,20 +30,17 @@ const cartItems = ref<CartItem[]>([]);
 const menuItemUserDescription = ref();
 
 function deleteMenuItem(menuItemId: number) {
-  $fetch('/api/buvette/menu-items/delete', {
-    method: 'POST',
-    body: {id: menuItemId},
-  })
-  .then((success) => {
-    toast.add({title: 'Item removed with success'});
-    refreshMenuCategories();
-  }, (error) => {
-    toast.add({
-      title: 'Error while deleting menu item',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/buvette/menu-items/delete',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: {id: menuItemId},
+      },
+      successString: 'Item removed with success',
+      onSuccess: refreshMenuCategories,
+    }
+  );
 }
 
 function addItemToCart(menuItem: MenuItemModel) {
@@ -69,20 +66,17 @@ function sendOrder() {
     return;
   }
 
-  $fetch('/api/buvette/orders/add', {
-    method: 'POST',
-    body: cartItems.value,
-  })
-  .then((success) => {
-    toast.add({title: 'Commande envoyée'});
-    cartItems.value = [];
-  }, (error) => {
-    toast.add({
-      title: 'Error during order sending',
-      description: error.data.message,
-      color: 'error',
-    })
-  });
+  useApi(
+    '/api/buvette/orders/add',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: cartItems.value,
+      },
+      successString: 'Commande envoyée',
+      onSuccess: () => {cartItems.value = []}
+    }
+  );
 }
 </script>
 

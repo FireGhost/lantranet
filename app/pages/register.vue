@@ -1,5 +1,4 @@
 <script setup lang="ts">
-const toast = useToast();
 const { fetch: refreshUserSession } = useUserSession();
 
 const userLoginState = reactive<UserLogin>({
@@ -8,21 +7,20 @@ const userLoginState = reactive<UserLogin>({
 });
 
 async function register() {
-  $fetch('/api/register', {
-    method: 'POST',
-    body: userLoginState,
-  })
-  .then(async (success) => {
-    toast.add({title: 'Registration complete !'});
-    await refreshUserSession();
-    navigateTo('/');
-  }, (error) => {
-    toast.add({
-      title: 'Error during registration',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/register',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: userLoginState,
+      },
+      successString: 'Registration complete !',
+      onSuccess: () => {
+        refreshUserSession();
+        navigateTo('/');
+      }
+    }
+  );
 }
 </script>
 

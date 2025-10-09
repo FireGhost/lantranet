@@ -55,175 +55,165 @@ function unsubscribeSolo() {
   const subscribeBody: SubscribePost = {
     subscribe: false
   }
-  $fetch(`/api/animations/${route.params.id}/subscribe`, {
-    method: 'POST',
-    body: subscribeBody,
-  })
-  .then((success) => {
-    toast.add({title: 'Your have been removed'});
-    updateSubscribeButton();
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while unsubscribing to this animation',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+
+  useApi(
+    `/api/animations/${route.params.id}/subscribe`,
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: subscribeBody,
+      },
+      successString: 'You have been removed',
+      onSuccess: () => {
+        updateSubscribeButton();
+        refreshAnimation();
+      }
+    }
+  );
 }
 
 function subscribeSolo() {
   const subscribeBody: SubscribePost = {
     subscribe: true
   }
-  $fetch(`/api/animations/${route.params.id}/subscribe`, {
-    method: 'POST',
-    body: subscribeBody,
-  })
-  .then((success) => {
-    toast.add({title: 'Subscribed !'});
-    updateSubscribeButton();
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while subscribing to this animation',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/animations/${route.params.id}/subscribe`,
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: subscribeBody,
+      },
+      successString: 'Subscribed !',
+      onSuccess: () => {
+        updateSubscribeButton();
+        refreshAnimation();
+      }
+    }
+  );
 }
 
 function deleteAnimation() {
-  $fetch('/api/animations/delete', {
-    method: 'POST',
-    body: animation.value
-  })
-  .then((success) => {
-    toast.add({title: 'Animation removed'});
-    navigateTo('/animations');
-  }, (error) => {
-    toast.add({
-      title: 'Error while removing the animation',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    '/api/animations/delete',
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: animation.value,
+      },
+      successString: 'Animation removed',
+      onSuccess: () => navigateTo('/animations'),
+    }
+  );
 }
 
 function createNewTeam() {
-  $fetch(`/api/animations/${route.params.id}/teams/add`, {
-    method: 'POST',
-    body: newTeam.value,
-  })
-  .then((success) => {
-    toast.add({title: 'New team created !'});
-    refreshMyTeam();
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while creating the team',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/animations/${route.params.id}/teams/add`,
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: newTeam.value,    
+      },
+      successString: 'New team created !',
+      onSuccess: () => {
+        refreshMyTeam();
+        refreshAnimation();
+      }
+    }
+  );
 }
 
 function leaveTeam() {
   const subscribeBody: SubscribePost = {
     subscribe: false,
   };
-  $fetch(`/api/animations/${route.params.id}/teams/${myTeam.value?.id}/subscribe`, {
-    method: 'POST',
-    body: subscribeBody,
-  })
-  .then((success) => {
-    toast.add({title: 'You left the team'});
-    refreshMyTeam();
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while leaving the team',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/animations/${route.params.id}/teams/${myTeam.value?.id}/subscribe`,
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: subscribeBody,    
+      },
+      successString: 'You left the team',
+      onSuccess: () => {
+        refreshMyTeam();
+        refreshAnimation();
+      }
+    }
+  );
 }
 
 function joinTeam(teamId: number) {
   const subscribeBody: SubscribePost = {
     subscribe: true,
   };
-  $fetch(`/api/animations/${route.params.id}/teams/${teamId}/subscribe`, {
-    method: 'POST',
-    body: subscribeBody,
-  })
-  .then((success) => {
-    toast.add({title: 'You joined a team'});
-    refreshMyTeam();
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while joining the team',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/animations/${route.params.id}/teams/${teamId}/subscribe`,
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: subscribeBody,    
+      },
+      successString: 'You joined a team',
+      onSuccess: () => {
+        refreshMyTeam();
+        refreshAnimation();
+      }
+    }
+  );
 }
 
 function deleteMyTeam() {
-  $fetch(`/api/animations/${route.params.id}/teams/${myTeam.value?.id}/delete`, {
-    method: 'POST',
-  })
-  .then((success) => {
-    toast.add({title: 'You deleted the team'});
-    refreshMyTeam();
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while deleting the team',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/animations/${route.params.id}/teams/${myTeam.value?.id}/delete`,
+    {
+      fetchOptions: {
+        method: 'POST',
+      },
+      successString: 'You deleted the team',
+      onSuccess: () => {
+        refreshMyTeam();
+        refreshAnimation();
+      }
+    }
+  );
 }
 
 function updateMyTeamName() {
-  $fetch(`/api/animations/${route.params.id}/teams/${myTeam.value?.id}/update`, {
-    method: 'POST',
-    body: myTeam.value,
-  })
-  .then((success) => {
-    toast.add({title: 'You updated the team'});
-    refreshMyTeam();
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while updating the team',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/animations/${route.params.id}/teams/${myTeam.value?.id}/update`,
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: myTeam.value,    
+      },
+      successString: 'You updated the team',
+      onSuccess: () => {
+        refreshMyTeam();
+        refreshAnimation();
+      }
+    }
+  );
 }
 
 function toggleSubscriptionOpen() {
-  $fetch(`/api/animations/${route.params.id}/toggle-subscription`, {
-    method: 'POST'
-  })
-  .then((success) => {
-    if (animation.value.openSubscription) {
-      toast.add({title: 'Subscriptions are now closed'});
+  let successString = '';
+  if (animation.value.openSubscription) {
+    successString = 'Subscriptions are now closed';
+  }
+  else {
+    successString = 'Subscriptions are now open !';
+  }
+  useApi(
+    `/api/animations/${route.params.id}/toggle-subscription`,
+    {
+      fetchOptions: {
+        method: 'POST',
+      },
+      successString: successString,
+      onSuccess: refreshAnimation,
     }
-    else {
-      toast.add({title: 'Subscriptions are now open !'});
-    }
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while toggleing subscriptions',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  );
 }
 
 function saveScoreTeams() {
@@ -237,20 +227,17 @@ function saveScoreTeams() {
       score: team.score ?? 0,
     };
   });
-  $fetch(`/api/animations/${route.params.id}/teams/scores`, {
-    method: 'POST',
-    body: scores,
-  })
-  .then((success) => {
-    toast.add({title: 'Teams scores saved'});
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while saving scores',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/animations/${route.params.id}/teams/scores`,
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: scores,    
+      },
+      successString: 'Teams scores saved',
+      onSuccess: refreshAnimation,
+    }
+  );
 }
 
 function saveScorePlayers() {
@@ -264,20 +251,17 @@ function saveScorePlayers() {
       score: player.score ?? 0,
     };
   });
-  $fetch(`/api/animations/${route.params.id}/players/scores`, {
-    method: 'POST',
-    body: scores,
-  })
-  .then((success) => {
-    toast.add({title: 'Players scores saved'});
-    refreshAnimation();
-  }, (error) => {
-    toast.add({
-      title: 'Error while saving players scores',
-      description: error.data.message,
-      color: 'error',
-    });
-  });
+  useApi(
+    `/api/animations/${route.params.id}/players/scores`,
+    {
+      fetchOptions: {
+        method: 'POST',
+        body: scores,    
+      },
+      successString: 'Players scores saved',
+      onSuccess: () => refreshAnimation,
+    }
+  );
 }
 
 function indexToPos(index: number) {
