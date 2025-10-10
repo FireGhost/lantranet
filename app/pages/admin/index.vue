@@ -176,6 +176,7 @@ function createOrderStatus() {
         newOrderStatus.name = '';
         newOrderStatus.weight = undefined;
         newOrderStatus.color = '';
+        refreshOrderStatus();
       },
     }
   );
