@@ -16,11 +16,11 @@ async function login() {
         method: 'POST',
         body: userLoginState
       },
+      successString: 'You are logged in !',
       onSuccess: async () => {
         refreshUserSession();
         navigateTo('/');
       },
-      successString: 'You are logged in !',
     }
   );
 }

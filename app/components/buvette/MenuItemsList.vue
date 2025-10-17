@@ -8,7 +8,7 @@ const emit = defineEmits<{
 
 const { user } = useUserSession();
 
-const { data: menuCategories } = await useFetch<MenuCategoryGetPayload<{
+const { data: menuCategories, refresh: refreshMenuItems } = await useFetch<MenuCategoryGetPayload<{
   include: {
     menuItems: true
   }
@@ -36,7 +36,7 @@ const isAdmin = user.value?.role === Role.ADMIN;
       <UBlogPost v-for="menuItem in menuCategory.menuItems" :key="menuItem.id" :title="menuItem.name" :description="`CHF ${menuItem.price}`">
         <template #footer>
 
-          <BuvetteMenuItem :menu-item="menuItem" @add-to-cart="(orderItem) => {$emit('addToCart', orderItem);}" />
+          <BuvetteMenuItem :menu-item="menuItem" @add-to-cart="(orderItem) => $emit('addToCart', orderItem)" @menu-items-updated="refreshMenuItems()" />
 
         </template>
       </UBlogPost>

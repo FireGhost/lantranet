@@ -8,7 +8,8 @@ defineProps<{
 
 const emit = defineEmits<{
   (e: 'addToCart', orderItem: OrdersItemsCreateManyOrderInput): void,
-}>()
+  (e: 'menuItemsUpdated'): void,
+}>();
 
 const { user } = useUserSession();
 
@@ -25,6 +26,7 @@ function deleteMenuItem(menuItemId: number) {
         body: {id: menuItemId},
       },
       successString: 'Item removed with success',
+      onSuccess: () => emit('menuItemsUpdated'),
     }
   );
 }

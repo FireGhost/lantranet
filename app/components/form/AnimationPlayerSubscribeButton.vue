@@ -4,7 +4,11 @@ const props = defineProps<{
   animationId: Number,
 }>();
 
-const { data: isSoloSubscribed } = await useFetch(`/api/animations/${props.animationId}/subscribed`);
+const emit = defineEmits<{
+  (e: 'playerSubscriptionUpdated'): void,
+}>();
+
+const { data: isSoloSubscribed, refresh: refreshSubscriptionData } = await useFetch(`/api/animations/${props.animationId}/subscribed`);
 
 function unsubscribeSolo() {
   const subscribeBody: SubscribePost = {
@@ -18,7 +22,11 @@ function unsubscribeSolo() {
         method: 'POST',
         body: subscribeBody,
       },
-      successString: 'You have been removed'
+      successString: 'You have been removed',
+      onSuccess: () => {
+        refreshSubscriptionData();
+        emit('playerSubscriptionUpdated');
+      }
     }
   );
 }
@@ -34,7 +42,11 @@ function subscribeSolo() {
         method: 'POST',
         body: subscribeBody,
       },
-      successString: 'Subscribed !'
+      successString: 'Subscribed !',
+      onSuccess: () => {
+        refreshSubscriptionData();
+        emit('playerSubscriptionUpdated');
+      }
     }
   );
 }

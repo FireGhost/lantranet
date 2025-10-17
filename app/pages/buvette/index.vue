@@ -34,7 +34,7 @@ function sendOrder() {
 
 <template>
   <UPage>
-    <BuvetteMenuItemsList @add-to-cart="(orderItem) => cartItems.push(orderItem)" />
+    <BuvetteMenuItemsList @add-to-cart="(orderItem) => cartItems.push(orderItem)"  />
 
     <template #right>
       <div>

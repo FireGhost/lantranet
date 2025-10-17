@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { Role } from '~~/prisma/generated/prisma/enums';
 import type { AnimationGetPayload } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
@@ -6,8 +7,9 @@ definePageMeta({
 });
 
 const route = useRoute();
+const { user } = useUserSession();
 
-const { data: isAdmin } = await useFetch('/api/users/is-admin');
+const isAdmin = user.value?.role === Role.ADMIN;
 
 const { data: animation, refresh: refreshAnimation } = await useFetch<Partial<AnimationGetPayload<{
   include: {
@@ -50,7 +52,7 @@ function toggleSubscriptionOpen() {
         method: 'POST',
       },
       successString: successString,
-      onSuccess: refreshAnimation,
+      onSuccess: () => refreshAnimation(),
     }
   );
 }
@@ -64,7 +66,7 @@ function toggleSubscriptionOpen() {
         <UButton label="Manage scores" class="ml-4" />
 
         <template #body>
-          <FormAnimationScores :animation="animation" />
+          <FormAnimationScores :animation="animation" @player-score-updated="refreshAnimation()" @team-score-updated="refreshAnimation()" />
         </template>
       </USlideover>
       <UModal title="Are you sure" description="Do you really want to delete this animation ?" >
@@ -76,7 +78,7 @@ function toggleSubscriptionOpen() {
       </UModal>
     </div>
 
-    <AnimationHeader :animation="animation" />
+    <AnimationHeader :animation="animation" @updated-teams="refreshAnimation()" @updated-player="refreshAnimation()" />
 
     <AnimationContentColumns :animation="animation" />
 

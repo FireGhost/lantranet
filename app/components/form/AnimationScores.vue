@@ -10,6 +10,11 @@ const props = defineProps<{
   }}>>
 }>();
 
+const emit = defineEmits<{
+  (e: 'playerScoreUpdated'): void,
+  (e: 'teamScoreUpdated'): void,
+}>();
+
 const toast = useToast();
 
 function saveScoreTeams() {
@@ -30,7 +35,8 @@ function saveScoreTeams() {
         method: 'POST',
         body: scores,    
       },
-      successString: 'Teams scores saved'
+      successString: 'Teams scores saved',
+      onSuccess: () => emit('teamScoreUpdated'),
     }
   );
 }
@@ -53,7 +59,8 @@ function saveScorePlayers() {
         method: 'POST',
         body: scores,    
       },
-      successString: 'Players scores saved'
+      successString: 'Players scores saved',
+      onSuccess: () => emit('playerScoreUpdated'),
     }
   );
 }

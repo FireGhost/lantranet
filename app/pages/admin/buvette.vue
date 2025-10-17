@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { OrderGetPayload } from '~~/prisma/generated/prisma/models';
 
-const { data: orders } = await useFetch<OrderGetPayload<{
+const { data: orders, refresh: refreshOrders } = await useFetch<OrderGetPayload<{
   include: {
     orderItems: true,
     user: true,
@@ -23,7 +23,7 @@ const todoOrders = computed(() => orders.value
 </script>
 
 <template>
-  <AdminBuvetteTodoTable :orders="todoOrders" />
+  <AdminBuvetteTodoTable :orders="todoOrders" @order-updated="refreshOrders()" />
 
   <UPageHeader title="Done" />
   <AdminBuvetteDoneTable :orders="doneOrders" />

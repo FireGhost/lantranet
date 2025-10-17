@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import type { AnimationGetPayload, TeamModel } from '~~/prisma/generated/prisma/models';
+import type { AnimationGetPayload } from '~~/prisma/generated/prisma/models';
+
+const { user } = useUserSession();
 
 const props = defineProps<{
   animation: Partial<AnimationGetPayload<{include: {
-    teams: true,
+    teams: { include: {
+      players: true,
+    }},
     players: {include: {
       player: true
     }},
@@ -11,7 +15,17 @@ const props = defineProps<{
   }}>>
 }>();
 
-const { data: myTeam } = await useFetch<Partial<TeamModel>>(`/api/animations/${props.animation.id}/teams/my-team`);
+const myTeamId = computed(() => {
+  let teamId = undefined;
+  props.animation.teams?.forEach((team) => {
+    team.players.forEach((player) => {
+      if (player.playerId === user.value?.id) {
+        teamId = team.id;
+      }
+    });
+  });
+  return teamId;
+});
 
 function indexToPos(index: number) {
   if (index === 0) {
@@ -25,10 +39,11 @@ function indexToPos(index: number) {
 
 <template>
   <div class="flex w-full gap-16 justify-center flex-wrap">
+    
     <div class="w-54" v-if="animation.isTeamed">
       <UBanner title="Team inscrites" color="secondary" />
       <UPageList divide>
-        <UPageCard v-for="team in animation.teams" :key="team.id" :highlight="myTeam?.id === team.id">
+        <UPageCard v-for="team in animation.teams" :key="team.id" :highlight="myTeamId === team.id">
           <UUser :name="team.name" size="md" class="h-1" />
         </UPageCard>
       </UPageList>
@@ -74,5 +89,6 @@ function indexToPos(index: number) {
         </template>
       </UPageList>
     </div>
+
   </div>
 </template>

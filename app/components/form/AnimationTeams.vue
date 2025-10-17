@@ -9,7 +9,24 @@ const props = defineProps<{
   }}>>
 }>();
 
-const { data: myTeam } = await useFetch<Partial<TeamModel>>(`/api/animations/${props.animation.id}/teams/my-team`);
+const emit = defineEmits<{
+  (e: 'teamsUpdated'): void,
+}>();
+
+const { user } = useUserSession();
+
+const myTeamId = computed(() => {
+  let teamId = undefined;
+  props.animation.teams?.forEach((team) => {
+    team.players.forEach((player) => {
+      if (player.playerId === user.value?.id) {
+        teamId = team.id;
+      }
+    });
+  });
+  return teamId;
+});
+
 const newTeam = ref<Partial<TeamModel>>({});
 
 function createNewTeam() {
@@ -20,7 +37,8 @@ function createNewTeam() {
         method: 'POST',
         body: newTeam.value,    
       },
-      successString: 'New team created !'
+      successString: 'New team created !',
+      onSuccess: () => emit('teamsUpdated'),
     }
   );
 }
@@ -30,13 +48,14 @@ function leaveTeam() {
     subscribe: false,
   };
   useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeam.value?.id}/subscribe`,
+    `/api/animations/${props.animation.id}/teams/${myTeamId}/subscribe`,
     {
       fetchOptions: {
         method: 'POST',
         body: subscribeBody,    
       },
-      successString: 'You left the team'
+      successString: 'You left the team',
+      onSuccess: () => emit('teamsUpdated'),
     }
   );
 }
@@ -52,32 +71,35 @@ function joinTeam(teamId: number) {
         method: 'POST',
         body: subscribeBody,    
       },
-      successString: 'You joined a team'
+      successString: 'You joined a team',
+      onSuccess: () => emit('teamsUpdated'),
     }
   );
 }
 
 function deleteMyTeam() {
   useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeam.value?.id}/delete`,
+    `/api/animations/${props.animation.id}/teams/${myTeamId}/delete`,
     {
       fetchOptions: {
         method: 'POST',
       },
-      successString: 'You deleted the team'
+      successString: 'You deleted the team',
+      onSuccess: () => emit('teamsUpdated'),
     }
   );
 }
 
-function updateMyTeamName() {
+function updateMyTeamName(myTeam: TeamModel) {
   useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeam.value?.id}/update`,
+    `/api/animations/${props.animation.id}/teams/${myTeamId}/update`,
     {
       fetchOptions: {
         method: 'POST',
-        body: myTeam.value,    
+        body: myTeam,    
       },
-      successString: 'You updated the team'
+      successString: 'You updated the team',
+      onSuccess: () => emit('teamsUpdated'),
     }
   );
 }
@@ -88,10 +110,10 @@ function updateMyTeamName() {
 
     <UPageCard v-for="team in animation.teams" :key="team.id">
       <template #title>
-        <template v-if="myTeam?.id === team.id">
+        <template v-if="myTeamId === team.id">
           <UFieldGroup>
-            <UInput v-model="myTeam.name" />
-            <UButton color="success" variant="outline" label="Save" @click="updateMyTeamName()" />
+            <UInput v-model="team.name" />
+            <UButton color="success" variant="outline" label="Save" @click="updateMyTeamName(team)" />
           </UFieldGroup>
         </template>
         <template v-else>
@@ -105,7 +127,7 @@ function updateMyTeamName() {
         </template>
       </template>
       <template #footer>
-        <template v-if="myTeam?.id === team.id">
+        <template v-if="myTeamId === team.id">
           <UButton label="Quitter" color="error" @click="leaveTeam()" />
           <UModal title="Are you sure" description="Do you really want to delete your team ?" >
             <UButton label="Supprimer l'équipe" color="error" variant="outline" class="ml-16" />
@@ -115,11 +137,11 @@ function updateMyTeamName() {
             </template>
           </UModal>
         </template>
-        <UButton v-else-if="myTeam?.id === undefined" label="Rejoindre" @click="joinTeam(team.id)" />
+        <UButton v-else-if="myTeamId === undefined" label="Rejoindre" @click="joinTeam(team.id)" />
       </template>
     </UPageCard>
 
-    <UPageCard v-if="myTeam?.id === undefined">
+    <UPageCard v-if="myTeamId === undefined">
       <UForm>
         <UFieldGroup>
           <UInput placeholder="Créer une nouvelle équipe" v-model="newTeam.name" />

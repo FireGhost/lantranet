@@ -7,6 +7,11 @@ const props = defineProps<{
   }}>>
 }>();
 
+defineEmits<{
+  (e: 'updatedTeams'): void,
+  (e: 'updatedPlayer'): void,
+}>();
+
 if (props.animation.id === undefined) {
   throw createError('Animation ID needed !');
 }
@@ -23,12 +28,12 @@ if (props.animation.id === undefined) {
         <UButton label="Gestion d'équipes" />
 
         <template #body>
-          <FormAnimationTeams :animation="animation" />
+          <FormAnimationTeams :animation="animation" @teams-updated="$emit('updatedTeams')" />
         </template>
       </USlideover>
 
       <template v-else>
-        <FormAnimationPlayerSubscribeButton :animation-id="props.animation.id" />
+        <FormAnimationPlayerSubscribeButton :animation-id="props.animation.id" @player-subscription-updated="$emit('updatedPlayer')" />
       </template>
     </template>
 

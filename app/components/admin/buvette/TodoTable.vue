@@ -11,6 +11,10 @@ const props = defineProps<{
   }>[]
 }>();
 
+const emit = defineEmits<{
+  (e: 'orderUpdated'): void,
+}>();
+
 const orderStatusesSorted = await getOrderStatusesSorted();
 
 const ordersImproved = props.orders.map((order) => {
@@ -32,6 +36,7 @@ function updateNextStatus(order: typeof ordersImproved[number]) {
         body: order,
       },
       successString: 'Order updated with success',
+      onSuccess: () => emit('orderUpdated'),
     }
   );
 }
