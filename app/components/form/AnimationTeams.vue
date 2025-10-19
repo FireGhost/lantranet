@@ -38,7 +38,10 @@ function createNewTeam() {
         body: newTeam.value,    
       },
       successString: 'New team created !',
-      onSuccess: () => emit('teamsUpdated'),
+      onSuccess: () => {
+        emit('teamsUpdated');
+        newTeam.value.name = '';
+      },
     }
   );
 }
@@ -48,7 +51,7 @@ function leaveTeam() {
     subscribe: false,
   };
   useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeamId}/subscribe`,
+    `/api/animations/${props.animation.id}/teams/${myTeamId.value}/subscribe`,
     {
       fetchOptions: {
         method: 'POST',
@@ -79,7 +82,7 @@ function joinTeam(teamId: number) {
 
 function deleteMyTeam() {
   useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeamId}/delete`,
+    `/api/animations/${props.animation.id}/teams/${myTeamId.value}/delete`,
     {
       fetchOptions: {
         method: 'POST',
@@ -92,11 +95,14 @@ function deleteMyTeam() {
 
 function updateMyTeamName(myTeam: TeamModel) {
   useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeamId}/update`,
+    `/api/animations/${props.animation.id}/teams/${myTeamId.value}/update`,
     {
       fetchOptions: {
         method: 'POST',
-        body: myTeam,    
+        body: {
+          id: myTeam.id,
+          name: myTeam.name,
+        } satisfies Partial<TeamModel>,
       },
       successString: 'You updated the team',
       onSuccess: () => emit('teamsUpdated'),

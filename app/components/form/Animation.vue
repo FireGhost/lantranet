@@ -31,7 +31,10 @@ function createAnimation() {
         body: animationState.value,
       },
       successString: 'Animation created with success !',
-      onSuccess: () => { navigateTo('/animations') },
+      onSuccess: () => {
+        refreshNuxtData('animationsList');
+        navigateTo('/animations');
+      },
     }
   );
 }
@@ -45,7 +48,10 @@ function updateAnimation() {
         body: animationState.value,
       },
       successString: 'Animation updated !',
-      onSuccess: () => { navigateTo(`/animations/${animationState.value.id}`) },
+      onSuccess: () => {
+        refreshNuxtData('animationsList');
+        navigateTo(`/animations/${animationState.value.id}`);
+      },
     }
   );
 }

@@ -5,8 +5,11 @@ import type { LanDayGetPayload } from '~~/prisma/generated/prisma/models';
 const { user } = useUserSession();
 const isAdmin = computed(() => user.value?.role === Role.ADMIN);
 
-const { data: lanDays, refresh: refreshAnimations } = await useFetch<LanDayGetPayload<{include: {animations: true}}>[]>('/api/lan-days', {
-  query: {includeAnimations: true}
+const { data: lanDays } = await useFetch<LanDayGetPayload<{
+  include: {animations: true}
+}>[]>('/api/lan-days', {
+  query: {includeAnimations: true},
+  key: 'animationsList',
 });
 
 const lanDaysSorted = computed(() => {

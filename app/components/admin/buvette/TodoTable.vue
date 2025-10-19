@@ -17,14 +17,16 @@ const emit = defineEmits<{
 
 const orderStatusesSorted = await getOrderStatusesSorted();
 
-const ordersImproved = props.orders.map((order) => {
-  return {
-    ...order,
-    nextStatus: useFindNextStatus(order.status, orderStatusesSorted.value),
-  }
+const ordersImproved = computed(() => {
+  return props.orders.map((order) => {
+    return {
+      ...order,
+      nextStatus: useFindNextStatus(order.status, orderStatusesSorted.value),
+    }
+  });
 });
 
-function updateNextStatus(order: typeof ordersImproved[number]) {
+function updateNextStatus(order: typeof ordersImproved.value[number]) {
   order.status = order.nextStatus ?? null;
   order.statusId = order.nextStatus?.id ?? null;
 
