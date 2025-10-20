@@ -1,7 +1,9 @@
+import z from "zod";
 import type { AnimationInclude } from "~~/prisma/generated/prisma/models"
 
-export default defineEventHandler((event) => {
-  const animationId = Number.parseInt(getRouterParam(event, 'id') ?? '');
+export default defineEventHandler(async(event) => {
+  const params = await getValidatedRouterParams(event, z.object({id: z.coerce.number().positive()}).parse);
+
   const query = getQuery(event);
   const includeData: AnimationInclude = {};
   if (query.withAdminUser) {
@@ -28,9 +30,9 @@ export default defineEventHandler((event) => {
       }
     }
   }
-  return usePrisma().animation.findFirst({
+  return await usePrisma().animation.findFirst({
     where: {
-      id: animationId,
+      id: params.id,
     },
     include: includeData,
   });

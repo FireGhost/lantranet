@@ -25,7 +25,7 @@ const submitButtonText = props.animation.id ? 'Update' : 'Create';
 
 function createAnimation() {
   useApi(
-    '/api/animations/add', {
+    '/api/animations', {
       fetchOptions: {
         method: 'POST',
         body: animationState.value,
@@ -41,16 +41,16 @@ function createAnimation() {
 
 function updateAnimation() {
   useApi(
-    '/api/animations/update',
+    `/api/animations/${props.animation.id}`,
     {
       fetchOptions: {
-        method: 'POST',
+        method: 'PUT',
         body: animationState.value,
       },
       successString: 'Animation updated !',
       onSuccess: () => {
         refreshNuxtData('animationsList');
-        navigateTo(`/animations/${animationState.value.id}`);
+        navigateTo(`/animations/${props.animation.id}`);
       },
     }
   );

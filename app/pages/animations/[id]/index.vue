@@ -25,14 +25,16 @@ const { data: animation, refresh: refreshAnimation } = await useFetch<Partial<An
 
 function deleteAnimation() {
   useApi(
-    '/api/animations/delete',
+    `/api/animations/${route.params.id}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: animation.value,
+        method: 'DELETE',
       },
       successString: 'Animation removed',
-      onSuccess: () => navigateTo('/animations'),
+      onSuccess: () => {
+        refreshNuxtData('animationsList');
+        navigateTo('/animations');
+      },
     }
   );
 }

@@ -1,3 +1,3 @@
-export default defineEventHandler((event) => {
-  return usePrisma().animation.findMany();
+export default defineEventHandler(async (event) => {
+  return await usePrisma().animation.findMany();
 });
