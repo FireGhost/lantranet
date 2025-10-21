@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { AnimationsPlayersUncheckedCreateWithoutAnimationInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animationId: Number,
@@ -8,19 +9,16 @@ const emit = defineEmits<{
   (e: 'playerSubscriptionUpdated'): void,
 }>();
 
-const { data: isSoloSubscribed, refresh: refreshSubscriptionData } = await useFetch(`/api/animations/${props.animationId}/subscribed`);
+const { user } = useUserSession();
+
+const { data: playerSubscription, refresh: refreshSubscriptionData } = await useFetch(`/api/animations/${props.animationId}/players/${user.value?.id}`);
 
 function unsubscribeSolo() {
-  const subscribeBody: SubscribePost = {
-    subscribe: false
-  }
-
   useApi(
-    `/api/animations/${props.animationId}/subscribe`,
+    `/api/animations/${props.animationId}/players/${user.value?.id}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: subscribeBody,
+        method: 'DELETE',
       },
       successString: 'You have been removed',
       onSuccess: () => {
@@ -32,15 +30,21 @@ function unsubscribeSolo() {
 }
 
 function subscribeSolo() {
-  const subscribeBody: SubscribePost = {
-    subscribe: true
+  if (!user.value) {
+    useToast().add({
+      title: 'Please login again',
+    });
+    return;
   }
+
   useApi(
-    `/api/animations/${props.animationId}/subscribe`,
+    `/api/animations/${props.animationId}/players`,
     {
       fetchOptions: {
         method: 'POST',
-        body: subscribeBody,
+        body: {
+          playerId: user.value.id,
+        } satisfies AnimationsPlayersUncheckedCreateWithoutAnimationInput,
       },
       successString: 'Subscribed !',
       onSuccess: () => {
@@ -53,6 +57,6 @@ function subscribeSolo() {
 </script>
 
 <template>
-  <UButton v-if="isSoloSubscribed" label="Je me retire" color="error" @click="unsubscribeSolo()" />
+  <UButton v-if="playerSubscription" label="Je me retire" color="error" @click="unsubscribeSolo()" />
   <UButton v-else label="Inscris moi !" color="primary" @click="subscribeSolo()" />
 </template>

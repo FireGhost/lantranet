@@ -33,7 +33,9 @@ const { data: usersScores } = await useFetch<UserGetPayload<{
       }
     }
   }
-}>[]>('/api/animations/scores');
+}>[]>('/api/users', {
+  query: {withTeams: true, withAnimationsAsPlayer: true}
+});
 
 let firstLoop = true;
 const data = ref<{username: string, scoreTotal: number}[]>([]);

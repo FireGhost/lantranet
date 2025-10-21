@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnimationGetPayload } from '~~/prisma/generated/prisma/models';
+import type { AnimationGetPayload, AnimationsPlayersUpdateManyMutationInput, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animation: Partial<AnimationGetPayload<{include: {
@@ -15,54 +15,40 @@ const emit = defineEmits<{
   (e: 'teamScoreUpdated'): void,
 }>();
 
-const toast = useToast();
-
 function saveScoreTeams() {
-  if (props.animation.teams === undefined) {
-    toast.add({title: 'No team to save score for.', color: 'error'});
-    return;
+  for (const team of props.animation.teams ?? []) {
+    useApi(
+      `/api/animations/${props.animation.id}/teams/${team.id}`,
+      {
+        fetchOptions: {
+          method: 'PUT',
+          body: {
+            score: team.score,
+          } satisfies TeamUpdateManyMutationInput,    
+        },
+        successString: 'Teams scores saved',
+        onSuccess: () => emit('teamScoreUpdated'),
+      }
+    );
   }
-  const scores: TeamScorePost[] = props.animation.teams.map((team) => {
-    return {
-      teamId: team.id,
-      score: team.score ?? 0,
-    };
-  });
-  useApi(
-    `/api/animations/${props.animation.id}/teams/scores`,
-    {
-      fetchOptions: {
-        method: 'POST',
-        body: scores,    
-      },
-      successString: 'Teams scores saved',
-      onSuccess: () => emit('teamScoreUpdated'),
-    }
-  );
 }
 
 function saveScorePlayers() {
-  if (props.animation.players === undefined) {
-    toast.add({title: 'No player to save score for.', color: 'error'});
-    return;
+  for (const playerAnimation of props.animation.players ?? []) {
+    useApi(
+      `/api/animations/${props.animation.id}/players/${playerAnimation.playerId}`,
+      {
+        fetchOptions: {
+          method: 'PUT',
+          body: {
+            score: playerAnimation.score,
+          } satisfies AnimationsPlayersUpdateManyMutationInput,    
+        },
+        successString: 'Players scores saved',
+        onSuccess: () => emit('playerScoreUpdated'),
+      }
+    );
   }
-  const scores: PlayerScorePost[] = props.animation.players.map((player) => {
-    return {
-      playerId: player.playerId,
-      score: player.score ?? 0,
-    };
-  });
-  useApi(
-    `/api/animations/${props.animation.id}/players/scores`,
-    {
-      fetchOptions: {
-        method: 'POST',
-        body: scores,    
-      },
-      successString: 'Players scores saved',
-      onSuccess: () => emit('playerScoreUpdated'),
-    }
-  );
 }
 </script>
 

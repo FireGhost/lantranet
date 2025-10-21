@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Role } from '~~/prisma/generated/prisma/enums';
-import type { AnimationGetPayload } from '~~/prisma/generated/prisma/models';
+import type { AnimationGetPayload, AnimationUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   layout: 'animations',
@@ -47,11 +47,15 @@ function toggleSubscriptionOpen() {
   else {
     successString = 'Subscriptions are now open !';
   }
+  
   useApi(
-    `/api/animations/${route.params.id}/toggle-subscription`,
+    `/api/animations/${route.params.id}`,
     {
       fetchOptions: {
-        method: 'POST',
+        method: 'PUT',
+        body: {
+          openSubscription: !animation.value.openSubscription,
+        } satisfies AnimationUpdateManyMutationInput
       },
       successString: successString,
       onSuccess: () => refreshAnimation(),
