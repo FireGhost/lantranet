@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnimationGetPayload, PlayersTeamsUncheckedCreateWithoutTeamInput, TeamModel, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
+import type { AnimationGetPayload, PlayersTeamsUncheckedCreateWithoutTeamInput, TeamCreateWithoutAnimationInput, TeamModel, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animation: Partial<AnimationGetPayload<{include: {
@@ -14,6 +14,7 @@ const emit = defineEmits<{
 }>();
 
 const { user } = useUserSession();
+const toast = useToast();
 
 const myTeamId = computed(() => {
   let teamId = undefined;
@@ -30,12 +31,22 @@ const myTeamId = computed(() => {
 const newTeam = ref<Partial<TeamModel>>({});
 
 function createNewTeam() {
+  if (!newTeam.value.name) {
+    toast.add({
+      title: 'Please enter a team name',
+      color: 'error',
+    });
+    return;
+  }
+
   useApi(
     `/api/animations/${props.animation.id}/teams`,
     {
       fetchOptions: {
         method: 'POST',
-        body: newTeam.value,    
+        body: {
+          name: newTeam.value.name,
+        } satisfies TeamCreateWithoutAnimationInput,    
       },
       successString: 'New team created !',
       onSuccess: () => {
@@ -61,7 +72,7 @@ function leaveTeam() {
 
 function joinTeam(teamId: number) {
   if (!user.value) {
-    useToast().add({
+    toast.add({
       title: 'Please login'
     });
     return;
