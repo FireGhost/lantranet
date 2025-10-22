@@ -1,3 +1,3 @@
 export default defineEventHandler(async (event) => {
-  return usePrisma().menuItem.findMany();
+  return await usePrisma().menuItem.findMany();
 });

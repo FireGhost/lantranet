@@ -2,6 +2,7 @@ import { MenuCategoryInclude } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
+  
   const menuCategoryInclude: MenuCategoryInclude = {};
 
   if (query.withMenuItems) {

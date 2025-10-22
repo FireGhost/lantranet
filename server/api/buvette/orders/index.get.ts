@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     orderIncludes.orderItems = true;
   }
   
-  return usePrisma().order.findMany({
+  return await usePrisma().order.findMany({
     include: orderIncludes,
   });
 });

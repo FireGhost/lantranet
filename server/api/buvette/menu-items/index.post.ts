@@ -1,9 +1,10 @@
-import { MenuItemModel } from "~~/prisma/generated/prisma/models";
+import { MenuItemCreateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   await needAdmin(event);
 
-  const body = await readBody<MenuItemModel>(event);
+  const body = await readBody<MenuItemCreateInput>(event);
+
   await usePrisma().menuItem.create({
     data: body
   });
