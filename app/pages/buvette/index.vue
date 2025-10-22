@@ -1,11 +1,12 @@
 <script setup lang="ts">
-import type { OrdersItemsCreateManyOrderInput } from '~~/prisma/generated/prisma/models';
+import type { OrderCreateInput, OrdersItemsCreateManyOrderInput } from '~~/prisma/generated/prisma/models';
 
 definePageMeta({
   layout: 'buvette',
 });
 
 const toast = useToast();
+const { user } = useUserSession();
 
 const cartItems = ref<OrdersItemsCreateManyOrderInput[]>([]);
 
@@ -19,11 +20,14 @@ function sendOrder() {
   }
 
   useApi(
-    '/api/buvette/orders/add',
+    '/api/buvette/orders',
     {
       fetchOptions: {
         method: 'POST',
-        body: cartItems.value,
+        body: {
+          user: { connect: { id: user.value?.id }},
+          orderItems: { createMany: { data: cartItems.value }},
+        } satisfies OrderCreateInput,
       },
       successString: 'Commande envoyée',
       onSuccess: () => {cartItems.value = []}

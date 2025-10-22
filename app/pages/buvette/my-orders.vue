@@ -5,12 +5,14 @@ definePageMeta({
   layout: 'buvette',
 });
 
+const { user } = useUserSession();
+
 const { data: orders } = await useFetch<OrderGetPayload<{
   include: {
     orderItems: true,
     status: true,
   }
-}>[]>('/api/buvette/orders/mine', {
+}>[]>(`/api/users/${user.value?.id}/orders`, {
   query: {withOrderItems: true, withStatus: true},
   transform: (data) => {
     return data.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());

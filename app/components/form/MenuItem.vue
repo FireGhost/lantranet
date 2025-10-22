@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import type { SelectItem } from '@nuxt/ui';
-import type { MenuCategoryModel, MenuItemModel } from '~~/prisma/generated/prisma/models';
+import type { MenuCategoryModel, MenuItemCreateInput, MenuItemModel, MenuItemUpdateInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   menuItem: Partial<MenuItemModel>
 }>();
+
+const toast = useToast();
+
 const menuItemState = ref(props.menuItem);
 
 const { data: menuCategories } = await useFetch('/api/buvette/categories', {
@@ -18,12 +21,28 @@ const formSubmit = props.menuItem.id ? updateMenuItem : createMenuItem;
 const submitButtonText = props.menuItem.id ? 'Update' : 'Create';
 
 function createMenuItem() {
+  if (!menuItemState.value.name) {
+    toast.add({
+      title: 'Name cannot be empty',
+      color: 'error',
+    });
+    return;
+  }
+
   useApi(
-    '/api/buvette/menu-items/add',
+    '/api/buvette/menu-items',
     {
       fetchOptions: {
         method: 'POST',
-        body: menuItemState.value,
+        body: {
+          category: { connect: {
+            id: menuItemState.value.categoryId,
+          }},
+          name: menuItemState.value.name,
+          description: menuItemState.value.description,
+          isAvailable: menuItemState.value.isAvailable,
+          price: menuItemState.value.price,
+        } satisfies MenuItemCreateInput,
       },
       successString: 'Item created !',
       onSuccess: () => navigateTo('/buvette'),
@@ -33,11 +52,19 @@ function createMenuItem() {
 
 function updateMenuItem() {
   useApi(
-    '/api/buvette/menu-items/update',
+    `/api/buvette/menu-items/${props.menuItem.id}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: menuItemState.value,
+        method: 'PUT',
+        body: {
+          category: { connect: {
+            id: menuItemState.value.categoryId,
+          }},
+          name: menuItemState.value.name,
+          description: menuItemState.value.description,
+          isAvailable: menuItemState.value.isAvailable,
+          price: menuItemState.value.price,
+        } satisfies MenuItemUpdateInput,
       },
       successString: 'Item updated !',
       onSuccess: () => navigateTo('/buvette'),

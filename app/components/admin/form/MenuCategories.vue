@@ -1,15 +1,17 @@
 <script setup lang="ts">
-import type { MenuCategoryModel } from '~~/prisma/generated/prisma/models';
+import type { MenuCategoryCreateInput, MenuCategoryModel, MenuCategoryUpdateInput } from '~~/prisma/generated/prisma/models';
 
 const { data: menuCategories, refresh: refreshMenuCategories } = await useFetch<MenuCategoryModel[]>('/api/buvette/categories');
 
 function updateMenuCategory(menuCategory: MenuCategoryModel) {
   useApi(
-    '/api/buvette/categories/update',
+    `/api/buvette/categories/${menuCategory.id}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: menuCategory,
+        method: 'PUT',
+        body: {
+          name: menuCategory.name,
+        } satisfies MenuCategoryUpdateInput,
       },
       successString: 'Category updated',
       onSuccess: refreshMenuCategories,
@@ -19,22 +21,21 @@ function updateMenuCategory(menuCategory: MenuCategoryModel) {
 
 function deleteMenuCategory(menuCategoryId: number) {
   useApi(
-    '/api/buvette/categories/delete',
+    `/api/buvette/categories/${menuCategoryId}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: {id: menuCategoryId},
+        method: 'DELETE',
       },
-      successString: 'Category updated',
+      successString: 'Category deleted',
       onSuccess: refreshMenuCategories,
     }
   );
 }
 
-const newMenuCategory = reactive<Partial<MenuCategoryModel>>({});
+const newMenuCategory = reactive<Partial<MenuCategoryCreateInput>>({});
 function createMenuCategory() {
   useApi(
-    '/api/buvette/categories/add',
+    '/api/buvette/categories',
     {
       fetchOptions: {
         method: 'POST',

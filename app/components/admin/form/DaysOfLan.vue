@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import type { LanDayModel } from '~~/prisma/generated/prisma/models';
+import type { LanDayCreateInput, LanDayModel, LanDayUpdateInput } from '~~/prisma/generated/prisma/models';
 
 const { data: lanDays, refresh: refreshLanDays } = await useFetch<LanDayModel[]>('/api/lan-days');
 const lanDaysSorted = computed(() => lanDays.value?.toSorted((a, b) => a.weight - b.weight));
 
-const newLanDay = reactive<Partial<LanDayModel>>({});
+const newLanDay = reactive<Partial<LanDayCreateInput>>({});
 function addLanDay() {
   useApi(
-    '/api/lan-days/add',
+    '/api/lan-days',
     {
       fetchOptions: {
         method: 'POST',
@@ -24,11 +24,10 @@ function addLanDay() {
 
 function deleteLanDay(lanDay: LanDayModel) {
   useApi(
-    '/api/lan-days/delete',
+    `/api/lan-days/${lanDay.id}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: lanDay,
+        method: 'DELETE',
       },
       successString: 'Day removed',
       onSuccess: refreshLanDays,
@@ -48,11 +47,14 @@ function updateLanDay(lanDay: LanDayModel, operation: 'up' | 'down' | 'edit') {
   }
 
   useApi(
-    '/api/lan-days/update',
+    `/api/lan-days/${lanDay.id}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: lanDay
+        method: 'PUT',
+        body: {
+          name: lanDay.name,
+          weight: lanDay.weight,
+        } satisfies LanDayUpdateInput
       },
       successString: 'Day updated',
       onSuccess: refreshLanDays,

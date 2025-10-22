@@ -1,16 +1,16 @@
 <script setup lang="ts">
-import type { OrderStatusModel } from '~~/prisma/generated/prisma/models';
+import type { OrderStatusCreateInput, OrderStatusModel, OrderStatusUpdateInput } from '~~/prisma/generated/prisma/models';
 
 const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<OrderStatusModel[]>('/api/buvette/status');
 const orderStatusesSorted = computed(() => {
   return orderStatuses.value?.sort((a, b) => a.weight - b.weight);
 });
 
-const newOrderStatus = reactive<Partial<OrderStatusModel>>({});
+const newOrderStatus = reactive<Partial<OrderStatusCreateInput>>({});
 function createOrderStatus() {
 
   useApi(
-    '/api/buvette/status/add',
+    '/api/buvette/status',
     {
       fetchOptions: {
         method: 'POST',
@@ -29,11 +29,15 @@ function createOrderStatus() {
 
 function updateOrderStatus(orderStatus: OrderStatusModel) {
   useApi(
-    '/api/buvette/status/update',
+    `/api/buvette/status/${orderStatus.id}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: orderStatus,
+        method: 'PUT',
+        body: {
+          color: orderStatus.color,
+          name: orderStatus.name,
+          weight: orderStatus.weight,
+        } satisfies OrderStatusUpdateInput,
       },
       successString: 'Status updated',
       onSuccess: refreshOrderStatus,
@@ -43,11 +47,10 @@ function updateOrderStatus(orderStatus: OrderStatusModel) {
 
 function deleteOrderStatus(orderStatusId: number) {
   useApi(
-    '/api/buvette/status/delete',
+    `/api/buvette/status/${orderStatusId}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: {id: orderStatusId},
+        method: 'DELETE',
       },
       successString: 'Status deleted',
       onSuccess: refreshOrderStatus,

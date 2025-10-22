@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { MenuItemModel } from '~~/prisma/generated/prisma/models';
+import type { MenuItemModel, MenuItemUpdateInput } from '~~/prisma/generated/prisma/models';
 
 const toast = useToast();
 
@@ -17,11 +17,13 @@ function onMenuItemChange(menuItemId: number) {
   menuItemUpdated.isAvailable = !menuItemUpdated?.isAvailable;
 
   useApi(
-    '/api/buvette/menu-items/update',
+    `/api/buvette/menu-items/${menuItemId}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: menuItemUpdated,
+        method: 'PUT',
+        body: {
+          isAvailable: menuItemUpdated.isAvailable,
+        } satisfies MenuItemUpdateInput,
       },
       successString: 'Menu item updated',
     }

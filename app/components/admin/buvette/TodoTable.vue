@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { OrderGetPayload } from '~~/prisma/generated/prisma/models';
+import type { OrderGetPayload, OrderUpdateInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   orders: OrderGetPayload<{
@@ -27,15 +27,26 @@ const ordersImproved = computed(() => {
 });
 
 function updateNextStatus(order: typeof ordersImproved.value[number]) {
-  order.status = order.nextStatus ?? null;
-  order.statusId = order.nextStatus?.id ?? null;
+  if (!order.nextStatus) {
+    useToast().add({
+      title: 'No next status',
+      color: 'error',
+    });
+    return;
+  }
 
   useApi(
-    '/api/buvette/orders/update',
+    `/api/buvette/orders/${order.id}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: order,
+        method: 'PUT',
+        body: {
+          status: {
+            connect: {
+              id: order.nextStatus.id,
+            }
+          }
+        } satisfies OrderUpdateInput,
       },
       successString: 'Order updated with success',
       onSuccess: () => emit('orderUpdated'),

@@ -1,15 +1,18 @@
 <script setup lang="ts">
-import type { UserModel } from '~~/prisma/generated/prisma/models';
+import type { UserModel, UserUpdateInput } from '~~/prisma/generated/prisma/models';
 import { Role } from '~~/prisma/generated/prisma/enums';
 
 const { data: users } = await useFetch<UserModel[]>('/api/users');
 
-function onAdminChange(userId: number) {
+function onAdminChange(user: UserModel) {
   useApi(
-    `/api/users/${userId}/toggle-admin`,
+    `/api/users/${user.id}`,
     {
       fetchOptions: {
-        method: 'POST',
+        method: 'PUT',
+        body: {
+          role: user.role === Role.ADMIN ? Role.USER : Role.ADMIN,
+        } satisfies UserUpdateInput
       },
       successString: 'User updated',
     }
@@ -22,7 +25,7 @@ function onAdminChange(userId: number) {
     <UFieldGroup>
       <UBadge color="neutral" variant="outline" size="lg" :label="user.username" />
       <UBadge color="neutral" variant="outline">
-        <USwitch @change="onAdminChange(user.id)" :defaultValue="user.role === Role.ADMIN" />
+        <USwitch @change="onAdminChange(user)" :defaultValue="user.role === Role.ADMIN" />
       </UBadge>
     </UFieldGroup>
   </div>

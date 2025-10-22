@@ -19,11 +19,10 @@ const orderComment = ref('');
 
 function deleteMenuItem(menuItemId: number) {
   useApi(
-    '/api/buvette/menu-items/delete',
+    `/api/buvette/menu-items/${menuItemId}`,
     {
       fetchOptions: {
-        method: 'POST',
-        body: {id: menuItemId},
+        method: 'DELETE',
       },
       successString: 'Item removed with success',
       onSuccess: () => emit('menuItemsUpdated'),
