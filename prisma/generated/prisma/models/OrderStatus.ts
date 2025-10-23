@@ -224,14 +224,14 @@ export type OrderStatusOrderByWithRelationInput = {
 
 export type OrderStatusWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  weight?: number
   AND?: Prisma.OrderStatusWhereInput | Prisma.OrderStatusWhereInput[]
   OR?: Prisma.OrderStatusWhereInput[]
   NOT?: Prisma.OrderStatusWhereInput | Prisma.OrderStatusWhereInput[]
   name?: Prisma.StringFilter<"OrderStatus"> | string
   color?: Prisma.StringFilter<"OrderStatus"> | string
+  weight?: Prisma.IntFilter<"OrderStatus"> | number
   orders?: Prisma.OrderListRelationFilter
-}, "id" | "weight">
+}, "id">
 
 export type OrderStatusOrderByWithAggregationInput = {
   id?: Prisma.SortOrder

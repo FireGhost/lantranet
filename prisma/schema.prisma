@@ -115,7 +115,7 @@ model OrderStatus {
   id              Int             @id @default(autoincrement())
   name            String
   color           String
-  weight          Int             @unique
+  weight          Int
   orders          Order[]
 }
 
