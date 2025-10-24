@@ -3,7 +3,7 @@ import Sortable from 'sortablejs';
 
 type T = any;
 
-defineProps<{
+const props = defineProps<{
   items: T[],
   newItem: T,
   idKey: string,
@@ -40,8 +40,8 @@ onMounted(() => {
 
       <slot :item="item" />
 
-      <UButton icon="i-lucide-save" color="success" @click="$emit('updateItem', item)" class="cursor-pointer px-2" />
-      <UButton icon="i-lucide-trash-2" color="error" variant="outline" @click="$emit('deleteItem', item[idKey])" style="cursor: pointer;" />
+      <UButton icon="i-lucide-save" size="sm" color="success" @click="$emit('updateItem', item)" class="px-3" />
+      <UButton icon="i-lucide-trash-2" size="sm" color="error" variant="outline" @click="$emit('deleteItem', item[idKey])" />
     </UFieldGroup>
   </div>
 

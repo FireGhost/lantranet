@@ -1,3 +1,14 @@
+import { OrderStatusOrderByWithRelationInput } from "~~/prisma/generated/prisma/models";
+
 export default defineEventHandler(async (event) => {
-  return usePrisma().orderStatus.findMany();
+  const query = getQuery(event);
+
+  const orderBy: OrderStatusOrderByWithRelationInput = {};
+  if (query.orderByWeight) {
+    orderBy.weight = 'asc';
+  }
+
+  return usePrisma().orderStatus.findMany({
+    orderBy: orderBy,
+  });
 });

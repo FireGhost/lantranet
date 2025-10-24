@@ -14,9 +14,8 @@ const colors = [
   "neutral"
 ];
 
-const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<OrderStatusModel[]>('/api/buvette/status');
-const orderStatusesSorted = computed(() => {
-  return orderStatuses.value?.sort((a, b) => a.weight - b.weight);
+const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<OrderStatusModel[]>('/api/buvette/status', {
+  query: {orderByWeight: true},
 });
 
 const newOrderStatus = reactive<Partial<OrderStatusCreateInput>>({});
@@ -27,12 +26,13 @@ function addOrderStatus(newOrderStatus: OrderStatusCreateInput) {
       method: 'POST',
       body: {
         ...newOrderStatus,
-        weight: orderStatusesSorted.value?.length ?? 0,
+        weight: orderStatuses.value?.length ?? 0,
       } satisfies OrderStatusCreateInput,
     },
     successString: 'Status created',
     onSuccess: () => {
       newOrderStatus.name = '';
+      newOrderStatus.color = '';
       refreshOrderStatus();
     },
   });
@@ -89,7 +89,7 @@ function updateOrderOrderStatus(keysSorted: string[]) {
 
 <template>
   <AdminFormSortableInputs
-    :items="orderStatusesSorted ?? []"
+    :items="orderStatuses ?? []"
     id-key="id"
     :new-item="newOrderStatus"
     @add-item="addOrderStatus"
@@ -100,12 +100,12 @@ function updateOrderOrderStatus(keysSorted: string[]) {
   >
     <UInput v-model="item.name" placeholder="Status name" />
 
-    <USelect v-model="item.color" :items="colors" default-value="primary" class="w-48">
-      <template #item-label="{ item }">
-        <UChip :color="(item as ChipProps['color'])" class="m-1" /> {{ item }}
+    <USelect v-model="item.color" :items="colors" placeholder="Select a color" class="w-48">
+      <template #item-leading="{ item }">
+        <UChip :color="(item as ChipProps['color'])" class="m-1" />
       </template>
-      <template #default="{ modelValue }">
-        <UChip :color="(modelValue as ChipProps['color'])" class="m-1" /> {{ modelValue }}
+      <template #leading="{ modelValue }">
+        <UChip v-if="modelValue" :color="(modelValue as ChipProps['color'])" class="m-1" />
       </template>
     </USelect>
   </AdminFormSortableInputs>
