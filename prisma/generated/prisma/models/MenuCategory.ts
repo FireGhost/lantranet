@@ -27,50 +27,60 @@ export type AggregateMenuCategory = {
 
 export type MenuCategoryAvgAggregateOutputType = {
   id: number | null
+  weight: number | null
 }
 
 export type MenuCategorySumAggregateOutputType = {
   id: number | null
+  weight: number | null
 }
 
 export type MenuCategoryMinAggregateOutputType = {
   id: number | null
   name: string | null
+  weight: number | null
 }
 
 export type MenuCategoryMaxAggregateOutputType = {
   id: number | null
   name: string | null
+  weight: number | null
 }
 
 export type MenuCategoryCountAggregateOutputType = {
   id: number
   name: number
+  weight: number
   _all: number
 }
 
 
 export type MenuCategoryAvgAggregateInputType = {
   id?: true
+  weight?: true
 }
 
 export type MenuCategorySumAggregateInputType = {
   id?: true
+  weight?: true
 }
 
 export type MenuCategoryMinAggregateInputType = {
   id?: true
   name?: true
+  weight?: true
 }
 
 export type MenuCategoryMaxAggregateInputType = {
   id?: true
   name?: true
+  weight?: true
 }
 
 export type MenuCategoryCountAggregateInputType = {
   id?: true
   name?: true
+  weight?: true
   _all?: true
 }
 
@@ -163,6 +173,7 @@ export type MenuCategoryGroupByArgs<ExtArgs extends runtime.Types.Extensions.Int
 export type MenuCategoryGroupByOutputType = {
   id: number
   name: string
+  weight: number
   _count: MenuCategoryCountAggregateOutputType | null
   _avg: MenuCategoryAvgAggregateOutputType | null
   _sum: MenuCategorySumAggregateOutputType | null
@@ -191,12 +202,14 @@ export type MenuCategoryWhereInput = {
   NOT?: Prisma.MenuCategoryWhereInput | Prisma.MenuCategoryWhereInput[]
   id?: Prisma.IntFilter<"MenuCategory"> | number
   name?: Prisma.StringFilter<"MenuCategory"> | string
+  weight?: Prisma.IntFilter<"MenuCategory"> | number
   menuItems?: Prisma.MenuItemListRelationFilter
 }
 
 export type MenuCategoryOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
   menuItems?: Prisma.MenuItemOrderByRelationAggregateInput
 }
 
@@ -206,12 +219,14 @@ export type MenuCategoryWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.MenuCategoryWhereInput[]
   NOT?: Prisma.MenuCategoryWhereInput | Prisma.MenuCategoryWhereInput[]
   name?: Prisma.StringFilter<"MenuCategory"> | string
+  weight?: Prisma.IntFilter<"MenuCategory"> | number
   menuItems?: Prisma.MenuItemListRelationFilter
 }, "id">
 
 export type MenuCategoryOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
   _count?: Prisma.MenuCategoryCountOrderByAggregateInput
   _avg?: Prisma.MenuCategoryAvgOrderByAggregateInput
   _max?: Prisma.MenuCategoryMaxOrderByAggregateInput
@@ -225,42 +240,50 @@ export type MenuCategoryScalarWhereWithAggregatesInput = {
   NOT?: Prisma.MenuCategoryScalarWhereWithAggregatesInput | Prisma.MenuCategoryScalarWhereWithAggregatesInput[]
   id?: Prisma.IntWithAggregatesFilter<"MenuCategory"> | number
   name?: Prisma.StringWithAggregatesFilter<"MenuCategory"> | string
+  weight?: Prisma.IntWithAggregatesFilter<"MenuCategory"> | number
 }
 
 export type MenuCategoryCreateInput = {
   name: string
+  weight: number
   menuItems?: Prisma.MenuItemCreateNestedManyWithoutCategoryInput
 }
 
 export type MenuCategoryUncheckedCreateInput = {
   id?: number
   name: string
+  weight: number
   menuItems?: Prisma.MenuItemUncheckedCreateNestedManyWithoutCategoryInput
 }
 
 export type MenuCategoryUpdateInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weight?: Prisma.IntFieldUpdateOperationsInput | number
   menuItems?: Prisma.MenuItemUpdateManyWithoutCategoryNestedInput
 }
 
 export type MenuCategoryUncheckedUpdateInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weight?: Prisma.IntFieldUpdateOperationsInput | number
   menuItems?: Prisma.MenuItemUncheckedUpdateManyWithoutCategoryNestedInput
 }
 
 export type MenuCategoryCreateManyInput = {
   id?: number
   name: string
+  weight: number
 }
 
 export type MenuCategoryUpdateManyMutationInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weight?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type MenuCategoryUncheckedUpdateManyInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weight?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type MenuCategoryScalarRelationFilter = {
@@ -271,24 +294,29 @@ export type MenuCategoryScalarRelationFilter = {
 export type MenuCategoryCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
 }
 
 export type MenuCategoryAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
 }
 
 export type MenuCategoryMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
 }
 
 export type MenuCategoryMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
 }
 
 export type MenuCategorySumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  weight?: Prisma.SortOrder
 }
 
 export type MenuCategoryCreateNestedOneWithoutMenuItemsInput = {
@@ -307,11 +335,13 @@ export type MenuCategoryUpdateOneRequiredWithoutMenuItemsNestedInput = {
 
 export type MenuCategoryCreateWithoutMenuItemsInput = {
   name: string
+  weight: number
 }
 
 export type MenuCategoryUncheckedCreateWithoutMenuItemsInput = {
   id?: number
   name: string
+  weight: number
 }
 
 export type MenuCategoryCreateOrConnectWithoutMenuItemsInput = {
@@ -332,11 +362,13 @@ export type MenuCategoryUpdateToOneWithWhereWithoutMenuItemsInput = {
 
 export type MenuCategoryUpdateWithoutMenuItemsInput = {
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weight?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type MenuCategoryUncheckedUpdateWithoutMenuItemsInput = {
   id?: Prisma.IntFieldUpdateOperationsInput | number
   name?: Prisma.StringFieldUpdateOperationsInput | string
+  weight?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -373,6 +405,7 @@ export type MenuCategoryCountOutputTypeCountMenuItemsArgs<ExtArgs extends runtim
 export type MenuCategorySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  weight?: boolean
   menuItems?: boolean | Prisma.MenuCategory$menuItemsArgs<ExtArgs>
   _count?: boolean | Prisma.MenuCategoryCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["menuCategory"]>
@@ -380,19 +413,22 @@ export type MenuCategorySelect<ExtArgs extends runtime.Types.Extensions.Internal
 export type MenuCategorySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  weight?: boolean
 }, ExtArgs["result"]["menuCategory"]>
 
 export type MenuCategorySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   name?: boolean
+  weight?: boolean
 }, ExtArgs["result"]["menuCategory"]>
 
 export type MenuCategorySelectScalar = {
   id?: boolean
   name?: boolean
+  weight?: boolean
 }
 
-export type MenuCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name", ExtArgs["result"]["menuCategory"]>
+export type MenuCategoryOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "weight", ExtArgs["result"]["menuCategory"]>
 export type MenuCategoryInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   menuItems?: boolean | Prisma.MenuCategory$menuItemsArgs<ExtArgs>
   _count?: boolean | Prisma.MenuCategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -408,6 +444,7 @@ export type $MenuCategoryPayload<ExtArgs extends runtime.Types.Extensions.Intern
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: number
     name: string
+    weight: number
   }, ExtArgs["result"]["menuCategory"]>
   composites: {}
 }
@@ -834,6 +871,7 @@ export interface Prisma__MenuCategoryClient<T, Null = never, ExtArgs extends run
 export interface MenuCategoryFieldRefs {
   readonly id: Prisma.FieldRef<"MenuCategory", 'Int'>
   readonly name: Prisma.FieldRef<"MenuCategory", 'String'>
+  readonly weight: Prisma.FieldRef<"MenuCategory", 'Int'>
 }
     
 

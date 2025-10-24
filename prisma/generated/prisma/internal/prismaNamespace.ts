@@ -1378,7 +1378,8 @@ export type OrderStatusScalarFieldEnum = (typeof OrderStatusScalarFieldEnum)[key
 
 export const MenuCategoryScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  weight: 'weight'
 } as const
 
 export type MenuCategoryScalarFieldEnum = (typeof MenuCategoryScalarFieldEnum)[keyof typeof MenuCategoryScalarFieldEnum]

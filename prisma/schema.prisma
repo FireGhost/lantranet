@@ -123,6 +123,7 @@ model MenuCategory {
   id          Int         @id @default(autoincrement())
   name        String
   menuItems   MenuItem[]
+  weight      Int
 }
 
 // Once edited, run "npx prisma migrate dev" to generate de migration file.
