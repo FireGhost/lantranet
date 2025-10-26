@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
     body.weight = weight;
   }
 
-  return await usePrisma().lanDay.create({
+  await usePrisma().lanDay.create({
     data: body,
   });
 });

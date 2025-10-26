@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   const body = readBody<UserUpdateInput>(event);
 
-  return await usePrisma().user.update({
+  await usePrisma().user.update({
     data: body,
     where: {
       id: params.userId,

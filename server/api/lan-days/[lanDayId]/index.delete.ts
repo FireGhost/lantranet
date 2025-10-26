@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     lanDayId: z.coerce.number().positive(),
   }).parse);
   
-  return await usePrisma().lanDay.delete({
+  await usePrisma().lanDay.delete({
     where: {
       id: params.lanDayId,
     }

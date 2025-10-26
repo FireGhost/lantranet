@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<AnimationsPlayersUpdateManyMutationInput>(event);
 
-  return await usePrisma().animationsPlayers.update({
+  await usePrisma().animationsPlayers.update({
     data: body,
     where: {
       playerId_animationId: {

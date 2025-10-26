@@ -16,8 +16,8 @@ const colors = [
 
 const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<OrderStatusModel[]>('/api/buvette/status', {
   query: {orderByWeight: true},
+  deep: true,
 });
-const orderStatusState = computed(() => reactive(orderStatuses.value ?? []));
 
 const newOrderStatus = reactive<Partial<OrderStatusCreateInput>>({});
 
@@ -90,7 +90,7 @@ function updateOrderOrderStatus(keysSorted: string[]) {
 
 <template>
   <AdminFormSortableInputs
-    :items="orderStatusState ?? []"
+    :items="orderStatuses ?? []"
     id-key="id"
     :new-item="newOrderStatus"
     @add-item="addOrderStatus"

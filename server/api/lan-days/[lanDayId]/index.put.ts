@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
   
   const body = await readBody<LanDayCreateInput>(event);
 
-  return usePrisma().lanDay.update({
+  await usePrisma().lanDay.update({
     data: body,
     where: {
       id: params.lanDayId,

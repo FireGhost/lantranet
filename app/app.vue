@@ -2,7 +2,21 @@
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { Role } from '~~/prisma/generated/prisma/enums';
 
-const { loggedIn, clear: clearUserSession, user } = useUserSession()
+const { loggedIn, clear: clearUserSession, user } = useUserSession();
+
+let eventSource: EventSource | null = null
+onMounted(() => {
+  eventSource = new EventSource('/api/sse/connect');
+  eventSource.addEventListener('data-updated', (e) => {
+    refreshNuxtData();
+  });
+});
+
+onUnmounted(() => {
+  if (eventSource) {
+    eventSource.close();
+  }
+});
 
 const items = computed<NavigationMenuItem[]>(() => {
   const items: NavigationMenuItem[] = [

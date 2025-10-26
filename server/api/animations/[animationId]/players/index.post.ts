@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<AnimationsPlayersUncheckedCreateWithoutAnimationInput>(event);
 
-  return await usePrisma().animationsPlayers.create({
+  await usePrisma().animationsPlayers.create({
     data: {
       ...body,
       animationId: params.animationId,

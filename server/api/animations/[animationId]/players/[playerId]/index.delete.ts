@@ -6,7 +6,7 @@ export default defineEventHandler(async (event) => {
     playerId: z.coerce.number().positive(),
   }).parse);
 
-  return await usePrisma().animationsPlayers.delete({
+  await usePrisma().animationsPlayers.delete({
     where: {
       playerId_animationId: {
         animationId: params.animationId,

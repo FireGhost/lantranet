@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<PlayersTeamsUncheckedCreateWithoutTeamInput>(event);
 
-  return await usePrisma().playersTeams.create({
+  await usePrisma().playersTeams.create({
     data: {
       ...body,
       teamId: params.teamId,

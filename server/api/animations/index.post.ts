@@ -4,7 +4,8 @@ export default defineEventHandler(async (event) => {
   await needAdmin(event);
 
   const body = await readBody<AnimationCreateManyInput>(event);
-  return usePrisma().animation.create({
+  
+  await usePrisma().animation.create({
     data: body
   });
 });

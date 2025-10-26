@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<TeamUpdateManyMutationInput>(event);
 
-  return await usePrisma().team.update({
+  await usePrisma().team.update({
     data: body,
     where: {
       id: params.teamId,

@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(event, z.object({animationId: z.coerce.number().positive()}).parse);
   const body = await readBody<AnimationUpdateInput>(event);
   
-  return usePrisma().animation.update({
+  await usePrisma().animation.update({
     data: body,
     where: {
       id: params.animationId,

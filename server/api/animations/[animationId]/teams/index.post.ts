@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<TeamCreateWithoutAnimationInput>(event);
 
-  return await usePrisma().team.create({
+  await usePrisma().team.create({
     data: {
       ...body,
       animationId: params.animationId,
