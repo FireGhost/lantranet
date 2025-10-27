@@ -80,7 +80,7 @@ function updateNextStatus(order: (typeof ordersImproved.value)[number]) {
         v-if="item.nextStatus"
         :label="`Passer à: -> ${item.nextStatus.name}`"
         color="primary"
-        @click="updateNextStatus(item)"
+        @click.stop="updateNextStatus(item)"
       />
       <div>{{ item.orderItems.length }} items</div>
       <div>{{ computeTotalPrice(item) }} CHF</div>
