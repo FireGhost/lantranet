@@ -15,5 +15,5 @@ services:
       - "bash"
       - "-c"
       - "npm i --verbose \
-         && npx prisma migrate deploy \
-         && npm run dev"
+        && npx prisma migrate deploy \
+        && npm run dev"

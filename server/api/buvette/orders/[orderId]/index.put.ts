@@ -4,9 +4,12 @@ import type { OrderUpdateInput } from "~~/prisma/generated/prisma/models";
 export default defineEventHandler(async (event) => {
   await needAdmin(event);
 
-  const params = await getValidatedRouterParams(event, z.object({
-    orderId: z.coerce.number().positive(),
-  }).parse);
+  const params = await getValidatedRouterParams(
+    event,
+    z.object({
+      orderId: z.coerce.number().positive(),
+    }).parse,
+  );
 
   const body = await readBody<OrderUpdateInput>(event);
 
@@ -14,6 +17,6 @@ export default defineEventHandler(async (event) => {
     data: body,
     where: {
       id: params.orderId,
-    }
+    },
   });
 });

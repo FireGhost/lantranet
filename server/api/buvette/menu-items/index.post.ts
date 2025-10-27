@@ -6,6 +6,6 @@ export default defineEventHandler(async (event) => {
   const body = await readBody<MenuItemCreateInput>(event);
 
   await usePrisma().menuItem.create({
-    data: body
+    data: body,
   });
 });

@@ -2,9 +2,12 @@ import z from "zod";
 import type { OrderInclude } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
-  const params = await getValidatedRouterParams(event, z.object({
-    userId: z.coerce.number().positive(),
-  }).parse);
+  const params = await getValidatedRouterParams(
+    event,
+    z.object({
+      userId: z.coerce.number().positive(),
+    }).parse,
+  );
 
   const query = getQuery(event);
   const ordersIncludes: OrderInclude = {};
@@ -21,6 +24,6 @@ export default defineEventHandler(async (event) => {
     include: ordersIncludes,
     where: {
       userId: params.userId,
-    }
+    },
   });
 });

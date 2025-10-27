@@ -2,10 +2,13 @@ import z from "zod";
 import type { AnimationsPlayersUpdateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
-  const params = await getValidatedRouterParams(event, z.object({
-    animationId: z.coerce.number().positive(),
-    playerId: z.coerce.number().positive(),
-  }).parse);
+  const params = await getValidatedRouterParams(
+    event,
+    z.object({
+      animationId: z.coerce.number().positive(),
+      playerId: z.coerce.number().positive(),
+    }).parse,
+  );
 
   const body = await readBody<AnimationsPlayersUpdateInput>(event);
 
@@ -15,7 +18,7 @@ export default defineEventHandler(async (event) => {
       playerId_animationId: {
         animationId: params.animationId,
         playerId: params.playerId,
-      }
-    }
+      },
+    },
   });
 });

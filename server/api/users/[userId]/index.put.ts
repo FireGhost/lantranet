@@ -2,9 +2,12 @@ import z from "zod";
 import type { UserUpdateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
-  const params = await getValidatedRouterParams(event, z.object({
-    userId: z.coerce.number().positive(),
-  }).parse);
+  const params = await getValidatedRouterParams(
+    event,
+    z.object({
+      userId: z.coerce.number().positive(),
+    }).parse,
+  );
 
   const body = readBody<UserUpdateInput>(event);
 
@@ -12,6 +15,6 @@ export default defineEventHandler(async (event) => {
     data: body,
     where: {
       id: params.userId,
-    }
+    },
   });
 });

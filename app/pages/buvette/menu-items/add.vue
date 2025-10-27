@@ -1,12 +1,11 @@
 <script setup lang="ts">
-
 useHead({
-  title: 'New menu item',
+  title: "New menu item",
 });
 
 definePageMeta({
-  layout: 'buvette',
-  middleware: 'need-admin',
+  layout: "buvette",
+  middleware: "need-admin",
 });
 </script>
 

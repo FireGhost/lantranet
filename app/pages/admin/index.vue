@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: 'Admin',
+  title: "Admin",
 });
 
 definePageMeta({
@@ -10,7 +10,6 @@ definePageMeta({
 
 <template>
   <div class="flex mt-4 gap-4 flex-wrap">
-
     <UCard class="w-fit">
       <template #header>Days of lan</template>
       <AdminFormDaysOfLan />
@@ -20,12 +19,12 @@ definePageMeta({
       <template #header>All animations</template>
       <AdminFormAllAnimationsLinks />
     </UCard>
-    
+
     <UCard class="w-fit">
       <template #header>Admin users</template>
       <AdminFormSwitchAdminUsers />
     </UCard>
-    
+
     <UCard class="w-fit">
       <template #header>Menu Categories</template>
       <AdminFormMenuCategories />
@@ -40,6 +39,5 @@ definePageMeta({
       <template #header>Order status</template>
       <AdminFormOrderStatus />
     </UCard>
-
   </div>
 </template>

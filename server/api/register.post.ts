@@ -3,8 +3,8 @@ import { randomBytes } from "crypto";
 
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, UserLoginSchema.parse);
-  
-  const salt = randomBytes(16).toString('hex');
+
+  const salt = randomBytes(16).toString("hex");
   const hashedPassword = await hashPassword(body.password.concat(salt));
 
   // First person to register become admin.
@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
       passwordHash: hashedPassword,
       salt: salt,
       role: role,
-    }
+    },
   });
 
   await setUserSession(event, {

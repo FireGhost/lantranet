@@ -1,6 +1,10 @@
 <script setup lang="ts">
-import type { ChipProps } from '@nuxt/ui';
-import type { OrderStatusCreateInput, OrderStatusModel, OrderStatusUpdateInput } from '~~/prisma/generated/prisma/models';
+import type { ChipProps } from "@nuxt/ui";
+import type {
+  OrderStatusCreateInput,
+  OrderStatusModel,
+  OrderStatusUpdateInput,
+} from "~~/prisma/generated/prisma/models";
 
 const toast = useToast();
 
@@ -11,29 +15,31 @@ const colors = [
   "info",
   "warning",
   "error",
-  "neutral"
+  "neutral",
 ];
 
-const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<OrderStatusModel[]>('/api/buvette/status', {
-  query: {orderByWeight: true},
+const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<
+  OrderStatusModel[]
+>("/api/buvette/status", {
+  query: { orderByWeight: true },
   deep: true,
 });
 
 const newOrderStatus = reactive<Partial<OrderStatusCreateInput>>({});
 
 function addOrderStatus(newOrderStatus: OrderStatusCreateInput) {
-  useApi('/api/buvette/status', {
+  useApi("/api/buvette/status", {
     fetchOptions: {
-      method: 'POST',
+      method: "POST",
       body: {
         ...newOrderStatus,
         weight: orderStatuses.value?.length ?? 0,
       } satisfies OrderStatusCreateInput,
     },
-    successString: 'Status created',
+    successString: "Status created",
     onSuccess: () => {
-      newOrderStatus.name = '';
-      newOrderStatus.color = '';
+      newOrderStatus.name = "";
+      newOrderStatus.color = "";
       refreshOrderStatus();
     },
   });
@@ -42,13 +48,13 @@ function addOrderStatus(newOrderStatus: OrderStatusCreateInput) {
 function updateOrderStatus(orderStatus: OrderStatusModel) {
   useApi(`/api/buvette/status/${orderStatus.id}`, {
     fetchOptions: {
-      method: 'PUT',
+      method: "PUT",
       body: {
         color: orderStatus.color,
         name: orderStatus.name,
       } satisfies OrderStatusUpdateInput,
     },
-    successString: 'Status updated',
+    successString: "Status updated",
     onSuccess: () => {
       refreshOrderStatus();
     },
@@ -58,9 +64,9 @@ function updateOrderStatus(orderStatus: OrderStatusModel) {
 function deleteOrderStatus(orderStatusId: string) {
   useApi(`/api/buvette/status/${orderStatusId}`, {
     fetchOptions: {
-      method: 'DELETE'
+      method: "DELETE",
     },
-    successString: 'Status removed',
+    successString: "Status removed",
     onSuccess: () => {
       refreshOrderStatus();
     },
@@ -73,16 +79,16 @@ function updateOrderOrderStatus(keysSorted: string[]) {
     promises.push(
       useApi(`/api/buvette/status/${keysSorted[weight]}`, {
         fetchOptions: {
-          method: 'PUT',
+          method: "PUT",
           body: {
-            weight: Number(weight)
-          } satisfies OrderStatusUpdateInput
-        }
-      })
+            weight: Number(weight),
+          } satisfies OrderStatusUpdateInput,
+        },
+      }),
     );
   }
   Promise.all(promises).then(() => {
-    toast.add({title: 'Status order updated'});
+    toast.add({ title: "Status order updated" });
     refreshOrderStatus();
   });
 }
@@ -101,12 +107,21 @@ function updateOrderOrderStatus(keysSorted: string[]) {
   >
     <UInput v-model="orderStatus.name" placeholder="Status name" />
 
-    <USelect v-model="orderStatus.color" :items="colors" placeholder="Select a color" class="w-48">
+    <USelect
+      v-model="orderStatus.color"
+      :items="colors"
+      placeholder="Select a color"
+      class="w-48"
+    >
       <template #item-leading="{ item: color }">
-        <UChip :color="(color as ChipProps['color'])" class="m-1" />
+        <UChip :color="color as ChipProps['color']" class="m-1" />
       </template>
       <template #leading="{ modelValue: selectedColor }">
-        <UChip v-if="selectedColor" :color="(selectedColor as ChipProps['color'])" class="m-1" />
+        <UChip
+          v-if="selectedColor"
+          :color="selectedColor as ChipProps['color']"
+          class="m-1"
+        />
       </template>
     </USelect>
   </AdminFormSortableInputs>

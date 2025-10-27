@@ -1,13 +1,13 @@
 <script setup lang="ts">
 useHead({
-  title: 'Animations',
+  title: "Animations",
 });
 
 definePageMeta({
-  layout: 'animations',
+  layout: "animations",
 });
 </script>
 
 <template>
-    <UPageHeader title="Choisis un jeu" description="<- là, sur la gauche" />
+  <UPageHeader title="Choisis un jeu" description="<- là, sur la gauche" />
 </template>

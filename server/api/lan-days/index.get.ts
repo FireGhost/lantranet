@@ -1,4 +1,7 @@
-import type { LanDayInclude, LanDayOrderByWithRelationInput } from "~~/prisma/generated/prisma/models";
+import type {
+  LanDayInclude,
+  LanDayOrderByWithRelationInput,
+} from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
@@ -10,13 +13,13 @@ export default defineEventHandler(async (event) => {
 
   const orderBy: LanDayOrderByWithRelationInput = {};
   if (query.orderByWeight) {
-    orderBy.weight = 'asc';
+    orderBy.weight = "asc";
 
     if (query.includeAnimations) {
       lanDayIncludes.animations = {
         orderBy: {
-          weight: 'asc',
-        }
+          weight: "asc",
+        },
       };
     }
   }
@@ -24,7 +27,7 @@ export default defineEventHandler(async (event) => {
   return usePrisma().lanDay.findMany({
     include: lanDayIncludes,
     orderBy: {
-      weight: 'asc',
+      weight: "asc",
     },
   });
 });

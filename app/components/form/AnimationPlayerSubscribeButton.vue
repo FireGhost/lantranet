@@ -1,71 +1,78 @@
 <script setup lang="ts">
-import type { AnimationsPlayersCreateInput } from '~~/prisma/generated/prisma/models';
+import type { AnimationsPlayersCreateInput } from "~~/prisma/generated/prisma/models";
 
 const props = defineProps<{
-  animationId: number,
+  animationId: number;
 }>();
 
 const emit = defineEmits<{
-  (e: 'playerSubscriptionUpdated'): void,
+  (e: "playerSubscriptionUpdated"): void;
 }>();
 
 const { user } = useUserSession();
 
-const { data: playerSubscription, refresh: refreshSubscriptionData } = await useFetch(`/api/animations/${props.animationId}/players/${user.value?.id}`);
+const { data: playerSubscription, refresh: refreshSubscriptionData } =
+  await useFetch(
+    `/api/animations/${props.animationId}/players/${user.value?.id}`,
+  );
 
 function unsubscribeSolo() {
-  useApi(
-    `/api/animations/${props.animationId}/players/${user.value?.id}`,
-    {
-      fetchOptions: {
-        method: 'DELETE',
-      },
-      successString: 'You have been removed',
-      onSuccess: () => {
-        refreshSubscriptionData();
-        emit('playerSubscriptionUpdated');
-      }
-    }
-  );
+  useApi(`/api/animations/${props.animationId}/players/${user.value?.id}`, {
+    fetchOptions: {
+      method: "DELETE",
+    },
+    successString: "You have been removed",
+    onSuccess: () => {
+      refreshSubscriptionData();
+      emit("playerSubscriptionUpdated");
+    },
+  });
 }
 
 function subscribeSolo() {
   if (!user.value) {
     useToast().add({
-      title: 'Please login again',
+      title: "Please login again",
     });
     return;
   }
 
-  useApi(
-    `/api/animations/${props.animationId}/players`,
-    {
-      fetchOptions: {
-        method: 'POST',
-        body: {
-          animation: {
-            connect: {
-              id: Number(props.animationId)
-            }
+  useApi(`/api/animations/${props.animationId}/players`, {
+    fetchOptions: {
+      method: "POST",
+      body: {
+        animation: {
+          connect: {
+            id: Number(props.animationId),
           },
-          player: {
-            connect: {
-              id: user.value.id,
-            }
-          }
-        } satisfies AnimationsPlayersCreateInput,
-      },
-      successString: 'Subscribed !',
-      onSuccess: () => {
-        refreshSubscriptionData();
-        emit('playerSubscriptionUpdated');
-      }
-    }
-  );
+        },
+        player: {
+          connect: {
+            id: user.value.id,
+          },
+        },
+      } satisfies AnimationsPlayersCreateInput,
+    },
+    successString: "Subscribed !",
+    onSuccess: () => {
+      refreshSubscriptionData();
+      emit("playerSubscriptionUpdated");
+    },
+  });
 }
 </script>
 
 <template>
-  <UButton v-if="playerSubscription" label="Je me retire" color="error" @click="unsubscribeSolo()" />
-  <UButton v-else label="Inscris moi !" color="primary" @click="subscribeSolo()" />
+  <UButton
+    v-if="playerSubscription"
+    label="Je me retire"
+    color="error"
+    @click="unsubscribeSolo()"
+  />
+  <UButton
+    v-else
+    label="Inscris moi !"
+    color="primary"
+    @click="subscribeSolo()"
+  />
 </template>

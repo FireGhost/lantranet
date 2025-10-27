@@ -6,19 +6,19 @@ export default defineEventHandler(async (event) => {
   if (!body.status) {
     const firstStatus = await usePrisma().orderStatus.findFirst({
       orderBy: {
-        weight: 'asc',
-      }
+        weight: "asc",
+      },
     });
     if (firstStatus) {
       body.status = {
         connect: {
-          id: firstStatus.id
-        }
+          id: firstStatus.id,
+        },
       };
     }
   }
 
   await usePrisma().order.create({
-    data: body
+    data: body,
   });
 });

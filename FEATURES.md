@@ -1,6 +1,9 @@
 # Features
+
 ## User specific
+
 ### As a user
+
 - Register - MVP
 - Login - MVP
 - Change username
@@ -9,10 +12,13 @@
 - Logout - MVP
 
 ### As an admin
+
 - Change user role
 
 ## Tournament specific
+
 ### As a user
+
 - See all the animations - MVP
 - See one animation - MVP
   - Who organize
@@ -29,6 +35,7 @@
 - Chat with others
 
 ### As an admin
+
 - Create a new animation - MVP
 - Edit an animation - MVP
 - Add a score to a player
@@ -36,11 +43,14 @@
 - Close registrations
 
 ## Buvette specific
+
 ### As a user
+
 - See the menu
 - Order food
 
 ### As an admin
+
 - Create a new menu entry
 - Edit a menu entry
 - Remove a menu entry
@@ -50,10 +60,8 @@
 - Close the buvette
 
 # TODO
+
 - Setup access check for USER and ADMIN roles
-
-
-
 
 - En attente
 - En cours

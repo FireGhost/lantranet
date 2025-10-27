@@ -1,20 +1,23 @@
 <script setup lang="ts">
-import type { AnimationModel } from '~~/prisma/generated/prisma/models';
+import type { AnimationModel } from "~~/prisma/generated/prisma/models";
 
 useHead({
-  title: 'Edit animation',
+  title: "Edit animation",
 });
 
 definePageMeta({
-  layout: 'animations',
+  layout: "animations",
   middleware: "need-admin",
 });
 
 const route = useRoute();
 
-const { data: animation } = await useFetch<Partial<AnimationModel>>(`/api/animations/${route.params.id}`, {
-  default: () => ({}),
-});
+const { data: animation } = await useFetch<Partial<AnimationModel>>(
+  `/api/animations/${route.params.id}`,
+  {
+    default: () => ({}),
+  },
+);
 </script>
 
 <template>

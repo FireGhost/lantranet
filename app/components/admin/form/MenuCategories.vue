@@ -1,40 +1,46 @@
 <script setup lang="ts">
-import type { MenuCategoryCreateInput, MenuCategoryModel, MenuCategoryUpdateInput } from '~~/prisma/generated/prisma/models';
+import type {
+  MenuCategoryCreateInput,
+  MenuCategoryModel,
+  MenuCategoryUpdateInput,
+} from "~~/prisma/generated/prisma/models";
 
 const toast = useToast();
 
-const { data: menuCategories, refresh: refreshMenuCategories } = await useFetch<MenuCategoryModel[]>('/api/buvette/categories', {
-  query: {orderByWeight: true},
+const { data: menuCategories, refresh: refreshMenuCategories } = await useFetch<
+  MenuCategoryModel[]
+>("/api/buvette/categories", {
+  query: { orderByWeight: true },
 });
 
 const newMenuCategory = reactive<Partial<MenuCategoryCreateInput>>({});
 
 function createMenuCategory(newMenuCategory: MenuCategoryCreateInput) {
-  useApi('/api/buvette/categories', {
+  useApi("/api/buvette/categories", {
     fetchOptions: {
-      method: 'POST',
+      method: "POST",
       body: {
         ...newMenuCategory,
         weight: menuCategories.value?.length ?? 0,
-      } satisfies MenuCategoryCreateInput
+      } satisfies MenuCategoryCreateInput,
     },
-    successString: 'Category created',
+    successString: "Category created",
     onSuccess: () => {
-      newMenuCategory.name = '';
+      newMenuCategory.name = "";
       refreshMenuCategories();
-    }
+    },
   });
 }
 
 function updateMenuCategory(menuCategory: MenuCategoryModel) {
   useApi(`/api/buvette/categories/${menuCategory.id}`, {
     fetchOptions: {
-      method: 'PUT',
+      method: "PUT",
       body: {
         name: menuCategory.name,
-      } satisfies MenuCategoryUpdateInput
+      } satisfies MenuCategoryUpdateInput,
     },
-    successString: 'Category updated with success',
+    successString: "Category updated with success",
     onSuccess: () => refreshMenuCategories(),
   });
 }
@@ -42,9 +48,9 @@ function updateMenuCategory(menuCategory: MenuCategoryModel) {
 function deleteMenuCategory(menuCategoryId: string) {
   useApi(`/api/buvette/categories/${menuCategoryId}`, {
     fetchOptions: {
-      method: 'DELETE',
+      method: "DELETE",
     },
-    successString: 'Category deleted',
+    successString: "Category deleted",
     onSuccess: () => refreshMenuCategories(),
   });
 }
@@ -55,17 +61,17 @@ function updateOrderMenuCategories(newKeysOrder: string[]) {
     promises.push(
       useApi(`/api/buvette/categories/${newKeysOrder[weight]}`, {
         fetchOptions: {
-          method: 'PUT',
+          method: "PUT",
           body: {
             weight: Number(weight),
           } satisfies MenuCategoryUpdateInput,
         },
-      })
+      }),
     );
   }
   Promise.all(promises).then(() => {
     toast.add({
-      title: 'Order saved'
+      title: "Order saved",
     });
     refreshMenuCategories();
   });

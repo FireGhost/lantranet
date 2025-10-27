@@ -1,10 +1,9 @@
-import type { EventStream } from 'h3'
+import type { EventStream } from "h3";
 
 const activeConnections: Map<number, EventStream> = new Map();
 let currentConnectionId = 0;
 
 export const useSSE = {
-
   addConnection: (stream: EventStream) => {
     currentConnectionId++;
     activeConnections.set(currentConnectionId, stream);
@@ -18,10 +17,9 @@ export const useSSE = {
   broadcastDataUpdated: () => {
     for (const stream of activeConnections) {
       stream[1].push({
-        event: 'data-updated',
-        data: '1',
+        event: "data-updated",
+        data: "1",
       });
     }
-  }
-  
-}
+  },
+};

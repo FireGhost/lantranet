@@ -1,43 +1,43 @@
 <script setup lang="ts">
-import { Role } from '~~/prisma/generated/prisma/enums';
-import type { MenuItemModel, OrdersItemsCreateManyOrderInput } from '~~/prisma/generated/prisma/models';
+import { Role } from "~~/prisma/generated/prisma/enums";
+import type {
+  MenuItemModel,
+  OrdersItemsCreateManyOrderInput,
+} from "~~/prisma/generated/prisma/models";
 
 defineProps<{
-  menuItem: MenuItemModel
+  menuItem: MenuItemModel;
 }>();
 
 const emit = defineEmits<{
-  (e: 'addToCart', orderItem: OrdersItemsCreateManyOrderInput): void,
-  (e: 'menuItemsUpdated'): void,
+  (e: "addToCart", orderItem: OrdersItemsCreateManyOrderInput): void;
+  (e: "menuItemsUpdated"): void;
 }>();
 
 const { user } = useUserSession();
 
 const isAdmin = user.value?.role === Role.ADMIN;
 
-const orderComment = ref('');
+const orderComment = ref("");
 
 function deleteMenuItem(menuItemId: number) {
-  useApi(
-    `/api/buvette/menu-items/${menuItemId}`,
-    {
-      fetchOptions: {
-        method: 'DELETE',
-      },
-      successString: 'Item removed with success',
-      onSuccess: () => emit('menuItemsUpdated'),
-    }
-  );
+  useApi(`/api/buvette/menu-items/${menuItemId}`, {
+    fetchOptions: {
+      method: "DELETE",
+    },
+    successString: "Item removed with success",
+    onSuccess: () => emit("menuItemsUpdated"),
+  });
 }
 
 function addToCart(menuItem: MenuItemModel) {
-  emit('addToCart', {
+  emit("addToCart", {
     comment: orderComment.value,
     itemId: menuItem.id,
     nameAtOrder: menuItem.name,
     priceAtOrder: menuItem.price,
   });
-  orderComment.value = '';
+  orderComment.value = "";
 }
 </script>
 
@@ -55,24 +55,47 @@ function addToCart(menuItem: MenuItemModel) {
               </span>
             </template>
           </UPageFeature>
-          
+
           <UForm class="mt-8">
             <UFormField label="Commentaire">
-              <UTextarea v-model="orderComment" placeholder="Indiquez nous ce que vous voulez..." :rows="6" class="w-full" />
+              <UTextarea
+                v-model="orderComment"
+                placeholder="Indiquez nous ce que vous voulez..."
+                :rows="6"
+                class="w-full"
+              />
             </UFormField>
-            <UButton label="Ajouter au panier" type="submit" class="mt-2" @click="addToCart(menuItem); close()" />
+            <UButton
+              label="Ajouter au panier"
+              type="submit"
+              class="mt-2"
+              @click="
+                addToCart(menuItem);
+                close();
+              "
+            />
           </UForm>
         </UPage>
       </template>
     </UModal>
 
     <template v-if="isAdmin">
-      <UButton label="Edit" variant="soft" color="warning" class="ml-4" :to="`/buvette/menu-items/${menuItem.id}/edit`" />
+      <UButton
+        label="Edit"
+        variant="soft"
+        color="warning"
+        class="ml-4"
+        :to="`/buvette/menu-items/${menuItem.id}/edit`"
+      />
       <UModal title="Vous êtes sûr ?">
         <UButton label="Delete" variant="outline" color="error" class="ml-4" />
 
         <template #body>
-          <UButton label="Oui, supprime ça !" color="error" @click="deleteMenuItem(menuItem.id)" />
+          <UButton
+            label="Oui, supprime ça !"
+            color="error"
+            @click="deleteMenuItem(menuItem.id)"
+          />
         </template>
       </UModal>
     </template>

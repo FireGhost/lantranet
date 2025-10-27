@@ -1,59 +1,60 @@
 <script setup lang="ts">
-import type { SelectItem } from '@nuxt/ui';
-import type { LanDayModel, AnimationModel, UserModel } from '~~/prisma/generated/prisma/models';
+import type { SelectItem } from "@nuxt/ui";
+import type {
+  LanDayModel,
+  AnimationModel,
+  UserModel,
+} from "~~/prisma/generated/prisma/models";
 
 const props = defineProps<{
-  animation: Partial<AnimationModel>,
+  animation: Partial<AnimationModel>;
 }>();
 const animationState = ref(props.animation);
 
-const { data: users } = await useFetch('/api/users', {
-  transform: (data: UserModel[]): SelectItem[] => data.map((user) => ({
-    label: user.username,
-    value: user.id,
-  })),
+const { data: users } = await useFetch("/api/users", {
+  transform: (data: UserModel[]): SelectItem[] =>
+    data.map((user) => ({
+      label: user.username,
+      value: user.id,
+    })),
 });
-const { data: lanDays } = await useFetch('/api/lan-days', {
-  transform: (data: LanDayModel[]): SelectItem[] => data.map((lanDay) => ({
-    label: lanDay.name,
-    value: lanDay.id,
-  })),
+const { data: lanDays } = await useFetch("/api/lan-days", {
+  transform: (data: LanDayModel[]): SelectItem[] =>
+    data.map((lanDay) => ({
+      label: lanDay.name,
+      value: lanDay.id,
+    })),
 });
 
 const submitFunction = props.animation.id ? updateAnimation : createAnimation;
-const submitButtonText = props.animation.id ? 'Update' : 'Create';
+const submitButtonText = props.animation.id ? "Update" : "Create";
 
 function createAnimation() {
-  useApi(
-    '/api/animations', {
-      fetchOptions: {
-        method: 'POST',
-        body: animationState.value,
-      },
-      successString: 'Animation created with success !',
-      onSuccess: () => {
-        refreshNuxtData('animationsList');
-        navigateTo('/animations');
-      },
-    }
-  );
+  useApi("/api/animations", {
+    fetchOptions: {
+      method: "POST",
+      body: animationState.value,
+    },
+    successString: "Animation created with success !",
+    onSuccess: () => {
+      refreshNuxtData("animationsList");
+      navigateTo("/animations");
+    },
+  });
 }
 
 function updateAnimation() {
-  useApi(
-    `/api/animations/${props.animation.id}`,
-    {
-      fetchOptions: {
-        method: 'PUT',
-        body: animationState.value,
-      },
-      successString: 'Animation updated !',
-      onSuccess: () => {
-        refreshNuxtData('animationsList');
-        navigateTo(`/animations/${props.animation.id}`);
-      },
-    }
-  );
+  useApi(`/api/animations/${props.animation.id}`, {
+    fetchOptions: {
+      method: "PUT",
+      body: animationState.value,
+    },
+    successString: "Animation updated !",
+    onSuccess: () => {
+      refreshNuxtData("animationsList");
+      navigateTo(`/animations/${props.animation.id}`);
+    },
+  });
 }
 </script>
 
@@ -66,21 +67,33 @@ function updateAnimation() {
     <UFormField label="Short name">
       <UInput v-model="animationState.shortName" class="w-80" />
     </UFormField>
-    
+
     <UFormField label="Is team based">
       <USwitch v-model="animationState.isTeamed" />
     </UFormField>
-    
+
     <UFormField label="Description">
-      <UTextarea v-model="animationState.description" :rows="6" class="w-full" />
+      <UTextarea
+        v-model="animationState.description"
+        :rows="6"
+        class="w-full"
+      />
     </UFormField>
 
     <UFormField label="Admin user">
-      <USelect v-model="animationState.adminUserId" :items="users" class="w-80" />
+      <USelect
+        v-model="animationState.adminUserId"
+        :items="users"
+        class="w-80"
+      />
     </UFormField>
-    
+
     <UFormField label="Animation day">
-      <USelect v-model="animationState.lanDayId" :items="lanDays" class="w-80" />
+      <USelect
+        v-model="animationState.lanDayId"
+        :items="lanDays"
+        class="w-80"
+      />
     </UFormField>
 
     <UFormField label="Start time">

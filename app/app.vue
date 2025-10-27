@@ -1,19 +1,19 @@
 <script setup lang="ts">
-import type { NavigationMenuItem } from '@nuxt/ui';
-import { Role } from '~~/prisma/generated/prisma/enums';
+import type { NavigationMenuItem } from "@nuxt/ui";
+import { Role } from "~~/prisma/generated/prisma/enums";
 
 useHead({
   titleTemplate: (title) => {
-    return title ? `${title} - Lantranet` : 'Lantranet';
+    return title ? `${title} - Lantranet` : "Lantranet";
   },
 });
 
 const { loggedIn, clear: clearUserSession, user } = useUserSession();
 
-let eventSource: EventSource | null = null
+let eventSource: EventSource | null = null;
 onMounted(() => {
-  eventSource = new EventSource('/api/sse/connect');
-  eventSource.addEventListener('data-updated', () => {
+  eventSource = new EventSource("/api/sse/connect");
+  eventSource.addEventListener("data-updated", () => {
     refreshNuxtData();
   });
 });
@@ -27,19 +27,19 @@ onUnmounted(() => {
 const items = computed<NavigationMenuItem[]>(() => {
   const items: NavigationMenuItem[] = [
     {
-      label: 'Animations',
-      to: '/animations',
+      label: "Animations",
+      to: "/animations",
     },
     {
-      label: 'Buvette',
-      to: '/buvette',
-    }
+      label: "Buvette",
+      to: "/buvette",
+    },
   ];
 
   if (user.value?.role === Role.ADMIN) {
     items.push({
-      label: 'Admin',
-      to: '/admin',
+      label: "Admin",
+      to: "/admin",
     });
   }
 
@@ -48,7 +48,7 @@ const items = computed<NavigationMenuItem[]>(() => {
 
 async function logout() {
   await clearUserSession();
-  navigateTo('/login');
+  navigateTo("/login");
 }
 </script>
 
@@ -75,6 +75,5 @@ async function logout() {
         <NuxtPage />
       </NuxtLayout>
     </UMain>
-
   </UApp>
 </template>

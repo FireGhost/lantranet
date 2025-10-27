@@ -1,10 +1,10 @@
 <script setup lang="ts">
 useHead({
-  title: 'New animation',
+  title: "New animation",
 });
 
 definePageMeta({
-  layout: 'animations',
+  layout: "animations",
   middleware: "need-admin",
 });
 </script>

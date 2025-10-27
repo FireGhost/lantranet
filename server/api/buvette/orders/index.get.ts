@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
   if (query.withOrderItems) {
     orderIncludes.orderItems = true;
   }
-  
+
   return await usePrisma().order.findMany({
     include: orderIncludes,
   });

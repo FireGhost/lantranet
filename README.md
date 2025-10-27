@@ -4,6 +4,7 @@
 
 You will need Docker to start.
 Simply start the dev environment with:
+
 ```bash
 docker compose up -d
 ```

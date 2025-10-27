@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     userInclude.animationsAsPlayer = {
       include: {
         animation: true,
-      }
+      },
     };
   }
   if (query.withTeams) {
@@ -17,10 +17,10 @@ export default defineEventHandler(async (event) => {
       include: {
         team: {
           include: {
-            animation: true
-          }
-        }
-      }
+            animation: true,
+          },
+        },
+      },
     };
   }
 

@@ -2,29 +2,26 @@
 const { fetch: refreshUserSession } = useUserSession();
 
 useHead({
-  title: 'Register',
+  title: "Register",
 });
 
 const userLoginState = reactive<UserLogin>({
-  username: '',
-  password: '',
+  username: "",
+  password: "",
 });
 
 async function register() {
-  useApi(
-    '/api/register',
-    {
-      fetchOptions: {
-        method: 'POST',
-        body: userLoginState,
-      },
-      successString: 'Registration complete !',
-      onSuccess: () => {
-        refreshUserSession();
-        navigateTo('/');
-      }
-    }
-  );
+  useApi("/api/register", {
+    fetchOptions: {
+      method: "POST",
+      body: userLoginState,
+    },
+    successString: "Registration complete !",
+    onSuccess: () => {
+      refreshUserSession();
+      navigateTo("/");
+    },
+  });
 }
 </script>
 
@@ -38,8 +35,6 @@ async function register() {
       <UInput v-model="userLoginState.password" type="password" />
     </UFormField>
 
-    <UButton type="submit">
-      Register
-    </UButton>
+    <UButton type="submit"> Register </UButton>
   </UForm>
 </template>

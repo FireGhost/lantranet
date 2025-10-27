@@ -11,22 +11,22 @@ export const LanAnimationSchema = z.object({
 export type LanAnimation = z.infer<typeof LanAnimationSchema>;
 
 export const NewLanDaySchema = z.object({
-  name: z.string().nonempty('String must not be empty'),
+  name: z.string().nonempty("String must not be empty"),
 });
 export type NewLanDay = z.infer<typeof NewLanDaySchema>;
 
 export type SubscribePost = {
-  subscribe: boolean,
+  subscribe: boolean;
 };
 
 export type TeamScorePost = {
-  teamId: number,
-  score: number,
+  teamId: number;
+  score: number;
 };
 
 export type PlayerScorePost = {
-  playerId: number,
-  score: number,
+  playerId: number;
+  score: number;
 };
 
 export const UserLoginSchema = z.object({
@@ -36,8 +36,8 @@ export const UserLoginSchema = z.object({
 export type UserLogin = z.infer<typeof UserLoginSchema>;
 
 export type CartItem = {
-  menuItemId: number,
-  name: string,
-  price: number,
-  comment: string,
+  menuItemId: number;
+  name: string;
+  price: number;
+  comment: string;
 };

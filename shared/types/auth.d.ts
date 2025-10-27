@@ -1,11 +1,11 @@
-import type { Role } from "@prisma/client"
+import type { Role } from "@prisma/client";
 
 // Add custom fields to the auth session.
-declare module '#auth-utils' {
+declare module "#auth-utils" {
   interface User {
-    id: number,
-    username: string,
-    role: Role,
+    id: number;
+    username: string;
+    role: Role;
   }
 
   // eslint-disable-next-line @typescript-eslint/no-empty-object-type
@@ -19,4 +19,4 @@ declare module '#auth-utils' {
   }
 }
 
-export {}
+export {};

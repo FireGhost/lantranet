@@ -1,32 +1,29 @@
 <script setup lang="ts">
-import { useApi } from '~/composables/useApi';
+import { useApi } from "~/composables/useApi";
 
 useHead({
-  title: 'Login',
+  title: "Login",
 });
 
 const { fetch: refreshUserSession } = useUserSession();
 
 const userLoginState = reactive<UserLogin>({
-  username: '',
-  password: '',
+  username: "",
+  password: "",
 });
 
 async function login() {
-  useApi(
-    '/api/login',
-    {
-      fetchOptions: {
-        method: 'POST',
-        body: userLoginState
-      },
-      successString: 'You are logged in !',
-      onSuccess: async () => {
-        refreshUserSession();
-        navigateTo('/');
-      },
-    }
-  );
+  useApi("/api/login", {
+    fetchOptions: {
+      method: "POST",
+      body: userLoginState,
+    },
+    successString: "You are logged in !",
+    onSuccess: async () => {
+      refreshUserSession();
+      navigateTo("/");
+    },
+  });
 }
 </script>
 

@@ -5,7 +5,7 @@ export default defineEventHandler(async (event) => {
 
   const orderBy: OrderStatusOrderByWithRelationInput = {};
   if (query.orderByWeight) {
-    orderBy.weight = 'asc';
+    orderBy.weight = "asc";
   }
 
   return usePrisma().orderStatus.findMany({
