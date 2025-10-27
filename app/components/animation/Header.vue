@@ -8,8 +8,8 @@ const props = defineProps<{
 }>();
 
 defineEmits<{
-  (e: 'updatedTeams'): void,
-  (e: 'updatedPlayer'): void,
+  updatedTeams: [],
+  updatedPlayer: [],
 }>();
 
 if (props.animation.id === undefined) {
@@ -38,7 +38,7 @@ if (props.animation.id === undefined) {
     </template>
 
     <template #description>
-      <p style="white-space: pre-line;">
+      <p class="whitespace-pre-line">
         {{ animation.description }}
       </p>
     </template>

@@ -69,6 +69,7 @@ function toggleSubscriptionOpen() {
 </script>
 
 <template>
+  <div>
     <div v-if="isAdmin">
       <UButton label="Edit" :to="`/animations/${animation?.id}/edit`" />
       <UButton label="Toggle subscription" class="ml-4" @click="toggleSubscriptionOpen()" />
@@ -91,5 +92,5 @@ function toggleSubscriptionOpen() {
     <AnimationHeader :animation="animation" @updated-teams="refreshAnimation()" @updated-player="refreshAnimation()" />
 
     <AnimationContentColumns :animation="animation" />
-
+  </div>
 </template>

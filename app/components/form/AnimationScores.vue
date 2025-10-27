@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnimationGetPayload, AnimationsPlayersUpdateInput, TeamUpdateInput, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
+import type { AnimationGetPayload, AnimationsPlayersUpdateInput, TeamUpdateInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animation: Partial<AnimationGetPayload<{include: {
@@ -11,8 +11,8 @@ const props = defineProps<{
 }>();
 
 const emit = defineEmits<{
-  (e: 'playerScoreUpdated'): void,
-  (e: 'teamScoreUpdated'): void,
+  playerScoreUpdated: [],
+  teamScoreUpdated: [],
 }>();
 
 function saveScoreTeams() {

@@ -90,7 +90,7 @@ function updateOrderOrderStatus(keysSorted: string[]) {
 
 <template>
   <AdminFormSortableInputs
-    v-slot="{ item }"
+    v-slot="{ item: orderStatus }"
     :items="orderStatuses ?? []"
     id-key="id"
     :new-item="newOrderStatus"
@@ -99,14 +99,14 @@ function updateOrderOrderStatus(keysSorted: string[]) {
     @delete-item="deleteOrderStatus"
     @order-updated="updateOrderOrderStatus"
   >
-    <UInput v-model="item.name" placeholder="Status name" />
+    <UInput v-model="orderStatus.name" placeholder="Status name" />
 
-    <USelect v-model="item.color" :items="colors" placeholder="Select a color" class="w-48">
-      <template #item-leading="{ item }">
-        <UChip :color="(item as ChipProps['color'])" class="m-1" />
+    <USelect v-model="orderStatus.color" :items="colors" placeholder="Select a color" class="w-48">
+      <template #item-leading="{ item: color }">
+        <UChip :color="(color as ChipProps['color'])" class="m-1" />
       </template>
-      <template #leading="{ modelValue }">
-        <UChip v-if="modelValue" :color="(modelValue as ChipProps['color'])" class="m-1" />
+      <template #leading="{ modelValue: selectedColor }">
+        <UChip v-if="selectedColor" :color="(selectedColor as ChipProps['color'])" class="m-1" />
       </template>
     </USelect>
   </AdminFormSortableInputs>

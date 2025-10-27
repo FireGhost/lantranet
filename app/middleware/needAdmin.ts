@@ -1,6 +1,6 @@
 import { Role } from "~~/prisma/generated/prisma/enums";
 
-export default defineNuxtRouteMiddleware(async (to, from) => {
+export default defineNuxtRouteMiddleware(async () => {
   const { user } = useUserSession();
   if (user.value?.role !== Role.ADMIN) {
     showError({

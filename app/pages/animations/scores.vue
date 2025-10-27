@@ -13,11 +13,7 @@ definePageMeta({
 const { data: lanDays } = await useFetch<LanDayGetPayload<{
   include: {animations: true}
 }>[]>('/api/lan-days', {
-  query: {includeAnimations: true}
-});
-const lanDaysSorted = computed(() => {
-  lanDays.value?.forEach((lanDay) => lanDay.animations.sort((a, b) => a.weight - b.weight));
-  return lanDays.value?.sort((a, b) => a.weight - b.weight)
+  query: {includeAnimations: true, orderByWeight: true}
 });
 
 const { data: usersScores } = await useFetch<UserGetPayload<{
@@ -56,7 +52,7 @@ usersScores.value?.forEach((userScores) => {
     });
   }
 
-  lanDaysSorted.value?.forEach((lanDay) => {
+  lanDays.value?.forEach((lanDay) => {
     lanDay.animations.forEach((animation) => {
 
       if (firstLoop) {

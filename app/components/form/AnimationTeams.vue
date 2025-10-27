@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnimationGetPayload, PlayersTeamsCreateInput, PlayersTeamsUncheckedCreateWithoutTeamInput, TeamCreateInput, TeamCreateWithoutAnimationInput, TeamModel, TeamUpdateInput, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
+import type { AnimationGetPayload, PlayersTeamsCreateInput, TeamCreateInput, TeamModel, TeamUpdateInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animation: Partial<AnimationGetPayload<{include: {

@@ -2,7 +2,7 @@
 import { Role } from '~~/prisma/generated/prisma/enums';
 import type { MenuCategoryGetPayload, OrdersItemsCreateManyOrderInput } from '~~/prisma/generated/prisma/models';
 
-const emit = defineEmits<{
+defineEmits<{
   (e: 'addToCart', orderItem: OrdersItemsCreateManyOrderInput): void,
 }>()
 

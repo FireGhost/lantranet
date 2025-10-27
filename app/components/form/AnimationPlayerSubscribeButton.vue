@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnimationsPlayersCreateInput, AnimationsPlayersUncheckedCreateWithoutAnimationInput } from '~~/prisma/generated/prisma/models';
+import type { AnimationsPlayersCreateInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animationId: number,

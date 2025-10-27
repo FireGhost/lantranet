@@ -50,7 +50,9 @@ function addToCart(menuItem: MenuItemModel) {
         <UPage class="p-4">
           <UPageFeature :title="menuItem.name">
             <template #description>
-              <span v-html="menuItem.description?.replaceAll('\n', '<br />')" />
+              <span class="whitespace-pre-line">
+                {{ menuItem.description }}
+              </span>
             </template>
           </UPageFeature>
           

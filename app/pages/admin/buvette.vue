@@ -27,8 +27,10 @@ const todoOrders = computed(() => orders.value
 </script>
 
 <template>
-  <AdminBuvetteTodoTable :orders="todoOrders" @order-updated="refreshOrders()" />
-
-  <UPageHeader title="Done" />
-  <AdminBuvetteDoneTable :orders="doneOrders" />
+  <div>
+    <AdminBuvetteTodoTable :orders="todoOrders" @order-updated="refreshOrders()" />
+  
+    <UPageHeader title="Done" />
+    <AdminBuvetteDoneTable :orders="doneOrders" />
+  </div>
 </template>

@@ -8,13 +8,8 @@ const isAdmin = computed(() => user.value?.role === Role.ADMIN);
 const { data: lanDays } = await useFetch<LanDayGetPayload<{
   include: {animations: true}
 }>[]>('/api/lan-days', {
-  query: {includeAnimations: true},
+  query: {includeAnimations: true, orderByWeight: true},
   key: 'animationsList',
-});
-
-const lanDaysSorted = computed(() => {
-  lanDays.value?.forEach((lanDay) => lanDay.animations.sort((a, b) => a.weight - b.weight));
-  return lanDays.value?.sort((a, b) => a.weight - b.weight)
 });
 </script>
 
@@ -30,7 +25,7 @@ const lanDaysSorted = computed(() => {
             </template>
           </UPageCard>
 
-          <template v-for="lanDay in lanDaysSorted" :key="lanDay.id">
+          <template v-for="lanDay in lanDays" :key="lanDay.id">
             <UPageCard variant="soft" :title="lanDay.name" />
 
             <UPageCard v-for="animation in lanDay.animations" :key="animation.id" :to="`/animations/${animation.id}`">

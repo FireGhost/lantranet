@@ -3,7 +3,7 @@ import Sortable from 'sortablejs';
 
 type T = any;
 
-const props = defineProps<{
+defineProps<{
   items: T[],
   newItem: T,
   idKey: string,
