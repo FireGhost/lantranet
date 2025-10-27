@@ -1,4 +1,4 @@
-import { OrderStatusOrderByWithRelationInput } from "~~/prisma/generated/prisma/models";
+import type { OrderStatusOrderByWithRelationInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);

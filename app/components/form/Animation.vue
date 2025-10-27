@@ -58,7 +58,7 @@ function updateAnimation() {
 </script>
 
 <template>
-  <UForm @submit="submitFunction()" class="mr-8 mt-4">
+  <UForm class="mr-8 mt-4" @submit="submitFunction()">
     <UFormField label="Name">
       <UInput v-model="animationState.name" class="w-80" />
     </UFormField>
@@ -72,7 +72,7 @@ function updateAnimation() {
     </UFormField>
     
     <UFormField label="Description">
-      <UTextarea :rows="6" v-model="animationState.description" class="w-full" />
+      <UTextarea v-model="animationState.description" :rows="6" class="w-full" />
     </UFormField>
 
     <UFormField label="Admin user">

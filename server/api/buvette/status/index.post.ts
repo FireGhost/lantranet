@@ -1,4 +1,4 @@
-import { OrderStatusCreateInput } from "~~/prisma/generated/prisma/models";
+import type { OrderStatusCreateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   await needAdmin(event);

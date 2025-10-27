@@ -1,4 +1,4 @@
-import { LanDayCreateInput } from "~~/prisma/generated/prisma/models";
+import type { LanDayCreateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   await needAdmin(event);

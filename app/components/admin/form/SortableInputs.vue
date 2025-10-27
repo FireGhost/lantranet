@@ -34,18 +34,18 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="flex flex-col" :id="sortableElementId">
+  <div :id="sortableElementId" class="flex flex-col">
     <UFieldGroup v-for="item in items" :key="item[idKey]" :data-id="item[idKey]">
       <UBadge color="neutral" variant="outline" icon="i-lucide-arrow-down-up" class="sortable-handle cursor-grab px-2" />
 
       <slot :item="item" />
 
-      <UButton icon="i-lucide-save" size="sm" color="success" @click="$emit('updateItem', item)" class="px-3" />
+      <UButton icon="i-lucide-save" size="sm" color="success" class="px-3" @click="$emit('updateItem', item)" />
       <UButton icon="i-lucide-trash-2" size="sm" color="error" variant="outline" @click="$emit('deleteItem', item[idKey])" />
     </UFieldGroup>
   </div>
 
-  <UForm @submit="$emit('addItem', newItem)" class="mt-4">
+  <UForm class="mt-4" @submit="$emit('addItem', newItem)">
     <UFormField name="name">
       <UFieldGroup>
         <slot :item="newItem" />

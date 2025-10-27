@@ -93,7 +93,7 @@ function updateMenuItem() {
     </UFormField>
 
     <UFormField label="Category">
-      <USelect :items="menuCategories" v-model="menuItemState.categoryId" class="w-52" />
+      <USelect v-model="menuItemState.categoryId" :items="menuCategories" class="w-52" />
     </UFormField>
 
     <UButton type="submit" class="mt-4">{{ submitButtonText }}</UButton>

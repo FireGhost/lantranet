@@ -56,7 +56,7 @@ function saveScorePlayers() {
   <UForm v-if="animation.isTeamed">
     <UFieldGroup v-for="team in animation.teams" :key="team.id">
       <UBadge color="neutral" variant="outline" size="lg" :label="team.name" class="w-60"/>
-      <UInput color="neutral" variant="outline" class="w-16" type="number" v-model="team.score" />
+      <UInput v-model="team.score" color="neutral" variant="outline" class="w-16" type="number" />
     </UFieldGroup>
     
     <UFormField class="mt-4">
@@ -67,7 +67,7 @@ function saveScorePlayers() {
   <UForm v-else>
     <UFieldGroup v-for="playerSubscription in animation.players" :key="playerSubscription.playerId">
       <UBadge color="neutral" variant="outline" size="lg" :label="playerSubscription.player.username" class="w-60"/>
-      <UInput color="neutral" variant="outline" placeholder="Points" class="w-16" type="number" v-model="playerSubscription.score" />
+      <UInput v-model="playerSubscription.score" color="neutral" variant="outline" placeholder="Points" class="w-16" type="number" />
     </UFieldGroup>
     
     <UFormField class="mt-4">

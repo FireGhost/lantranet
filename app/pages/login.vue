@@ -38,7 +38,7 @@ async function login() {
       </UFormField>
 
       <UFormField label="Password" name="password">
-        <UInput type="password" v-model="userLoginState.password" />
+        <UInput v-model="userLoginState.password" type="password" />
       </UFormField>
 
       <UButton label="Login" type="submit" />

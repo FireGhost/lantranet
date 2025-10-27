@@ -1,4 +1,4 @@
-import { EventStream } from 'h3'
+import type { EventStream } from 'h3'
 
 const activeConnections: Map<number, EventStream> = new Map();
 let currentConnectionId = 0;

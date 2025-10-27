@@ -1,5 +1,5 @@
 import z from "zod";
-import { MenuCategoryUpdateInput } from "~~/prisma/generated/prisma/models";
+import type { MenuCategoryUpdateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   await needAdmin(event);

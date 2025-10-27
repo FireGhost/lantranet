@@ -1,4 +1,4 @@
-import { UserInclude } from "~~/prisma/generated/prisma/models";
+import type { UserInclude } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);

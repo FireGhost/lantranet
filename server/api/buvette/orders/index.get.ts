@@ -1,4 +1,4 @@
-import { OrderInclude } from "~~/prisma/generated/prisma/models";
+import type { OrderInclude } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);

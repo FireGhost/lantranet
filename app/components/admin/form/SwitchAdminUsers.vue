@@ -25,7 +25,7 @@ function onAdminChange(user: UserModel) {
     <UFieldGroup>
       <UBadge color="neutral" variant="outline" size="lg" :label="user.username" />
       <UBadge color="neutral" variant="outline">
-        <USwitch @change="onAdminChange(user)" :defaultValue="user.role === Role.ADMIN" />
+        <USwitch :default-value="user.role === Role.ADMIN" @change="onAdminChange(user)" />
       </UBadge>
     </UFieldGroup>
   </div>

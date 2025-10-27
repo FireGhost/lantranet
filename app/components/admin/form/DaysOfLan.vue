@@ -57,7 +57,10 @@ function createLanDay(newLanDay: LanDayCreateInput) {
   useApi('/api/lan-days', {
     fetchOptions: {
       method: 'POST',
-      body: newLanDay,
+      body: {
+        name: newLanDay.name,
+        weight: lanDaysSorted.value?.length ?? 0,
+      } satisfies LanDayCreateInput,
     },
     successString: 'New day added',
     onSuccess: () => {
@@ -70,10 +73,10 @@ function createLanDay(newLanDay: LanDayCreateInput) {
 
 <template>
   <AdminFormSortableInputs
+    v-slot="{ item }"
     :items="lanDaysSorted ?? []"
     id-key="id"
     :new-item="newLanDay"
-    v-slot="{ item }"
     @add-item="createLanDay"
     @update-item="updateLanDay"
     @delete-item="deleteLanDay"

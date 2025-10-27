@@ -1,4 +1,4 @@
-import { EventHandlerRequest, H3Event } from "h3";
+import type { EventHandlerRequest, H3Event } from "h3";
 import { Role } from "~~/prisma/generated/prisma/enums";
 
 export const needAdmin = async (event: H3Event<EventHandlerRequest>) => {

@@ -40,7 +40,7 @@ function indexToPos(index: number) {
 <template>
   <div class="flex w-full gap-16 justify-center flex-wrap">
     
-    <div class="w-54" v-if="animation.isTeamed">
+    <div v-if="animation.isTeamed" class="w-54">
       <UBanner title="Team inscrites" color="secondary" />
       <UPageList divide>
         <UPageCard v-for="team in animation.teams" :key="team.id" :highlight="myTeamId === team.id">
@@ -48,7 +48,7 @@ function indexToPos(index: number) {
         </UPageCard>
       </UPageList>
     </div>
-    <div class="w-54" v-else>
+    <div v-else class="w-54">
       <UBanner title="Inscrits" color="secondary" />
       <UPageList divide>
         <UPageCard v-for="player in animation.players" :key="player.playerId">

@@ -70,7 +70,8 @@ function updateNextStatus(order: typeof ordersImproved.value[number]) {
     </template>
 
     <template #content="{item}">
-      <UTable :data="item.orderItems.map((orderItem) => {
+      <UTable
+:data="item.orderItems.map((orderItem) => {
         return {name: orderItem.nameAtOrder, comment: orderItem.comment, price: `${orderItem.priceAtOrder} CHF`};
       })" />
     </template>

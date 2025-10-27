@@ -161,7 +161,7 @@ function updateMyTeamName(myTeam: TeamModel) {
     <UPageCard v-if="myTeamId === undefined">
       <UForm>
         <UFieldGroup>
-          <UInput placeholder="Créer une nouvelle équipe" v-model="newTeam.name" />
+          <UInput v-model="newTeam.name" placeholder="Créer une nouvelle équipe" />
           <UButton color="success" label="Créer" @click="createNewTeam()" />
         </UFieldGroup>
       </UForm>

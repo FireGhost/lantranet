@@ -13,7 +13,7 @@ const { loggedIn, clear: clearUserSession, user } = useUserSession();
 let eventSource: EventSource | null = null
 onMounted(() => {
   eventSource = new EventSource('/api/sse/connect');
-  eventSource.addEventListener('data-updated', (e) => {
+  eventSource.addEventListener('data-updated', () => {
     refreshNuxtData();
   });
 });

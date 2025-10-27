@@ -10,9 +10,11 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@nuxt/eslint": "^1.9.0",
     "@nuxt/ui": "^4.0.0",
     "@prisma/client": "^6.16.2",
     "better-sqlite3": "^12.4.1",
+    "eslint": "^9.38.0",
     "nuxt": "^4.1.2",
     "nuxt-auth-utils": "^0.5.25",
     "sortablejs": "^1.15.6",

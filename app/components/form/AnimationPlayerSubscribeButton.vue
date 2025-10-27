@@ -2,7 +2,7 @@
 import type { AnimationsPlayersCreateInput, AnimationsPlayersUncheckedCreateWithoutAnimationInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
-  animationId: Number,
+  animationId: number,
 }>();
 
 const emit = defineEmits<{

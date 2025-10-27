@@ -71,7 +71,7 @@ function toggleSubscriptionOpen() {
 <template>
     <div v-if="isAdmin">
       <UButton label="Edit" :to="`/animations/${animation?.id}/edit`" />
-      <UButton label="Toggle subscription" @click="toggleSubscriptionOpen()" class="ml-4" />
+      <UButton label="Toggle subscription" class="ml-4" @click="toggleSubscriptionOpen()" />
       <USlideover title="Manage scores">
         <UButton label="Manage scores" class="ml-4" />
 

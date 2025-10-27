@@ -1,5 +1,5 @@
 import z from "zod";
-import { TeamUpdateInput } from "~~/prisma/generated/prisma/models";
+import type { TeamUpdateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(event, z.object({

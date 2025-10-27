@@ -1,4 +1,4 @@
-import { PlayersTeamsCreateInput } from "~~/prisma/generated/prisma/models";
+import type { PlayersTeamsCreateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const body = await readBody<PlayersTeamsCreateInput>(event);

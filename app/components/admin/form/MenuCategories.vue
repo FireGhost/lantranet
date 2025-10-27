@@ -74,10 +74,10 @@ function updateOrderMenuCategories(newKeysOrder: string[]) {
 
 <template>
   <AdminFormSortableInputs
+    v-slot="{ item }"
     :items="menuCategories ?? []"
     id-key="id"
     :new-item="newMenuCategory"
-    v-slot="{ item }"
     @add-item="createMenuCategory"
     @update-item="updateMenuCategory"
     @delete-item="deleteMenuCategory"

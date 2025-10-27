@@ -35,7 +35,7 @@ async function register() {
     </UFormField>
 
     <UFormField label="Password" name="password">
-      <UInput type="password" v-model="userLoginState.password" />
+      <UInput v-model="userLoginState.password" type="password" />
     </UFormField>
 
     <UButton type="submit">

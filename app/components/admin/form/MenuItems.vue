@@ -36,7 +36,7 @@ function onMenuItemChange(menuItemId: number) {
     <UFieldGroup>
       <UBadge color="neutral" variant="outline" size="lg" :label="menuItem.name" />
       <UBadge color="neutral" variant="outline">
-        <USwitch @change="onMenuItemChange(menuItem.id)" :defaultValue="menuItem.isAvailable" />
+        <USwitch :default-value="menuItem.isAvailable" @change="onMenuItemChange(menuItem.id)" />
       </UBadge>
     </UFieldGroup>
   </div>

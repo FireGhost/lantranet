@@ -1,5 +1,5 @@
 import z from "zod";
-import { OrderStatusUpdateInput } from "~~/prisma/generated/prisma/models";
+import type { OrderStatusUpdateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   await needAdmin(event);

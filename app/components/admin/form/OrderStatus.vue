@@ -90,6 +90,7 @@ function updateOrderOrderStatus(keysSorted: string[]) {
 
 <template>
   <AdminFormSortableInputs
+    v-slot="{ item }"
     :items="orderStatuses ?? []"
     id-key="id"
     :new-item="newOrderStatus"
@@ -97,7 +98,6 @@ function updateOrderOrderStatus(keysSorted: string[]) {
     @update-item="updateOrderStatus"
     @delete-item="deleteOrderStatus"
     @order-updated="updateOrderOrderStatus"
-    v-slot="{ item }"
   >
     <UInput v-model="item.name" placeholder="Status name" />
 

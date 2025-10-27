@@ -56,7 +56,7 @@ function addToCart(menuItem: MenuItemModel) {
           
           <UForm class="mt-8">
             <UFormField label="Commentaire">
-              <UTextarea placeholder="Indiquez nous ce que vous voulez..." :rows="6" class="w-full" v-model="orderComment" />
+              <UTextarea v-model="orderComment" placeholder="Indiquez nous ce que vous voulez..." :rows="6" class="w-full" />
             </UFormField>
             <UButton label="Ajouter au panier" type="submit" class="mt-2" @click="addToCart(menuItem); close()" />
           </UForm>
