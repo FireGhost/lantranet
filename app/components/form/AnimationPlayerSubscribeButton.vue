@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnimationsPlayersUncheckedCreateWithoutAnimationInput } from '~~/prisma/generated/prisma/models';
+import type { AnimationsPlayersCreateInput, AnimationsPlayersUncheckedCreateWithoutAnimationInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animationId: Number,
@@ -43,8 +43,17 @@ function subscribeSolo() {
       fetchOptions: {
         method: 'POST',
         body: {
-          playerId: user.value.id,
-        } satisfies AnimationsPlayersUncheckedCreateWithoutAnimationInput,
+          animation: {
+            connect: {
+              id: Number(props.animationId)
+            }
+          },
+          player: {
+            connect: {
+              id: user.value.id,
+            }
+          }
+        } satisfies AnimationsPlayersCreateInput,
       },
       successString: 'Subscribed !',
       onSuccess: () => {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnimationGetPayload, AnimationsPlayersUpdateManyMutationInput, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
+import type { AnimationGetPayload, AnimationsPlayersUpdateInput, TeamUpdateInput, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animation: Partial<AnimationGetPayload<{include: {
@@ -18,13 +18,13 @@ const emit = defineEmits<{
 function saveScoreTeams() {
   for (const team of props.animation.teams ?? []) {
     useApi(
-      `/api/animations/${props.animation.id}/teams/${team.id}`,
+      `/api/teams/${team.id}`,
       {
         fetchOptions: {
           method: 'PUT',
           body: {
             score: team.score,
-          } satisfies TeamUpdateManyMutationInput,    
+          } satisfies TeamUpdateInput,    
         },
         successString: 'Teams scores saved',
         onSuccess: () => emit('teamScoreUpdated'),
@@ -42,7 +42,7 @@ function saveScorePlayers() {
           method: 'PUT',
           body: {
             score: playerAnimation.score,
-          } satisfies AnimationsPlayersUpdateManyMutationInput,    
+          } satisfies AnimationsPlayersUpdateInput,    
         },
         successString: 'Players scores saved',
         onSuccess: () => emit('playerScoreUpdated'),

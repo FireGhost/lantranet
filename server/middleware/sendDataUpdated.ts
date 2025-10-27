@@ -3,6 +3,7 @@ export default defineEventHandler(async (event) => {
     '/api/animation',
     '/api/buvette',
     '/api/lan-days',
+    '/api/teams',
     '/api/users',
   ];
 

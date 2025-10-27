@@ -1,5 +1,5 @@
 import z from "zod";
-import { LanDayCreateInput } from "~~/prisma/generated/prisma/models";
+import { LanDayUpdateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   await needAdmin(event);
@@ -8,7 +8,7 @@ export default defineEventHandler(async (event) => {
     lanDayId: z.coerce.number().positive(),
   }).parse);
   
-  const body = await readBody<LanDayCreateInput>(event);
+  const body = await readBody<LanDayUpdateInput>(event);
 
   await usePrisma().lanDay.update({
     data: body,

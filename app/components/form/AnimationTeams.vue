@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { AnimationGetPayload, PlayersTeamsUncheckedCreateWithoutTeamInput, TeamCreateWithoutAnimationInput, TeamModel, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
+import type { AnimationGetPayload, PlayersTeamsCreateInput, PlayersTeamsUncheckedCreateWithoutTeamInput, TeamCreateInput, TeamCreateWithoutAnimationInput, TeamModel, TeamUpdateInput, TeamUpdateManyMutationInput } from '~~/prisma/generated/prisma/models';
 
 const props = defineProps<{
   animation: Partial<AnimationGetPayload<{include: {
@@ -39,35 +39,34 @@ function createNewTeam() {
     return;
   }
 
-  useApi(
-    `/api/animations/${props.animation.id}/teams`,
-    {
-      fetchOptions: {
-        method: 'POST',
-        body: {
-          name: newTeam.value.name,
-        } satisfies TeamCreateWithoutAnimationInput,    
-      },
-      successString: 'New team created !',
-      onSuccess: () => {
-        emit('teamsUpdated');
-        newTeam.value.name = '';
-      },
-    }
-  );
+  useApi(`/api/teams`, {
+    fetchOptions: {
+      method: 'POST',
+      body: {
+        name: newTeam.value.name,
+        animation: {
+          connect: {
+            id: props.animation.id,
+          }
+        }
+      } satisfies TeamCreateInput,    
+    },
+    successString: 'New team created !',
+    onSuccess: () => {
+      emit('teamsUpdated');
+      newTeam.value.name = '';
+    },
+  });
 }
 
 function leaveTeam() {
-  useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeamId.value}/players/${user.value?.id}`,
-    {
-      fetchOptions: {
-        method: 'DELETE',
-      },
-      successString: 'You left the team',
-      onSuccess: () => emit('teamsUpdated'),
-    }
-  );
+  useApi(`/api/teams/${myTeamId.value}/players/${user.value?.id}`, {
+    fetchOptions: {
+      method: 'DELETE',
+    },
+    successString: 'You left the team',
+    onSuccess: () => emit('teamsUpdated'),
+  });
 }
 
 function joinTeam(teamId: number) {
@@ -78,48 +77,48 @@ function joinTeam(teamId: number) {
     return;
   }
 
-  useApi(
-    `/api/animations/${props.animation.id}/teams/${teamId}/players`,
-    {
-      fetchOptions: {
-        method: 'POST',
-        body: {
-          playerId: user.value.id
-        } satisfies PlayersTeamsUncheckedCreateWithoutTeamInput,    
-      },
-      successString: 'You joined a team',
-      onSuccess: () => emit('teamsUpdated'),
-    }
-  );
+  useApi(`/api/teams/${teamId}/players`, {
+    fetchOptions: {
+      method: 'POST',
+      body: {
+        player: {
+          connect: {
+            id: user.value.id
+          }
+        },
+        team: {
+          connect: {
+            id: teamId
+          }
+        }
+      } satisfies PlayersTeamsCreateInput,    
+    },
+    successString: 'You joined a team',
+    onSuccess: () => emit('teamsUpdated'),
+  });
 }
 
 function deleteMyTeam() {
-  useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeamId.value}`,
-    {
-      fetchOptions: {
-        method: 'DELETE',
-      },
-      successString: 'You deleted the team',
-      onSuccess: () => emit('teamsUpdated'),
-    }
-  );
+  useApi(`/api/teams/${myTeamId.value}`, {
+    fetchOptions: {
+      method: 'DELETE',
+    },
+    successString: 'You deleted the team',
+    onSuccess: () => emit('teamsUpdated'),
+  });
 }
 
 function updateMyTeamName(myTeam: TeamModel) {
-  useApi(
-    `/api/animations/${props.animation.id}/teams/${myTeamId.value}`,
-    {
-      fetchOptions: {
-        method: 'PUT',
-        body: {
-          name: myTeam.name,
-        } satisfies TeamUpdateManyMutationInput,
-      },
-      successString: 'You updated the team',
-      onSuccess: () => emit('teamsUpdated'),
-    }
-  );
+  useApi(`/api/teams/${myTeamId.value}`, {
+    fetchOptions: {
+      method: 'PUT',
+      body: {
+        name: myTeam.name,
+      } satisfies TeamUpdateInput,
+    },
+    successString: 'You updated the team',
+    onSuccess: () => emit('teamsUpdated'),
+  });
 }
 </script>
 

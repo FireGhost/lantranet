@@ -2,14 +2,16 @@ import z from "zod";
 
 export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(event, z.object({
-    animationId: z.coerce.number().positive(),
     teamId: z.coerce.number().positive(),
+    playerId: z.coerce.number().positive(),
   }).parse);
 
-  await usePrisma().team.delete({
+  return await usePrisma().playersTeams.findUnique({
     where: {
-      id: params.teamId,
-      animationId: params.animationId,
+      teamId_playerId: {
+        playerId: params.playerId,
+        teamId: params.teamId,
+      }
     }
   });
 });

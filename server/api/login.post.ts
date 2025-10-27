@@ -18,7 +18,6 @@ export default defineEventHandler(async (event) => {
         role: user.role,
       },
     });
-    return {};
   }
   else {
     throw createError('Bad credentials');

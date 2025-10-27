@@ -2,7 +2,10 @@ import z from "zod";
 import type { AnimationInclude } from "~~/prisma/generated/prisma/models"
 
 export default defineEventHandler(async(event) => {
-  const params = await getValidatedRouterParams(event, z.object({animationId: z.coerce.number().positive()}).parse);
+  const params = await getValidatedRouterParams(event, z.object({
+    animationId: z.coerce.number().positive()
+  }).parse);
+  
   const query = getQuery(event);
 
   const includeData: AnimationInclude = {};

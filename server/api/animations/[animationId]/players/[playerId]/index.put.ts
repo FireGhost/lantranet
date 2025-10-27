@@ -1,5 +1,5 @@
 import z from "zod";
-import { AnimationsPlayersUpdateManyMutationInput } from "~~/prisma/generated/prisma/models";
+import { AnimationsPlayersUpdateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(event, z.object({
@@ -7,7 +7,7 @@ export default defineEventHandler(async (event) => {
     playerId: z.coerce.number().positive(),
   }).parse);
 
-  const body = await readBody<AnimationsPlayersUpdateManyMutationInput>(event);
+  const body = await readBody<AnimationsPlayersUpdateInput>(event);
 
   await usePrisma().animationsPlayers.update({
     data: body,

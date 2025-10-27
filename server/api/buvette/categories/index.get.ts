@@ -13,7 +13,7 @@ export default defineEventHandler(async (event) => {
     orderBy.weight = "asc";
   }
 
-  return usePrisma().menuCategory.findMany({
+  return await usePrisma().menuCategory.findMany({
     include: menuCategoryInclude,
     orderBy: orderBy,
   });

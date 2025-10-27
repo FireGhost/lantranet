@@ -5,11 +5,6 @@ export default defineEventHandler(async (event) => {
   
   const body = await readBody<LanDayCreateInput>(event);
 
-  if (!body.weight) {
-    const weight = await usePrisma().lanDay.count();
-    body.weight = weight;
-  }
-
   await usePrisma().lanDay.create({
     data: body,
   });

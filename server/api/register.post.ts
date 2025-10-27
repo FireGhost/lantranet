@@ -30,5 +30,4 @@ export default defineEventHandler(async (event) => {
       role: user.role,
     },
   });
-  return {};
 });

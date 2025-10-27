@@ -1,13 +1,14 @@
-import { LanDayFindManyArgs } from "~~/prisma/generated/prisma/models";
+import { LanDayInclude } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
 
-  const findArgs: LanDayFindManyArgs = {};
+  const lanDayIncludes: LanDayInclude = {};
   if (query.includeAnimations) {
-    findArgs.include = {
-      animations: true,
-    };
+    lanDayIncludes.animations = true;
   }
-  return usePrisma().lanDay.findMany(findArgs);
+
+  return usePrisma().lanDay.findMany({
+    include: lanDayIncludes,
+  });
 });
