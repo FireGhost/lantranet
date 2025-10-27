@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { AnimationModel } from '~~/prisma/generated/prisma/models';
 
+useHead({
+  title: 'Edit animation',
+});
+
 definePageMeta({
   layout: 'animations',
   middleware: "need-admin",

@@ -2,6 +2,12 @@
 import type { NavigationMenuItem } from '@nuxt/ui';
 import { Role } from '~~/prisma/generated/prisma/enums';
 
+useHead({
+  titleTemplate: (title) => {
+    return title ? `${title} - Lantranet` : 'Lantranet';
+  },
+});
+
 const { loggedIn, clear: clearUserSession, user } = useUserSession();
 
 let eventSource: EventSource | null = null

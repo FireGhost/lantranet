@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { OrderCreateInput, OrdersItemsCreateManyOrderInput } from '~~/prisma/generated/prisma/models';
 
+useHead({
+  title: 'Buvette',
+});
+
 definePageMeta({
   layout: 'buvette',
 });

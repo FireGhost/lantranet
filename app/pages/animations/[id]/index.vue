@@ -23,6 +23,10 @@ const { data: animation, refresh: refreshAnimation } = await useFetch<Partial<An
   default: () => ref({}),
 });
 
+useHead({
+  title: animation.value.shortName ?? animation.value.name,
+});
+
 function deleteAnimation() {
   useApi(
     `/api/animations/${route.params.id}`,

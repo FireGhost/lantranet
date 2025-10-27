@@ -2,6 +2,10 @@
 import type { TableColumn } from '@nuxt/ui';
 import type { LanDayGetPayload, UserGetPayload } from '~~/prisma/generated/prisma/models';
 
+useHead({
+  title: 'Scores',
+});
+
 definePageMeta({
   layout: 'animations',
 });

@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import type { OrderGetPayload } from '~~/prisma/generated/prisma/models';
 
+useHead({
+  title: 'Buvette admin',
+});
+
 const { data: orders, refresh: refreshOrders } = await useFetch<OrderGetPayload<{
   include: {
     orderItems: true,

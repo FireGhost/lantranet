@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { useApi } from '~/composables/useApi';
 
+useHead({
+  title: 'Login',
+});
+
 const { fetch: refreshUserSession } = useUserSession();
 
 const userLoginState = reactive<UserLogin>({

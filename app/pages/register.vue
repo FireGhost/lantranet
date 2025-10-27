@@ -1,6 +1,10 @@
 <script setup lang="ts">
 const { fetch: refreshUserSession } = useUserSession();
 
+useHead({
+  title: 'Register',
+});
+
 const userLoginState = reactive<UserLogin>({
   username: '',
   password: '',
