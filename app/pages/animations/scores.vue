@@ -64,8 +64,6 @@ usersScores.value?.forEach((userScores) => {
       
       let score = 0;
       if (animation.isTeamed) {
-        console.log(userScores.teams);
-
         score = userScores
           .teams
           .find((userTeam) => userTeam.team.animationId === animation.id)
@@ -73,8 +71,6 @@ usersScores.value?.forEach((userScores) => {
           .score ?? 0;
       }
       else {
-        console.log(userScores.animationsAsPlayer);
-
         score = userScores
           .animationsAsPlayer
           .find((animationAsPlayer) => animationAsPlayer.animationId === animation.id)

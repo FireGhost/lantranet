@@ -7,10 +7,12 @@
     "dev": "nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "lint": "eslint .",
+    "prettier": "prettier . --check",
+    "prettier:write": "prettier . --write"
   },
   "dependencies": {
-    "@nuxt/eslint": "^1.9.0",
     "@nuxt/ui": "^4.0.0",
     "@prisma/client": "^6.16.2",
     "better-sqlite3": "^12.4.1",
@@ -24,8 +26,10 @@
   },
   "devDependencies": {
     "@iconify-json/lucide": "^1.2.68",
+    "@nuxt/eslint": "^1.9.0",
     "@types/node": "^24.5.2",
     "@types/sortablejs": "^1.15.8",
+    "prettier": "^3.6.2",
     "prisma": "^6.16.2",
     "tsx": "^4.20.6",
     "typescript": "^5.9.2",
