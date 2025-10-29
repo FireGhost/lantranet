@@ -9,7 +9,7 @@ export default defineEventHandler(async (event) => {
     }).parse,
   );
 
-  const body = readBody<UserUpdateInput>(event);
+  const body = await readBody<UserUpdateInput>(event);
 
   await usePrisma().user.update({
     data: body,
