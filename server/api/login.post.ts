@@ -16,13 +16,18 @@ export default defineEventHandler(async (event) => {
     },
     where: {
       id: user.id,
-    }
+    },
   });
   if (!fullUser) {
     throw createError("Bad credentials");
   }
 
-  if (await verifyPassword(fullUser.passwordHash, body.password.concat(fullUser.salt))) {
+  if (
+    await verifyPassword(
+      fullUser.passwordHash,
+      body.password.concat(fullUser.salt),
+    )
+  ) {
     await setUserSession(event, {
       user: {
         id: user.id,

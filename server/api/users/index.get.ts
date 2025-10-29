@@ -29,6 +29,6 @@ export default defineEventHandler(async (event) => {
     omit: {
       passwordHash: true,
       salt: true,
-    }
+    },
   });
 });

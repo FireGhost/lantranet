@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { TableColumn } from "@nuxt/ui";
+import type { TableColumn, TableData } from "@nuxt/ui";
 import type {
   LanDayGetPayload,
   UserGetPayload,
@@ -46,7 +46,7 @@ const { data: usersScores } = await useFetch<
 
 let firstLoop = true;
 const data = ref<{ username: string; scoreTotal: number }[]>([]);
-const columns: TableColumn<any>[] = [];
+const columns: TableColumn<TableData>[] = [];
 usersScores.value?.forEach((userScores) => {
   const userData: any = {};
   let scoreTotal = 0;

@@ -35,7 +35,7 @@ onMounted(() => {
   <div :id="sortableElementId" class="flex flex-col">
     <UFieldGroup
       v-for="item in items"
-      :key="(item[idKey] as PropertyKey)"
+      :key="item[idKey] as PropertyKey"
       :data-id="item[idKey]"
     >
       <UBadge

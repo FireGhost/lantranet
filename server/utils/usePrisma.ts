@@ -6,27 +6,31 @@ const prisma = new PrismaClient({
     user: {
       passwordHash: true,
       salt: true,
-    }
-  }
+    },
+  },
 }).$extends({
-  name: 'usernameLowercase',
+  name: "usernameLowercase",
   result: {
     user: {
       usernameLowercase: {
         needs: { username: true },
         compute: (user) => {
-          return user.username.toLowerCase()
-        }
-      }
-    }
+          return user.username.toLowerCase();
+        },
+      },
+    },
   },
   model: {
     user: {
       async findByUsernameCI(usernameToFind: string) {
         const users = await prisma.user.findMany();
-        return users.find((value) => usernameToFind.toLowerCase() === value.usernameLowercase) ?? false;
-      }
-    }
+        return (
+          users.find(
+            (value) => usernameToFind.toLowerCase() === value.usernameLowercase,
+          ) ?? false
+        );
+      },
+    },
   },
 });
 

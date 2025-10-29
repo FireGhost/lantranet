@@ -30,12 +30,12 @@ const newOrderStatus = reactive<Partial<OrderStatusModel>>({});
 function addOrderStatus(newOrderStatus: Partial<OrderStatusModel>) {
   if (!newOrderStatus.color || !newOrderStatus.name) {
     toast.add({
-      title: 'Please enter a name and select a color',
-      color: 'error',
+      title: "Please enter a name and select a color",
+      color: "error",
     });
     return;
   }
-  
+
   useApi("/api/buvette/status", {
     fetchOptions: {
       method: "POST",

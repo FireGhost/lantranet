@@ -63,8 +63,8 @@ function updateLanDay(lanDay: Partial<LanDayModel>) {
 function createLanDay(newLanDay: Partial<LanDayModel>) {
   if (!newLanDay.name) {
     toast.add({
-      title: 'Please enter a day name',
-      color: 'error',
+      title: "Please enter a day name",
+      color: "error",
     });
     return;
   }

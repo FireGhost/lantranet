@@ -18,8 +18,8 @@ const newMenuCategory = reactive<Partial<MenuCategoryModel>>({});
 function createMenuCategory(newMenuCategory: Partial<MenuCategoryModel>) {
   if (!newMenuCategory.name) {
     toast.add({
-      title: 'Please enter a category name',
-      color: 'error',
+      title: "Please enter a category name",
+      color: "error",
     });
     return;
   }
