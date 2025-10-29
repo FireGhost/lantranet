@@ -90,6 +90,7 @@ model MenuItem {
 }
 
 model OrdersItems {
+  id            Int         @id @default(autoincrement())
   item          MenuItem    @relation(fields: [itemId], references: [id])
   itemId        Int
   order         Order       @relation(fields: [orderId], references: [id])
@@ -97,8 +98,6 @@ model OrdersItems {
   priceAtOrder  Float
   nameAtOrder   String
   comment       String?
-
-  @@id([itemId, orderId])
 }
 
 model Order {

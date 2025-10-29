@@ -9,7 +9,7 @@ definePageMeta({
 </script>
 
 <template>
-  <div class="flex mt-4 gap-4 flex-wrap">
+  <div class="flex pt-4 gap-4 flex-wrap">
     <UCard class="w-fit">
       <template #header>Days of lan</template>
       <AdminFormDaysOfLan />
