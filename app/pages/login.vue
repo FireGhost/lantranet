@@ -28,17 +28,19 @@ async function login() {
 </script>
 
 <template>
-  <UPageCard title="Login">
-    <UForm @submit="login()">
-      <UFormField label="Username" name="username">
-        <UInput v-model="userLoginState.username" />
-      </UFormField>
+  <div class="pt-4">
+    <UPageCard title="Login" class="w-fit m-auto">
+      <UForm @submit="login()">
+        <UFormField label="Username" name="username">
+          <UInput v-model="userLoginState.username" autofocus />
+        </UFormField>
 
-      <UFormField label="Password" name="password">
-        <UInput v-model="userLoginState.password" type="password" />
-      </UFormField>
+        <UFormField label="Password" name="password" class="mt-2">
+          <UInput v-model="userLoginState.password" type="password" />
+        </UFormField>
 
-      <UButton label="Login" type="submit" />
-    </UForm>
-  </UPageCard>
+        <UButton label="Login" type="submit" class="mt-4" />
+      </UForm>
+    </UPageCard>
+  </div>
 </template>

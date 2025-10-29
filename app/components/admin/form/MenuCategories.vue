@@ -13,14 +13,22 @@ const { data: menuCategories, refresh: refreshMenuCategories } = await useFetch<
   query: { orderByWeight: true },
 });
 
-const newMenuCategory = reactive<Partial<MenuCategoryCreateInput>>({});
+const newMenuCategory = reactive<Partial<MenuCategoryModel>>({});
 
-function createMenuCategory(newMenuCategory: MenuCategoryCreateInput) {
+function createMenuCategory(newMenuCategory: Partial<MenuCategoryModel>) {
+  if (!newMenuCategory.name) {
+    toast.add({
+      title: 'Please enter a category name',
+      color: 'error',
+    });
+    return;
+  }
+
   useApi("/api/buvette/categories", {
     fetchOptions: {
       method: "POST",
       body: {
-        ...newMenuCategory,
+        name: newMenuCategory.name,
         weight: menuCategories.value?.length ?? 0,
       } satisfies MenuCategoryCreateInput,
     },
@@ -45,7 +53,7 @@ function updateMenuCategory(menuCategory: MenuCategoryModel) {
   });
 }
 
-function deleteMenuCategory(menuCategoryId: string) {
+function deleteMenuCategory(menuCategoryId: number) {
   useApi(`/api/buvette/categories/${menuCategoryId}`, {
     fetchOptions: {
       method: "DELETE",

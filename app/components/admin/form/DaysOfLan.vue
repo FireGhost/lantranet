@@ -13,9 +13,9 @@ const lanDaysSorted = computed(() =>
   lanDays.value?.toSorted((a, b) => a.weight - b.weight),
 );
 
-const newLanDay = reactive<Partial<LanDayCreateInput>>({});
+const newLanDay = reactive<Partial<LanDayModel>>({});
 
-function deleteLanDay(lanDayId: string) {
+function deleteLanDay(lanDayId: number) {
   useApi(`/api/lan-days/${lanDayId}`, {
     fetchOptions: {
       method: "DELETE",
@@ -47,7 +47,7 @@ function lanDayOrderUpdated(newKeysOrder: string[]) {
   });
 }
 
-function updateLanDay(lanDay: LanDayModel) {
+function updateLanDay(lanDay: Partial<LanDayModel>) {
   useApi(`/api/lan-days/${lanDay.id}`, {
     fetchOptions: {
       method: "PUT",
@@ -60,7 +60,15 @@ function updateLanDay(lanDay: LanDayModel) {
   });
 }
 
-function createLanDay(newLanDay: LanDayCreateInput) {
+function createLanDay(newLanDay: Partial<LanDayModel>) {
+  if (!newLanDay.name) {
+    toast.add({
+      title: 'Please enter a day name',
+      color: 'error',
+    });
+    return;
+  }
+
   useApi("/api/lan-days", {
     fetchOptions: {
       method: "POST",

@@ -26,5 +26,9 @@ export default defineEventHandler(async (event) => {
 
   return usePrisma().user.findMany({
     include: userInclude,
+    omit: {
+      passwordHash: true,
+      salt: true,
+    }
   });
 });

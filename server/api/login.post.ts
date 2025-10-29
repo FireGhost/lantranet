@@ -1,18 +1,28 @@
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, UserLoginSchema.parse);
 
-  const user = await usePrisma().user.findUnique({
-    where: {
-      username: body.username,
-    },
-  });
+  const user = await usePrisma().user.findByUsernameCI(body.username);
   if (!user) {
     throw createError("Bad credentials");
   }
 
-  if (
-    await verifyPassword(user.passwordHash, body.password.concat(user.salt))
-  ) {
+  const fullUser = await usePrisma().user.findFirst({
+    select: {
+      id: true,
+      username: true,
+      role: true,
+      passwordHash: true,
+      salt: true,
+    },
+    where: {
+      id: user.id,
+    }
+  });
+  if (!fullUser) {
+    throw createError("Bad credentials");
+  }
+
+  if (await verifyPassword(fullUser.passwordHash, body.password.concat(fullUser.salt))) {
     await setUserSession(event, {
       user: {
         id: user.id,

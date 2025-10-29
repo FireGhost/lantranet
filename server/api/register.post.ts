@@ -14,6 +14,10 @@ export default defineEventHandler(async (event) => {
     role = Role.ADMIN;
   }
 
+  if (await usePrisma().user.findByUsernameCI(body.username)) {
+    throw createError("Username already exists");
+  }
+
   const user = await usePrisma().user.create({
     data: {
       username: body.username,

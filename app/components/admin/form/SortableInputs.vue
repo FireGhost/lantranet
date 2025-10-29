@@ -1,19 +1,17 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="T extends object, K extends keyof T">
 import Sortable from "sortablejs";
-
-type T = any;
 
 defineProps<{
   items: T[];
-  newItem: T;
-  idKey: string;
+  newItem: Partial<T>;
+  idKey: K;
 }>();
 
 const emit = defineEmits<{
-  orderUpdated: [keysSorted: string[]];
+  orderUpdated: [keysSorted: Array<string>];
   updateItem: [item: T];
-  deleteItem: [itemId: string];
-  addItem: [newItem: T];
+  deleteItem: [itemId: T[K]];
+  addItem: [newItem: Partial<T>];
 }>();
 
 const sortableElementId = "sortable-" + useId();
@@ -37,7 +35,7 @@ onMounted(() => {
   <div :id="sortableElementId" class="flex flex-col">
     <UFieldGroup
       v-for="item in items"
-      :key="item[idKey]"
+      :key="(item[idKey] as PropertyKey)"
       :data-id="item[idKey]"
     >
       <UBadge

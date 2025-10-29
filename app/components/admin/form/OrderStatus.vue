@@ -25,14 +25,23 @@ const { data: orderStatuses, refresh: refreshOrderStatus } = await useFetch<
   deep: true,
 });
 
-const newOrderStatus = reactive<Partial<OrderStatusCreateInput>>({});
+const newOrderStatus = reactive<Partial<OrderStatusModel>>({});
 
-function addOrderStatus(newOrderStatus: OrderStatusCreateInput) {
+function addOrderStatus(newOrderStatus: Partial<OrderStatusModel>) {
+  if (!newOrderStatus.color || !newOrderStatus.name) {
+    toast.add({
+      title: 'Please enter a name and select a color',
+      color: 'error',
+    });
+    return;
+  }
+  
   useApi("/api/buvette/status", {
     fetchOptions: {
       method: "POST",
       body: {
-        ...newOrderStatus,
+        color: newOrderStatus.color,
+        name: newOrderStatus.name,
         weight: orderStatuses.value?.length ?? 0,
       } satisfies OrderStatusCreateInput,
     },
@@ -61,7 +70,7 @@ function updateOrderStatus(orderStatus: OrderStatusModel) {
   });
 }
 
-function deleteOrderStatus(orderStatusId: string) {
+function deleteOrderStatus(orderStatusId: number) {
   useApi(`/api/buvette/status/${orderStatusId}`, {
     fetchOptions: {
       method: "DELETE",
