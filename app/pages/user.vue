@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { UserUpdateInput } from '~~/prisma/generated/prisma/models';
-import { PasswordChangeSchema, type PasswordChangeInput } from '~~/shared/types';
 
 const toast = useToast();
 const { user, fetch: refreshUser } = useUserSession();

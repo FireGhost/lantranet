@@ -5,16 +5,13 @@ useHead({
   title: "Register",
 });
 
-const userLoginState = reactive<UserLogin>({
-  username: "",
-  password: "",
-});
+const userRegisterState = reactive<Partial<UserRegisterInput>>({});
 
 async function register() {
   useApi("/api/register", {
     fetchOptions: {
       method: "POST",
-      body: userLoginState,
+      body: userRegisterState,
     },
     successString: "Registration complete !",
     onSuccess: () => {
@@ -28,13 +25,17 @@ async function register() {
 <template>
   <div class="pt-4">
     <UPageCard highlight title="Register a new user" class="w-fit m-auto mt-4">
-      <UForm @submit="register()">
+      <UForm :schema="UserRegisterSchema" :state="userRegisterState" @submit="register()">
         <UFormField label="Username" name="username">
-          <UInput v-model="userLoginState.username" />
+          <UInput v-model="userRegisterState.username" />
         </UFormField>
 
         <UFormField label="Password" name="password" class="mt-2">
-          <UInput v-model="userLoginState.password" type="password" />
+          <UInput v-model="userRegisterState.password" type="password" />
+        </UFormField>
+
+        <UFormField label="Password confirmation" name="passwordConfirm" class="mt-2">
+          <UInput v-model="userRegisterState.passwordConfirm" type="password" />
         </UFormField>
 
         <UButton type="submit" class="mt-4">Register</UButton>

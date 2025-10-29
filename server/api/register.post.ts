@@ -2,7 +2,7 @@ import { Role } from "~~/prisma/generated/prisma/enums";
 import { randomBytes } from "crypto";
 
 export default defineEventHandler(async (event) => {
-  const body = await readValidatedBody(event, UserLoginSchema.parse);
+  const body = await readValidatedBody(event, UserRegisterSchema.parse);
 
   const salt = randomBytes(16).toString("hex");
   const hashedPassword = await hashPassword(body.password.concat(salt));

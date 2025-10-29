@@ -1,6 +1,5 @@
 import { randomBytes } from "crypto";
 import z from "zod";
-import type { PasswordChangeInput } from "~~/shared/types";
 
 export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(
