@@ -62,6 +62,7 @@ async function logout() {
       <template #right>
         <template v-if="loggedIn">
           <ULink to="/user" variant="link" class="mr-2">{{ user?.username }}</ULink>
+          <UColorModeButton class="mr-2" />
           <UButton @click="logout()">Logout</UButton>
         </template>
         <template v-else>
