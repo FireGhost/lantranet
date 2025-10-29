@@ -41,3 +41,13 @@ export type CartItem = {
   price: number;
   comment: string;
 };
+
+export const PasswordChangeSchema = z.object({
+  currentPassword: z.string().min(8),
+  newPassword: z.string().min(8),
+  newPasswordValidation: z.string().min(8),
+}).refine((args) => args.newPassword === args.newPasswordValidation, {
+  error: 'Password validation does not match the new password',
+  path: ['newPasswordValidation'],
+});
+export type PasswordChangeInput = z.infer<typeof PasswordChangeSchema>;
