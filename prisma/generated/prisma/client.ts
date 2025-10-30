@@ -98,3 +98,8 @@ export type OrderStatus = Prisma.OrderStatusModel
  * 
  */
 export type MenuCategory = Prisma.MenuCategoryModel
+/**
+ * Model SettingsStrings
+ * 
+ */
+export type SettingsStrings = Prisma.SettingsStringsModel

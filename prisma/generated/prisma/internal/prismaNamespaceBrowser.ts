@@ -29,7 +29,8 @@ export const ModelName = {
   OrdersItems: 'OrdersItems',
   Order: 'Order',
   OrderStatus: 'OrderStatus',
-  MenuCategory: 'MenuCategory'
+  MenuCategory: 'MenuCategory',
+  SettingsStrings: 'SettingsStrings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -159,6 +160,14 @@ export const MenuCategoryScalarFieldEnum = {
 } as const
 
 export type MenuCategoryScalarFieldEnum = (typeof MenuCategoryScalarFieldEnum)[keyof typeof MenuCategoryScalarFieldEnum]
+
+
+export const SettingsStringsScalarFieldEnum = {
+  key: 'key',
+  value: 'value'
+} as const
+
+export type SettingsStringsScalarFieldEnum = (typeof SettingsStringsScalarFieldEnum)[keyof typeof SettingsStringsScalarFieldEnum]
 
 
 export const SortOrder = {

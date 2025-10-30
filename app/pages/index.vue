@@ -2,11 +2,17 @@
 useHead({
   title: "Home",
 });
+
+const settingsStrings = useSettingsStrings();
+
+const homepageTitle = await settingsStrings.get('homepage-title');
+const homepageContent = await settingsStrings.get('homepage-content');
 </script>
 
 <template>
   <UPageHero
-    title="Lanaconda 35000"
-    description="Bienvenu à la 35'000ème lanaconda !"
+    :title="homepageTitle"
+    :description="homepageContent"
+    class="whitespace-pre-wrap"
   />
 </template>

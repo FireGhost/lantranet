@@ -9,8 +9,8 @@ definePageMeta({
 </script>
 
 <template>
-  <div>
-    <AdminFormSeparator title="Lan administration">
+  <div class="pb-4">
+    <AdminFormSeparator title="Lan">
       <UCard class="w-fit">
         <template #header>Days of lan</template>
         <AdminFormDaysOfLan />
@@ -22,7 +22,7 @@ definePageMeta({
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator title="Buvette administration">
+    <AdminFormSeparator title="Buvette">
       <UCard class="w-fit">
         <template #header>Menu Categories</template>
         <AdminFormMenuCategories />
@@ -39,15 +39,23 @@ definePageMeta({
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator title="Users administration">
+    <AdminFormSeparator title="Users">
       <UCard class="w-fit">
         <template #header>Admin users</template>
         <AdminFormSwitchAdminUsers />
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator title="Texts administration">
-      <span>Nothing to see here, for now...</span>
+    <AdminFormSeparator title="Texts">
+      <UCard class="w-fit">
+        <template #header>Homepage texts</template>
+        <AdminFormHomepageTexts />
+      </UCard>
+
+      <UCard class="w-fit">
+        <template #header>App texts</template>
+        <AdminFormAppTexts />
+      </UCard>
     </AdminFormSeparator>
   </div>
 </template>

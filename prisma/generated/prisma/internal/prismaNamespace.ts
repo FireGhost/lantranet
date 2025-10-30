@@ -399,7 +399,8 @@ export const ModelName = {
   OrdersItems: 'OrdersItems',
   Order: 'Order',
   OrderStatus: 'OrderStatus',
-  MenuCategory: 'MenuCategory'
+  MenuCategory: 'MenuCategory',
+  SettingsStrings: 'SettingsStrings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -415,7 +416,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "animationsPlayers" | "animation" | "lanDay" | "playersTeams" | "team" | "menuItem" | "ordersItems" | "order" | "orderStatus" | "menuCategory"
+    modelProps: "user" | "animationsPlayers" | "animation" | "lanDay" | "playersTeams" | "team" | "menuItem" | "ordersItems" | "order" | "orderStatus" | "menuCategory" | "settingsStrings"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1233,6 +1234,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    SettingsStrings: {
+      payload: Prisma.$SettingsStringsPayload<ExtArgs>
+      fields: Prisma.SettingsStringsFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.SettingsStringsFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.SettingsStringsFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>
+        }
+        findFirst: {
+          args: Prisma.SettingsStringsFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.SettingsStringsFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>
+        }
+        findMany: {
+          args: Prisma.SettingsStringsFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>[]
+        }
+        create: {
+          args: Prisma.SettingsStringsCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>
+        }
+        createMany: {
+          args: Prisma.SettingsStringsCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.SettingsStringsCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>[]
+        }
+        delete: {
+          args: Prisma.SettingsStringsDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>
+        }
+        update: {
+          args: Prisma.SettingsStringsUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>
+        }
+        deleteMany: {
+          args: Prisma.SettingsStringsDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.SettingsStringsUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.SettingsStringsUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>[]
+        }
+        upsert: {
+          args: Prisma.SettingsStringsUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$SettingsStringsPayload>
+        }
+        aggregate: {
+          args: Prisma.SettingsStringsAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateSettingsStrings>
+        }
+        groupBy: {
+          args: Prisma.SettingsStringsGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SettingsStringsGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.SettingsStringsCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.SettingsStringsCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1384,6 +1459,14 @@ export const MenuCategoryScalarFieldEnum = {
 } as const
 
 export type MenuCategoryScalarFieldEnum = (typeof MenuCategoryScalarFieldEnum)[keyof typeof MenuCategoryScalarFieldEnum]
+
+
+export const SettingsStringsScalarFieldEnum = {
+  key: 'key',
+  value: 'value'
+} as const
+
+export type SettingsStringsScalarFieldEnum = (typeof SettingsStringsScalarFieldEnum)[keyof typeof SettingsStringsScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1547,6 +1630,7 @@ export type GlobalOmitConfig = {
   order?: Prisma.OrderOmit
   orderStatus?: Prisma.OrderStatusOmit
   menuCategory?: Prisma.MenuCategoryOmit
+  settingsStrings?: Prisma.SettingsStringsOmit
 }
 
 /* Types for Logging */

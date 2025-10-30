@@ -125,4 +125,9 @@ model MenuCategory {
   weight      Int
 }
 
+model SettingsStrings {
+  key     String    @id
+  value   String
+}
+
 // Once edited, run "npx prisma migrate dev" to generate de migration file.

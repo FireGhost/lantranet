@@ -9,6 +9,9 @@ useHead({
 });
 
 const { loggedIn, clear: clearUserSession, user } = useUserSession();
+const settingsStrings = useSettingsStrings();
+
+const appName = await settingsStrings.get('app-name');
 
 let eventSource: EventSource | null = null;
 onMounted(() => {
@@ -56,7 +59,7 @@ async function logout() {
   <UApp>
     <NuxtLoadingIndicator />
 
-    <UHeader>
+    <UHeader :title="appName">
       <UNavigationMenu v-if="loggedIn" :items="items" />
 
       <template #right>
