@@ -1,5 +1,6 @@
 import { randomBytes } from "crypto";
 import z from "zod";
+import { Role } from "~~/prisma/generated/prisma/enums";
 
 export default defineEventHandler(async (event) => {
   const params = await getValidatedRouterParams(
@@ -11,24 +12,28 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<PasswordChangeInput>(event);
 
-  const fullUser = await usePrisma().user.findFirst({
-    select: {
-      id: true,
-      username: true,
-      role: true,
-      passwordHash: true,
-      salt: true,
-    },
-    where: {
-      id: params.userId,
-    },
-  });
-  if (!fullUser) {
-    throw createError('User not found');
-  }
+  const { user: loggedInUser } = await getUserSession(event);
 
-  if (await verifyPassword(fullUser.passwordHash, body.currentPassword.concat(fullUser.salt)) !== true) {
-    throw createError('Wrong current password');
+  if (loggedInUser?.role !== Role.ADMIN) {
+    const fullUser = await usePrisma().user.findFirst({
+      select: {
+        id: true,
+        username: true,
+        role: true,
+        passwordHash: true,
+        salt: true,
+      },
+      where: {
+        id: params.userId,
+      },
+    });
+    if (!fullUser) {
+      throw createError('User not found');
+    }
+
+    if (await verifyPassword(fullUser.passwordHash, body.currentPassword.concat(fullUser.salt)) !== true) {
+      throw createError('Wrong current password');
+    }
   }
 
   const salt = randomBytes(16).toString("hex");

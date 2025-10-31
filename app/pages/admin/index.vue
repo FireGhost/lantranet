@@ -44,6 +44,11 @@ definePageMeta({
         <template #header>Admin users</template>
         <AdminFormSwitchAdminUsers />
       </UCard>
+
+      <UCard class="w-fit">
+        <template #header>Reset password</template>
+        <AdminFormPasswordReset />
+      </UCard>
     </AdminFormSeparator>
 
     <AdminFormSeparator title="Texts">
