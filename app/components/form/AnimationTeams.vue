@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import type { SelectItem } from "@nuxt/ui";
+import { Role } from "~~/prisma/generated/prisma/enums";
 import type {
   AnimationGetPayload,
   PlayersTeamsCreateInput,
@@ -13,7 +15,11 @@ const props = defineProps<{
       include: {
         teams: {
           include: {
-            players: true;
+            players: {
+              include: {
+                player: true,
+              }
+            };
           };
         };
       };
@@ -28,6 +34,19 @@ const emit = defineEmits<{
 const { user } = useUserSession();
 const toast = useToast();
 
+const isAdmin = user.value?.role === Role.ADMIN;
+
+const { data: usersItems } = useFetch('/api/users', {
+  transform: (users) => users
+    .map((user) => ({
+      label: user.username,
+      value: user.id,
+    } satisfies SelectItem)),
+});
+
+const selectedUserToAdd = ref();
+const selectedUserToRemove = ref();
+
 const myTeamId = computed(() => {
   let teamId = undefined;
   props.animation.teams?.forEach((team) => {
@@ -38,6 +57,17 @@ const myTeamId = computed(() => {
     });
   });
   return teamId;
+});
+
+const playersTeams = computed(() => {
+  const playersTeams: Map<number, SelectItem[]> = new Map();
+  for (const team of props.animation.teams ?? []) {
+    playersTeams.set(team.id, team.players.map((player) => ({
+      label: player.player.username,
+      value: player.player.id,
+    }) satisfies SelectItem));
+  }
+  return playersTeams;
 });
 
 const newTeam = ref<Partial<TeamModel>>({});
@@ -132,6 +162,38 @@ function updateMyTeamName(myTeam: TeamModel) {
     onSuccess: () => emit("teamsUpdated"),
   });
 }
+
+function addUserToTeam(teamId: number) {
+  useApi(`/api/teams/${teamId}/players`, {
+    fetchOptions: {
+      method: 'POST',
+      body: {
+        player: {
+          connect: {
+            id: selectedUserToAdd.value,
+          },
+        },
+        team: {
+          connect: {
+            id: teamId,
+          },
+        },
+      } satisfies PlayersTeamsCreateInput,
+    },
+    successString: 'Player added with success',
+    onSuccess: () => selectedUserToAdd.value = null,
+  });
+}
+
+function removeUserFromTeam(teamId: number) {
+  useApi(`/api/teams/${teamId}/players/${selectedUserToRemove.value}`, {
+    fetchOptions: {
+      method: 'DELETE',
+    },
+    successString: 'Player removed from team',
+    onSuccess: () => selectedUserToRemove.value = null,
+  });
+}
 </script>
 
 <template>
@@ -187,19 +249,30 @@ function updateMyTeamName(myTeam: TeamModel) {
         <UButton
           v-else-if="myTeamId === undefined"
           label="Rejoindre"
+          class="block"
           @click="joinTeam(team.id)"
         />
+        <template v-if="isAdmin">
+          <UFieldGroup class="mt-2">
+            <USelect v-model="selectedUserToAdd" :items="usersItems" class="w-52" />
+            <UButton icon="i-lucide-user-round-plus" @click="addUserToTeam(team.id)" />
+          </UFieldGroup>
+          <UFieldGroup class="mt-2">
+            <USelect v-model="selectedUserToRemove" :items="playersTeams.get(team.id)" class="w-52" />
+            <UButton color="error" icon="i-lucide-user-round-minus" @click="removeUserFromTeam(team.id)" />
+          </UFieldGroup>
+        </template>
       </template>
     </UPageCard>
 
     <UPageCard v-if="myTeamId === undefined">
-      <UForm>
+      <UForm @submit="createNewTeam">
         <UFieldGroup>
           <UInput
             v-model="newTeam.name"
             placeholder="Créer une nouvelle équipe"
           />
-          <UButton color="success" label="Créer" @click="createNewTeam()" />
+          <UButton color="success" label="Créer" />
         </UFieldGroup>
       </UForm>
     </UPageCard>

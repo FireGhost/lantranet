@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { Role } from "~~/prisma/generated/prisma/enums";
 import type { AnimationGetPayload } from "~~/prisma/generated/prisma/models";
 
 const { user } = useUserSession();
+const isAdmin = user.value?.role === Role.ADMIN;
 
 const props = defineProps<{
   animation: Partial<
@@ -42,6 +44,15 @@ function indexToPos(index: number) {
     return `${index + 1}ème`;
   }
 }
+
+function unsubscribePlayer(playerId: number) {
+  useApi(`/api/animations/${props.animation.id}/players/${playerId}`, {
+    fetchOptions: {
+      method: 'DELETE',
+    },
+    successString: 'Player removed with success',
+  });
+}
 </script>
 
 <template>
@@ -61,8 +72,9 @@ function indexToPos(index: number) {
     <div v-else class="w-54">
       <UBanner title="Inscrits" color="secondary" />
       <UPageList divide>
-        <UPageCard v-for="player in animation.players" :key="player.playerId">
+        <UPageCard v-for="player in animation.players" :key="player.playerId" orientation="horizontal">
           <UUser :name="player.player.username" size="md" class="h-1" />
+          <UButton v-if="isAdmin" label="X" class="w-fit" color="error" @click="unsubscribePlayer(player.playerId)" />
         </UPageCard>
       </UPageList>
     </div>
