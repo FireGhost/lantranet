@@ -11,20 +11,19 @@ definePageMeta({
 
 const route = useRoute();
 const { user } = useUserSession();
+const toast = useToast();
 
 const isAdmin = user.value?.role === Role.ADMIN;
 
 const { data: animation, refresh: refreshAnimation } = await useFetch<
-  Partial<
-    AnimationGetPayload<{
-      include: {
-        adminUser: true;
-        lanDay: true;
-        players: { include: { player: true } };
-        teams: { include: { players: { include: { player: true } } } };
-      };
-    }>
-  >
+  AnimationGetPayload<{
+    include: {
+      adminUser: true;
+      lanDay: true;
+      players: { include: { player: true } };
+      teams: { include: { players: { include: { player: true } } } };
+    };
+  }>
 >(`/api/animations/${route.params.id}`, {
   query: {
     withAdminUser: true,
@@ -32,11 +31,11 @@ const { data: animation, refresh: refreshAnimation } = await useFetch<
     withPlayers: true,
     withTeams: true,
   },
-  default: () => ref({}),
+  transform: (anim) => anim,
 });
 
 useHead({
-  title: animation.value.shortName ?? animation.value.name,
+  title: animation.value?.shortName ?? animation.value?.name ?? 'Animation not found',
 });
 
 function deleteAnimation() {
@@ -53,6 +52,11 @@ function deleteAnimation() {
 }
 
 function toggleSubscriptionOpen() {
+  if (!animation.value) {
+    toast.add({title: 'Animation not found'});
+    return;
+  }
+
   let successString = "";
   if (animation.value.openSubscription) {
     successString = "Subscriptions are now closed";
@@ -75,48 +79,53 @@ function toggleSubscriptionOpen() {
 
 <template>
   <div>
-    <div v-if="isAdmin">
-      <UButton label="Edit" :to="`/animations/${animation?.id}/edit`" />
-      <UButton
-        label="Toggle subscription"
-        class="ml-4"
-        @click="toggleSubscriptionOpen()"
+    <template v-if="!animation">
+      <UPageHero title="Animation not found" />
+    </template>
+    <template v-else>
+      <div v-if="isAdmin">
+        <UButton label="Edit" :to="`/animations/${animation?.id}/edit`" />
+        <UButton
+          label="Toggle subscription"
+          class="ml-4"
+          @click="toggleSubscriptionOpen()"
+        />
+        <USlideover title="Manage scores">
+          <UButton label="Manage scores" class="ml-4" />
+
+          <template #body>
+            <FormAnimationScores
+              :animation="animation"
+              @player-score-updated="refreshAnimation()"
+              @team-score-updated="refreshAnimation()"
+            />
+          </template>
+        </USlideover>
+        <UModal
+          title="Are you sure"
+          description="Do you really want to delete this animation ?"
+        >
+          <UButton label="Delete" color="error" variant="outline" class="ml-16" />
+
+          <template #body>
+            <UButton
+              label="Yes, delete"
+              color="error"
+              variant="outline"
+              class="ml-4"
+              @click="deleteAnimation()"
+            />
+          </template>
+        </UModal>
+      </div>
+
+      <AnimationHeader
+        :animation="animation"
+        @updated-teams="refreshAnimation()"
+        @updated-player="refreshAnimation()"
       />
-      <USlideover title="Manage scores">
-        <UButton label="Manage scores" class="ml-4" />
 
-        <template #body>
-          <FormAnimationScores
-            :animation="animation"
-            @player-score-updated="refreshAnimation()"
-            @team-score-updated="refreshAnimation()"
-          />
-        </template>
-      </USlideover>
-      <UModal
-        title="Are you sure"
-        description="Do you really want to delete this animation ?"
-      >
-        <UButton label="Delete" color="error" variant="outline" class="ml-16" />
-
-        <template #body>
-          <UButton
-            label="Yes, delete"
-            color="error"
-            variant="outline"
-            class="ml-4"
-            @click="deleteAnimation()"
-          />
-        </template>
-      </UModal>
-    </div>
-
-    <AnimationHeader
-      :animation="animation"
-      @updated-teams="refreshAnimation()"
-      @updated-player="refreshAnimation()"
-    />
-
-    <AnimationContentColumns :animation="animation" />
+      <AnimationContentColumns :animation="animation" />
+    </template>
   </div>
 </template>

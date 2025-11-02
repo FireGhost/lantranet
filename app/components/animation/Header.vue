@@ -1,20 +1,23 @@
 <script setup lang="ts">
+import { Role } from "~~/prisma/generated/prisma/enums";
 import type { AnimationGetPayload } from "~~/prisma/generated/prisma/models";
 
 const props = defineProps<{
-  animation: Partial<
-    AnimationGetPayload<{
-      include: {
-        lanDay: true;
-      };
-    }>
-  >;
+  animation: AnimationGetPayload<{
+    include: {
+      lanDay: true;
+      players: true;
+    };
+  }>,
 }>();
 
 defineEmits<{
   updatedTeams: [];
   updatedPlayer: [];
 }>();
+
+const { user } = useUserSession();
+const isAdmin = user.value?.role === Role.ADMIN;
 
 if (props.animation.id === undefined) {
   throw createError("Animation ID needed !");
@@ -27,9 +30,9 @@ if (props.animation.id === undefined) {
     :headline="`${animation?.lanDay?.name ?? ''} ${animation?.startTime ?? ''}`"
     :title="animation?.name"
   >
-    <template v-if="animation.openSubscription" #links>
+    <template #links>
       <USlideover v-if="animation.isTeamed" title="Gestion d'équipes">
-        <UButton label="Gestion d'équipes" />
+        <UButton v-if="animation.openSubscription || isAdmin" label="Gestion d'équipes" />
 
         <template #body>
           <FormAnimationTeams
@@ -39,12 +42,11 @@ if (props.animation.id === undefined) {
         </template>
       </USlideover>
 
-      <template v-else>
-        <FormAnimationPlayerSubscribeButton
-          :animation-id="props.animation.id"
-          @player-subscription-updated="$emit('updatedPlayer')"
-        />
-      </template>
+      <FormAnimationPlayerSubscribeButton
+        v-if="animation.isTeamed === false"
+        :animation="animation"
+        @player-subscription-updated="$emit('updatedPlayer')"
+      />
     </template>
 
     <template #description>
