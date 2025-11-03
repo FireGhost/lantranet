@@ -1,40 +1,30 @@
 <script setup lang="ts">
-import { Role } from "~~/prisma/generated/prisma/enums";
 import type { AnimationGetPayload } from "~~/prisma/generated/prisma/models";
 
 const { user } = useUserSession();
-const isAdmin = user.value?.role === Role.ADMIN;
 
 const props = defineProps<{
-  animation: Partial<
-    AnimationGetPayload<{
-      include: {
-        teams: {
-          include: {
-            players: true;
-          };
-        };
-        players: {
-          include: {
-            player: true;
-          };
-        };
-        adminUser: true;
-      };
-    }>
-  >;
+  animation: AnimationGetPayload<{
+    include: {
+      teams: {
+        include: {
+          players: true,
+        },
+      },
+      players: {
+        include: {
+          player: true,
+        },
+      },
+      adminUser: true,
+    },
+  }>,
 }>();
 
 const myTeamId = computed(() => {
-  let teamId = undefined;
-  props.animation.teams?.forEach((team) => {
-    team.players.forEach((player) => {
-      if (player.playerId === user.value?.id) {
-        teamId = team.id;
-      }
-    });
-  });
-  return teamId;
+  return props.animation.teams.find((team) => {
+    return team.players.find((teamUser) => teamUser.playerId === user.value?.id)
+  })?.id;
 });
 
 function indexToPos(index: number) {
@@ -44,19 +34,11 @@ function indexToPos(index: number) {
     return `${index + 1}ème`;
   }
 }
-
-function unsubscribePlayer(playerId: number) {
-  useApi(`/api/animations/${props.animation.id}/players/${playerId}`, {
-    fetchOptions: {
-      method: 'DELETE',
-    },
-    successString: 'Player removed with success',
-  });
-}
 </script>
 
 <template>
   <div class="flex w-full gap-16 justify-center flex-wrap">
+
     <div v-if="animation.isTeamed" class="w-54">
       <UBanner title="Team inscrites" color="secondary" />
       <UPageList divide>
@@ -72,9 +54,8 @@ function unsubscribePlayer(playerId: number) {
     <div v-else class="w-54">
       <UBanner title="Inscrits" color="secondary" />
       <UPageList divide>
-        <UPageCard v-for="player in animation.players" :key="player.playerId" orientation="horizontal">
+        <UPageCard v-for="player in animation.players" :key="player.playerId" orientation="horizontal" :highlight="player.playerId === user?.id">
           <UUser :name="player.player.username" size="md" class="h-1" />
-          <UButton v-if="isAdmin" label="X" class="w-fit" color="error" @click="unsubscribePlayer(player.playerId)" />
         </UPageCard>
       </UPageList>
     </div>
@@ -92,6 +73,7 @@ function unsubscribePlayer(playerId: number) {
       <UBanner title="Scores" color="secondary" />
       <UPageList divide>
         <template v-if="animation.isTeamed">
+          
           <UPageCard
             v-for="(team, index) in animation.teams?.toSorted(
               (a, b) => (b.score ?? 0) - (a.score ?? 0),
@@ -109,8 +91,10 @@ function unsubscribePlayer(playerId: number) {
               </template>
             </UUser>
           </UPageCard>
+
         </template>
         <template v-else>
+          
           <UPageCard
             v-for="(player, index) in animation.players?.toSorted(
               (a, b) => (b.score ?? 0) - (a.score ?? 0),
@@ -128,8 +112,10 @@ function unsubscribePlayer(playerId: number) {
               </template>
             </UUser>
           </UPageCard>
+          
         </template>
       </UPageList>
     </div>
+
   </div>
 </template>

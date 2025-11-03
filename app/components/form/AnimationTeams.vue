@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import type { SelectItem } from "@nuxt/ui";
-import { Role } from "~~/prisma/generated/prisma/enums";
 import type {
   AnimationGetPayload,
   PlayersTeamsCreateInput,
@@ -10,21 +8,15 @@ import type {
 } from "~~/prisma/generated/prisma/models";
 
 const props = defineProps<{
-  animation: Partial<
-    AnimationGetPayload<{
-      include: {
-        teams: {
-          include: {
-            players: {
-              include: {
-                player: true,
-              }
-            };
-          };
-        };
-      };
-    }>
-  >;
+  animation: AnimationGetPayload<{
+    include: {
+      teams: {
+        include: {
+          players: true,
+        },
+      },
+    },
+  }>,
 }>();
 
 const emit = defineEmits<{
@@ -34,46 +26,16 @@ const emit = defineEmits<{
 const { user } = useUserSession();
 const toast = useToast();
 
-const isAdmin = user.value?.role === Role.ADMIN;
-
-const { data: usersItems } = useFetch('/api/users', {
-  transform: (users) => users
-    .map((user) => ({
-      label: user.username,
-      value: user.id,
-    } satisfies SelectItem)),
-});
-
-const selectedUserToAdd = ref();
-const selectedUserToRemove = ref();
-
 const myTeamId = computed(() => {
-  let teamId = undefined;
-  props.animation.teams?.forEach((team) => {
-    team.players.forEach((player) => {
-      if (player.playerId === user.value?.id) {
-        teamId = team.id;
-      }
-    });
-  });
-  return teamId;
-});
-
-const playersTeams = computed(() => {
-  const playersTeams: Map<number, SelectItem[]> = new Map();
-  for (const team of props.animation.teams ?? []) {
-    playersTeams.set(team.id, team.players.map((player) => ({
-      label: player.player.username,
-      value: player.player.id,
-    }) satisfies SelectItem));
-  }
-  return playersTeams;
+  return props.animation.teams.find((team) => {
+    return team.players.find((teamUser) => teamUser.playerId === user.value?.id)
+  })?.id;
 });
 
 const newTeam = ref<Partial<TeamModel>>({});
 
 function createNewTeam() {
-  if (!newTeam.value.name) {
+  if (!newTeam.value.name?.length) {
     toast.add({
       title: "Please enter a team name",
       color: "error",
@@ -162,43 +124,12 @@ function updateMyTeamName(myTeam: TeamModel) {
     onSuccess: () => emit("teamsUpdated"),
   });
 }
-
-function addUserToTeam(teamId: number) {
-  useApi(`/api/teams/${teamId}/players`, {
-    fetchOptions: {
-      method: 'POST',
-      body: {
-        player: {
-          connect: {
-            id: selectedUserToAdd.value,
-          },
-        },
-        team: {
-          connect: {
-            id: teamId,
-          },
-        },
-      } satisfies PlayersTeamsCreateInput,
-    },
-    successString: 'Player added with success',
-    onSuccess: () => selectedUserToAdd.value = null,
-  });
-}
-
-function removeUserFromTeam(teamId: number) {
-  useApi(`/api/teams/${teamId}/players/${selectedUserToRemove.value}`, {
-    fetchOptions: {
-      method: 'DELETE',
-    },
-    successString: 'Player removed from team',
-    onSuccess: () => selectedUserToRemove.value = null,
-  });
-}
 </script>
 
 <template>
   <UPageList>
     <UPageCard v-for="team in animation.teams" :key="team.id">
+
       <template #title>
         <template v-if="myTeamId === team.id">
           <UFieldGroup>
@@ -215,12 +146,14 @@ function removeUserFromTeam(teamId: number) {
           {{ team.name }}
         </template>
       </template>
+
       <template #description>
         {{ team.players.length }} inscrits
         <template v-if="animation.maxPlayerPerTeam !== null">
           / {{ animation.maxPlayerPerTeam }}
         </template>
       </template>
+
       <template #footer>
         <template v-if="myTeamId === team.id">
           <UButton label="Quitter" color="error" @click="leaveTeam()" />
@@ -252,17 +185,8 @@ function removeUserFromTeam(teamId: number) {
           class="block"
           @click="joinTeam(team.id)"
         />
-        <template v-if="isAdmin">
-          <UFieldGroup class="mt-2">
-            <USelect v-model="selectedUserToAdd" :items="usersItems" class="w-52" />
-            <UButton icon="i-lucide-user-round-plus" @click="addUserToTeam(team.id)" />
-          </UFieldGroup>
-          <UFieldGroup class="mt-2">
-            <USelect v-model="selectedUserToRemove" :items="playersTeams.get(team.id)" class="w-52" />
-            <UButton color="error" icon="i-lucide-user-round-minus" @click="removeUserFromTeam(team.id)" />
-          </UFieldGroup>
-        </template>
       </template>
+      
     </UPageCard>
 
     <UPageCard v-if="myTeamId === undefined">
@@ -272,9 +196,10 @@ function removeUserFromTeam(teamId: number) {
             v-model="newTeam.name"
             placeholder="Créer une nouvelle équipe"
           />
-          <UButton color="success" label="Créer" />
+          <UButton color="success" label="Créer" type="submit" />
         </UFieldGroup>
       </UForm>
     </UPageCard>
+
   </UPageList>
 </template>

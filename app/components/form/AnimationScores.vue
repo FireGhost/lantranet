@@ -6,18 +6,16 @@ import type {
 } from "~~/prisma/generated/prisma/models";
 
 const props = defineProps<{
-  animation: Partial<
-    AnimationGetPayload<{
-      include: {
-        teams: true;
-        players: {
-          include: {
-            player: true;
-          };
+  animation: AnimationGetPayload<{
+    include: {
+      teams: true;
+      players: {
+        include: {
+          player: true;
         };
       };
-    }>
-  >;
+    };
+  }>,
 }>();
 
 const emit = defineEmits<{

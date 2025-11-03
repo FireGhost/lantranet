@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { Role } from "~~/prisma/generated/prisma/enums";
 import type {
   AnimationGetPayload,
   AnimationUpdateManyMutationInput,
@@ -10,10 +9,8 @@ definePageMeta({
 });
 
 const route = useRoute();
-const { user } = useUserSession();
 const toast = useToast();
-
-const isAdmin = user.value?.role === Role.ADMIN;
+const isAdmin = useIsAdmin();
 
 const { data: animation, refresh: refreshAnimation } = await useFetch<
   AnimationGetPayload<{
@@ -30,8 +27,7 @@ const { data: animation, refresh: refreshAnimation } = await useFetch<
     withLanDay: true,
     withPlayers: true,
     withTeams: true,
-  },
-  transform: (anim) => anim,
+  }
 });
 
 useHead({
@@ -82,9 +78,10 @@ function toggleSubscriptionOpen() {
     <template v-if="!animation">
       <UPageHero title="Animation not found" />
     </template>
+
     <template v-else>
       <div v-if="isAdmin">
-        <UButton label="Edit" :to="`/animations/${animation?.id}/edit`" />
+        <UButton label="Edit" :to="`/animations/${animation.id}/edit`" />
         <UButton
           label="Toggle subscription"
           class="ml-4"
