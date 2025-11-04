@@ -10,6 +10,7 @@ useHead({
 
 const { loggedIn, clear: clearUserSession, user } = useUserSession();
 const settingsStrings = useSettingsStrings();
+const route = useRoute();
 
 const appName = await settingsStrings.get('app-name');
 
@@ -32,10 +33,12 @@ const items = computed<NavigationMenuItem[]>(() => {
     {
       label: "Animations",
       to: "/animations",
+      active: route.path.startsWith('/animations'),
     },
     {
       label: "Buvette",
       to: "/buvette",
+      active: route.path.startsWith('/buvette'),
     },
   ];
 
@@ -43,6 +46,7 @@ const items = computed<NavigationMenuItem[]>(() => {
     items.push({
       label: "Admin",
       to: "/admin",
+      active: route.path.startsWith('/admin'),
     });
   }
 
@@ -72,6 +76,10 @@ async function logout() {
           <UButton to="/login">Login</UButton>
           <UButton to="/register">Register</UButton>
         </template>
+      </template>
+
+      <template #body>
+        <UNavigationMenu :items="items" orientation="vertical"/>
       </template>
     </UHeader>
 
