@@ -98,17 +98,32 @@ function toggleSubscriptionOpen() {
             />
           </template>
         </USlideover>
+        <USlideover v-if="animation.isTeamed" title="Manage teams">
+          <UButton label="Manage teams" class="ml-4" />
+
+          <template #body>
+            <AdminAnimationTeamsManagement />
+          </template>
+        </USlideover>
+        <USlideover v-else title="Manage players">
+          <UButton label="Manage players" class="ml-4" />
+
+          <template #body>
+            <AdminAnimationPlayersManagement
+              :animation="animation"
+            />
+          </template>
+        </USlideover>
         <UModal
           title="Are you sure"
           description="Do you really want to delete this animation ?"
         >
-          <UButton label="Delete" color="error" variant="outline" class="ml-16" />
+          <UButton label="Delete animation" color="error" variant="outline" class="ml-16" />
 
           <template #body>
             <UButton
               label="Yes, delete"
               color="error"
-              variant="outline"
               class="ml-4"
               @click="deleteAnimation()"
             />

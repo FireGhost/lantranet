@@ -29,7 +29,7 @@ function saveScoreTeams() {
       fetchOptions: {
         method: "PUT",
         body: {
-          score: team.score,
+          score: Number(team.score),
         } satisfies TeamUpdateInput,
       },
       successString: "Teams scores saved",
@@ -46,7 +46,7 @@ function saveScorePlayers() {
         fetchOptions: {
           method: "PUT",
           body: {
-            score: playerAnimation.score,
+            score: Number(playerAnimation.score),
           } satisfies AnimationsPlayersUpdateInput,
         },
         successString: "Players scores saved",
@@ -71,8 +71,8 @@ function saveScorePlayers() {
         v-model="team.score"
         color="neutral"
         variant="outline"
+        placeholder="Points"
         class="w-16"
-        type="number"
       />
     </UFieldGroup>
 
@@ -99,7 +99,6 @@ function saveScorePlayers() {
         variant="outline"
         placeholder="Points"
         class="w-16"
-        type="number"
       />
     </UFieldGroup>
 
