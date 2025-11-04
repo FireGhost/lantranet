@@ -102,7 +102,10 @@ function toggleSubscriptionOpen() {
           <UButton label="Manage teams" class="ml-4" />
 
           <template #body>
-            <AdminAnimationTeamsManagement />
+            <AdminAnimationTeamsManagement
+              :animation="animation"
+              @teams-updated="refreshAnimation()"
+            />
           </template>
         </USlideover>
         <USlideover v-else title="Manage players">
@@ -111,6 +114,7 @@ function toggleSubscriptionOpen() {
           <template #body>
             <AdminAnimationPlayersManagement
               :animation="animation"
+              @animation-updated="refreshAnimation()"
             />
           </template>
         </USlideover>
