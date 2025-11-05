@@ -2,17 +2,17 @@
 import type { NavigationMenuItem } from "@nuxt/ui";
 import { Role } from "~~/prisma/generated/prisma/enums";
 
+const settingsStrings = useSettingsStrings();
+const appName = await settingsStrings.get('app-name');
+
 useHead({
   titleTemplate: (title) => {
-    return title ? `${title} - Lantranet` : "Lantranet";
+    return title ? `${title} - ${appName}` : appName;
   },
 });
 
 const { loggedIn, clear: clearUserSession, user } = useUserSession();
-const settingsStrings = useSettingsStrings();
 const route = useRoute();
-
-const appName = await settingsStrings.get('app-name');
 
 let eventSource: EventSource | null = null;
 onMounted(() => {
@@ -31,12 +31,12 @@ onUnmounted(() => {
 const items = computed<NavigationMenuItem[]>(() => {
   const items: NavigationMenuItem[] = [
     {
-      label: "Animations",
+      label: $t('animations'),
       to: "/animations",
       active: route.path.startsWith('/animations'),
     },
     {
-      label: "Buvette",
+      label: $t('buvette'),
       to: "/buvette",
       active: route.path.startsWith('/buvette'),
     },
@@ -44,7 +44,7 @@ const items = computed<NavigationMenuItem[]>(() => {
 
   if (user.value?.role === Role.ADMIN) {
     items.push({
-      label: "Admin",
+      label: $t('admin'),
       to: "/admin",
       active: route.path.startsWith('/admin'),
     });
@@ -70,11 +70,11 @@ async function logout() {
         <template v-if="loggedIn">
           <ULink to="/user" variant="link" class="mr-2">{{ user?.username }}</ULink>
           <UColorModeButton class="mr-2" />
-          <UButton @click="logout()">Logout</UButton>
+          <UButton @click="logout()">{{ $t('logout') }}</UButton>
         </template>
         <template v-else>
-          <UButton to="/login">Login</UButton>
-          <UButton to="/register">Register</UButton>
+          <UButton to="/login">{{ $t('login') }}</UButton>
+          <UButton to="/register">{{ $t('register') }}</UButton>
         </template>
       </template>
 

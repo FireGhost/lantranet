@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "Admin",
+  title: $t('admin'),
 });
 
 definePageMeta({
@@ -10,55 +10,55 @@ definePageMeta({
 
 <template>
   <div class="pb-4">
-    <AdminFormSeparator title="Lan">
+    <AdminFormSeparator :title="$t('lan')">
       <UCard class="w-fit">
-        <template #header>Days of lan</template>
+        <template #header>{{ $t('days of lan') }}</template>
         <AdminFormDaysOfLan />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>All animations</template>
+        <template #header>{{ $t("all animations") }}</template>
         <AdminFormAllAnimationsLinks />
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator title="Buvette">
+    <AdminFormSeparator :title="$t('buvette')">
       <UCard class="w-fit">
-        <template #header>Menu Categories</template>
+        <template #header>{{ $t("menu categories") }}</template>
         <AdminFormMenuCategories />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>Menu Items Available</template>
+        <template #header>{{ $t("menu items available") }}</template>
         <AdminFormMenuItems />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>Order status</template>
+        <template #header>{{ $t("order status") }}</template>
         <AdminFormOrderStatus />
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator title="Users">
+    <AdminFormSeparator :title="$t('users')">
       <UCard class="w-fit">
-        <template #header>Admin users</template>
+        <template #header>{{ $t("admin users") }}</template>
         <AdminFormSwitchAdminUsers />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>Reset password</template>
+        <template #header>{{ $t("reset password") }}</template>
         <AdminFormPasswordReset />
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator title="Texts">
+    <AdminFormSeparator :title="$t('texts')">
       <UCard class="w-fit">
-        <template #header>Homepage texts</template>
+        <template #header>{{ $t("homepage texts") }}</template>
         <AdminFormHomepageTexts />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>App texts</template>
+        <template #header>{{ $t("app texts") }}</template>
         <AdminFormAppTexts />
       </UCard>
     </AdminFormSeparator>

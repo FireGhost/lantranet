@@ -1,0 +1,22 @@
+{
+  "register": "Register",
+  "login": "Login",
+  "logout": "Logout",
+  "admin": "Admin",
+  "buvette": "Buvette",
+  "animations": "Animations",
+  "buvette admin": "Buvette admin",
+  "done": "Done",
+  "lan": "Lan",
+  "days of lan": "Days of lan",
+  "all animations": "All animations",
+  "menu categories": "Menu categories",
+  "menu items available": "Menu items available",
+  "order status": "Order status",
+  "users": "Users",
+  "admin users": "Admin users",
+  "reset password": "Reset password",
+  "texts": "Texts",
+  "homepage texts": "Homepage texts",
+  "app texts": "App texts"
+}
