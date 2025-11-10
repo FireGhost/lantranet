@@ -25,7 +25,7 @@ function unsubscribeSolo() {
     fetchOptions: {
       method: "DELETE",
     },
-    successString: "You have been removed",
+    successString: $t("You have been removed"),
     onSuccess: () => {
       refreshSubscriptionData();
       emit("playerSubscriptionUpdated");
@@ -36,7 +36,7 @@ function unsubscribeSolo() {
 function subscribeSolo() {
   if (!user.value) {
     useToast().add({
-      title: "Please login again",
+      title: $t("Please login again"),
     });
     return;
   }
@@ -57,7 +57,7 @@ function subscribeSolo() {
         },
       } satisfies AnimationsPlayersCreateInput,
     },
-    successString: "Subscribed !",
+    successString: $t("Subscribed !"),
     onSuccess: () => {
       refreshSubscriptionData();
       emit("playerSubscriptionUpdated");
@@ -70,13 +70,13 @@ function subscribeSolo() {
   <div class="w-fit m-auto">
     <UButton
       v-if="playerSubscription"
-      label="Je me retire"
+      :label="$t('Unsubscribe me')"
       color="error"
       @click="unsubscribeSolo()"
     />
     <UButton
       v-else
-      label="Inscris moi !"
+      :label="$t('Subscribe me !')"
       color="primary"
       @click="subscribeSolo()"
     />

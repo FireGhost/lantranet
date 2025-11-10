@@ -5,7 +5,7 @@ import type {
 } from "~~/prisma/generated/prisma/models";
 
 useHead({
-  title: "Buvette",
+  title: $t("Buvette"),
 });
 
 definePageMeta({
@@ -20,7 +20,7 @@ const cartItems = ref<OrdersItemsCreateManyOrderInput[]>([]);
 function sendOrder() {
   if (cartItems.value.length === 0) {
     toast.add({
-      title: "Ajoutez des produits avant, c'est mieux",
+      title: $t("Add some items first"),
       color: "warning",
     });
     return;
@@ -34,7 +34,7 @@ function sendOrder() {
         orderItems: { createMany: { data: cartItems.value } },
       } satisfies OrderCreateInput,
     },
-    successString: "Commande envoyée",
+    successString: $t("Order sent"),
     onSuccess: () => {
       cartItems.value = [];
     },
@@ -50,7 +50,7 @@ function sendOrder() {
 
     <template #right>
       <div>
-        <UPageFeature title="My cart" class="mb-2" />
+        <UPageFeature :title="$t('My cart')" class="mb-2" />
         <UUser
           v-for="(cartItem, index) in cartItems"
           :key="index"
@@ -69,7 +69,7 @@ function sendOrder() {
         </UUser>
 
         <UButton
-          label="Envoyer la commande"
+          :label="$t('Send the order')"
           class="mt-6"
           @click="sendOrder()"
         />

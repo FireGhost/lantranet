@@ -30,7 +30,7 @@ const newOrderStatus = reactive<Partial<OrderStatusModel>>({});
 function addOrderStatus(newOrderStatus: Partial<OrderStatusModel>) {
   if (!newOrderStatus.color || !newOrderStatus.name) {
     toast.add({
-      title: "Please enter a name and select a color",
+      title: $t("Please enter a name and select a color"),
       color: "error",
     });
     return;
@@ -45,7 +45,7 @@ function addOrderStatus(newOrderStatus: Partial<OrderStatusModel>) {
         weight: orderStatuses.value?.length ?? 0,
       } satisfies OrderStatusCreateInput,
     },
-    successString: "Status created",
+    successString: $t("Status created"),
     onSuccess: () => {
       newOrderStatus.name = "";
       newOrderStatus.color = "";
@@ -63,7 +63,7 @@ function updateOrderStatus(orderStatus: OrderStatusModel) {
         name: orderStatus.name,
       } satisfies OrderStatusUpdateInput,
     },
-    successString: "Status updated",
+    successString: $t("Status updated"),
     onSuccess: () => {
       refreshOrderStatus();
     },
@@ -75,7 +75,7 @@ function deleteOrderStatus(orderStatusId: number) {
     fetchOptions: {
       method: "DELETE",
     },
-    successString: "Status removed",
+    successString: $t("Status removed"),
     onSuccess: () => {
       refreshOrderStatus();
     },
@@ -97,7 +97,7 @@ function updateOrderOrderStatus(keysSorted: string[]) {
     );
   }
   Promise.all(promises).then(() => {
-    toast.add({ title: "Status order updated" });
+    toast.add({ title: $t("Status order updated") });
     refreshOrderStatus();
   });
 }
@@ -114,12 +114,12 @@ function updateOrderOrderStatus(keysSorted: string[]) {
     @delete-item="deleteOrderStatus"
     @order-updated="updateOrderOrderStatus"
   >
-    <UInput v-model="orderStatus.name" placeholder="Status name" />
+    <UInput v-model="orderStatus.name" :placeholder="$t('Status name')" />
 
     <USelect
       v-model="orderStatus.color"
       :items="colors"
-      placeholder="Select a color"
+      :placeholder="$t('Select a color')"
       class="w-48"
     >
       <template #item-leading="{ item: color }">

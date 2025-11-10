@@ -18,7 +18,7 @@ const newMenuCategory = reactive<Partial<MenuCategoryModel>>({});
 function createMenuCategory(newMenuCategory: Partial<MenuCategoryModel>) {
   if (!newMenuCategory.name) {
     toast.add({
-      title: "Please enter a category name",
+      title: $t("Please enter a category name"),
       color: "error",
     });
     return;
@@ -32,7 +32,7 @@ function createMenuCategory(newMenuCategory: Partial<MenuCategoryModel>) {
         weight: menuCategories.value?.length ?? 0,
       } satisfies MenuCategoryCreateInput,
     },
-    successString: "Category created",
+    successString: $t("Category created"),
     onSuccess: () => {
       newMenuCategory.name = "";
       refreshMenuCategories();
@@ -48,7 +48,7 @@ function updateMenuCategory(menuCategory: MenuCategoryModel) {
         name: menuCategory.name,
       } satisfies MenuCategoryUpdateInput,
     },
-    successString: "Category updated with success",
+    successString: $t("Category updated with success"),
     onSuccess: () => refreshMenuCategories(),
   });
 }
@@ -58,7 +58,7 @@ function deleteMenuCategory(menuCategoryId: number) {
     fetchOptions: {
       method: "DELETE",
     },
-    successString: "Category deleted",
+    successString: $t("Category deleted"),
     onSuccess: () => refreshMenuCategories(),
   });
 }
@@ -79,7 +79,7 @@ function updateOrderMenuCategories(newKeysOrder: string[]) {
   }
   Promise.all(promises).then(() => {
     toast.add({
-      title: "Order saved",
+      title: $t("Order saved"),
     });
     refreshMenuCategories();
   });
@@ -97,6 +97,6 @@ function updateOrderMenuCategories(newKeysOrder: string[]) {
     @delete-item="deleteMenuCategory"
     @order-updated="updateOrderMenuCategories"
   >
-    <UInput v-model="item.name" placeholder="Category name" />
+    <UInput v-model="item.name" :placeholder="$t('Category name')" />
   </AdminFormSortableInputs>
 </template>

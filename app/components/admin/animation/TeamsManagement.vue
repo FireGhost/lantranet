@@ -52,7 +52,7 @@ function updateTeamName(teamId: number, teamName: string) {
         name: teamName,
       } satisfies TeamUpdateInput,
     },
-    successString: 'Team updated',
+    successString: $t('Team updated'),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -62,7 +62,7 @@ function deleteTeam(teamId: number) {
     fetchOptions: {
       method: 'DELETE',
     },
-    successString: 'Team deleted',
+    successString: $t('Team deleted'),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -80,7 +80,7 @@ function createTeam(teamName: string) {
         name: teamName,
       } satisfies TeamCreateInput,
     },
-    successString: 'Team created with success',
+    successString: $t('Team created with success'),
     onSuccess: () => {
       emit("teamsUpdated");
       newTeamName.value = "";
@@ -105,7 +105,7 @@ function addPlayerTeam(userId: number, teamId: number) {
         },
       } satisfies PlayersTeamsCreateInput,
     },
-    successString: 'Player added',
+    successString: $t('Player added'),
     onSuccess: () => {
       emit("teamsUpdated");
       selectedUser.value = null;
@@ -118,7 +118,7 @@ function removePlayer(teamId: number, playerId: number) {
     fetchOptions: {
       method: 'DELETE',
     },
-    successString: 'Player removed',
+    successString: $t('Player removed'),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -151,7 +151,7 @@ function removePlayer(teamId: number, playerId: number) {
 
       <template #description>
         <div v-if="team.players.length" class="mt-4">
-          <div class="mb-2">Subscribed</div>
+          <div class="mb-2">{{ $t("Subscribed") }}</div>
           <UFieldGroup v-for="player in team.players" :key="player.playerId">
             <UBadge :label="player.player.username" variant="outline" class="w-52" color="neutral" size="lg" />
             <UButton icon="i-lucide-user-minus" variant="outline" color="error" @click="removePlayer(team.id, player.playerId)" />
@@ -167,7 +167,7 @@ function removePlayer(teamId: number, playerId: number) {
           </UFieldGroup>
         </UForm>
       </template>
-      
+
     </UPageCard>
 
     <UPageCard>
@@ -175,9 +175,9 @@ function removePlayer(teamId: number, playerId: number) {
         <UFieldGroup>
           <UInput
             v-model="newTeamName"
-            placeholder="Créer une nouvelle équipe"
+            :placeholder="$t('Create a new team')"
           />
-          <UButton color="success" label="Créer" type="submit" />
+          <UButton color="success" :label="$t('Create')" type="submit" />
         </UFieldGroup>
       </UForm>
     </UPageCard>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "New animation",
+  title: $t("New animation"),
 });
 
 definePageMeta({

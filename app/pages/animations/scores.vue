@@ -6,7 +6,7 @@ import type {
 } from "~~/prisma/generated/prisma/models";
 
 useHead({
-  title: "Scores",
+  title: $t("Scores"),
 });
 
 definePageMeta({
@@ -55,7 +55,7 @@ usersScores.value?.forEach((userScores) => {
   if (firstLoop) {
     columns.push({
       accessorKey: "username",
-      header: "Username",
+      header: $t("Username"),
     });
   }
 
@@ -93,7 +93,7 @@ usersScores.value?.forEach((userScores) => {
   if (firstLoop) {
     columns.push({
       accessorKey: "scoreTotal",
-      header: "Total",
+      header: $t("Total"),
     });
   }
 

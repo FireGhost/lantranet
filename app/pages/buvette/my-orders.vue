@@ -3,7 +3,7 @@ import type { BadgeProps } from "@nuxt/ui";
 import type { OrderGetPayload } from "~~/prisma/generated/prisma/models";
 
 useHead({
-  title: "My orders",
+  title: $t("My orders"),
 });
 
 definePageMeta({
@@ -44,7 +44,7 @@ const { data: orders } = await useFetch<
         :label="item.status.name"
         :color="item.status.color as BadgeProps['color']"
       />
-      <UBadge v-else label="Sans status" color="neutral" />
+      <UBadge v-else :label="$t('Sans status')" color="neutral" />
       <div>{{ item.orderItems.length }} items</div>
       <div>{{ computeTotalPrice(item) }} CHF</div>
     </template>

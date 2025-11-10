@@ -30,8 +30,8 @@ defineEmits<{
 
     <template #links>
       <template v-if="animation.openSubscription">
-        <USlideover v-if="animation.isTeamed" title="Gestion d'équipes">
-          <UButton label="Gestion d'équipes" />
+        <USlideover v-if="animation.isTeamed" :title="$t('Team management')">
+          <UButton :label="$t('Team management')" />
   
           <template #body>
             <FormAnimationTeams
@@ -48,7 +48,7 @@ defineEmits<{
         />
       </template>
       <template v-else>
-        <UBadge color="error" variant="outline" label="Subscription closed" />
+        <UBadge color="error" variant="outline" :label="$t('Subscription closed')" />
       </template>
     </template>
 

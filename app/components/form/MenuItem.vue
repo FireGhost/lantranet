@@ -24,12 +24,12 @@ const { data: menuCategories } = await useFetch("/api/buvette/categories", {
 });
 
 const formSubmit = props.menuItem.id ? updateMenuItem : createMenuItem;
-const submitButtonText = props.menuItem.id ? "Update" : "Create";
+const submitButtonText = props.menuItem.id ? $t("Update") : $t("Create");
 
 function createMenuItem() {
   if (!menuItemState.value.name) {
     toast.add({
-      title: "Name cannot be empty",
+      title: $t("Name cannot be empty"),
       color: "error",
     });
     return;
@@ -50,7 +50,7 @@ function createMenuItem() {
         price: menuItemState.value.price,
       } satisfies MenuItemCreateInput,
     },
-    successString: "Item created !",
+    successString: $t("Item created !"),
     onSuccess: () => navigateTo("/buvette"),
   });
 }
@@ -71,7 +71,7 @@ function updateMenuItem() {
         price: menuItemState.value.price,
       } satisfies MenuItemUpdateInput,
     },
-    successString: "Item updated !",
+    successString: $t("Item updated !"),
     onSuccess: () => navigateTo("/buvette"),
   });
 }
@@ -79,15 +79,15 @@ function updateMenuItem() {
 
 <template>
   <UForm @submit="formSubmit()">
-    <UFormField label="Name">
+    <UFormField :label="$t('Name')">
       <UInput v-model="menuItemState.name" class="w-80" />
     </UFormField>
 
-    <UFormField label="Description">
+    <UFormField :label="$t('Description')">
       <UTextarea v-model="menuItemState.description" class="w-80" :rows="7" />
     </UFormField>
 
-    <UFormField label="Price">
+    <UFormField :label="$t('Price')">
       <UInputNumber
         v-model="menuItemState.price"
         :format-options="{ minimumFractionDigits: 0.5, style: 'decimal' }"
@@ -95,11 +95,11 @@ function updateMenuItem() {
       />
     </UFormField>
 
-    <UFormField label="Is available">
+    <UFormField :label="$t('Is available')">
       <USwitch v-model="menuItemState.isAvailable" />
     </UFormField>
 
-    <UFormField label="Category">
+    <UFormField :label="$t('Category')">
       <USelect
         v-model="menuItemState.categoryId"
         :items="menuCategories"

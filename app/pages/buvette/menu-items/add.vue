@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "New menu item",
+  title: $t("New menu item"),
 });
 
 definePageMeta({

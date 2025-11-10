@@ -12,7 +12,7 @@ function saveAppTexts() {
   <UForm @submit="saveAppTexts">
     <UFormField>
       <UFieldGroup>
-        <UInput v-model="appName" placeholder="App name" class="w-60" />
+        <UInput v-model="appName" :placeholder="$t('App name')" class="w-60" />
         <UButton type="submit" icon="i-lucide-save" />
       </UFieldGroup>
     </UFormField>

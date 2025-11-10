@@ -2,7 +2,7 @@
 import { useApi } from "~/composables/useApi";
 
 useHead({
-  title: "Login",
+  title: $t("Login"),
 });
 
 const { fetch: refreshUserSession } = useUserSession();
@@ -18,7 +18,7 @@ async function login() {
       method: "POST",
       body: userLoginState,
     },
-    successString: "You are logged in !",
+    successString: $t("You are logged in !"),
     onSuccess: async () => {
       refreshUserSession();
       navigateTo("/");
@@ -29,17 +29,17 @@ async function login() {
 
 <template>
   <div class="pt-4">
-    <UPageCard title="Login" class="w-fit m-auto">
+    <UPageCard :title="$t('Login')" class="w-fit m-auto">
       <UForm @submit="login()">
-        <UFormField label="Username" name="username">
+        <UFormField :label="$t('Username')" name="username">
           <UInput v-model="userLoginState.username" autofocus />
         </UFormField>
 
-        <UFormField label="Password" name="password" class="mt-2">
+        <UFormField :label="$t('Password')" name="password" class="mt-2">
           <UInput v-model="userLoginState.password" type="password" />
         </UFormField>
 
-        <UButton label="Login" type="submit" class="mt-4" />
+        <UButton :label="$t('Login')" type="submit" class="mt-4" />
       </UForm>
     </UPageCard>
   </div>

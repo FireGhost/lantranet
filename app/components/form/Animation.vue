@@ -27,7 +27,7 @@ const { data: lanDays } = await useFetch("/api/lan-days", {
 });
 
 const submitFunction = props.animation.id ? updateAnimation : createAnimation;
-const submitButtonText = props.animation.id ? "Update" : "Create";
+const submitButtonText = props.animation.id ? $t("Update") : $t("Create");
 
 function createAnimation() {
   useApi("/api/animations", {
@@ -35,7 +35,7 @@ function createAnimation() {
       method: "POST",
       body: animationState.value,
     },
-    successString: "Animation created with success !",
+    successString: $t("Animation created with success !"),
     onSuccess: () => {
       refreshNuxtData("animationsList");
       navigateTo("/animations");
@@ -49,7 +49,7 @@ function updateAnimation() {
       method: "PUT",
       body: animationState.value,
     },
-    successString: "Animation updated !",
+    successString: $t("Animation updated !"),
     onSuccess: () => {
       refreshNuxtData("animationsList");
       navigateTo(`/animations/${props.animation.id}`);
@@ -60,19 +60,19 @@ function updateAnimation() {
 
 <template>
   <UForm class="mr-8 mt-4" @submit="submitFunction()">
-    <UFormField label="Name">
+    <UFormField :label="$t('Name')">
       <UInput v-model="animationState.name" class="w-80" />
     </UFormField>
 
-    <UFormField label="Short name">
+    <UFormField :label="$t('Short name')">
       <UInput v-model="animationState.shortName" class="w-80" />
     </UFormField>
 
-    <UFormField label="Is team based">
+    <UFormField :label="$t('Is team based')">
       <USwitch v-model="animationState.isTeamed" />
     </UFormField>
 
-    <UFormField label="Description">
+    <UFormField :label="$t('Description')">
       <UTextarea
         v-model="animationState.description"
         :rows="6"
@@ -80,7 +80,7 @@ function updateAnimation() {
       />
     </UFormField>
 
-    <UFormField label="Admin user">
+    <UFormField :label="$t('Admin user')">
       <USelect
         v-model="animationState.adminUserId"
         :items="users"
@@ -88,7 +88,7 @@ function updateAnimation() {
       />
     </UFormField>
 
-    <UFormField label="Animation day">
+    <UFormField :label="$t('Animation day')">
       <USelect
         v-model="animationState.lanDayId"
         :items="lanDays"
@@ -96,11 +96,11 @@ function updateAnimation() {
       />
     </UFormField>
 
-    <UFormField label="Start time">
+    <UFormField :label="$t('Start time')">
       <UInput v-model="animationState.startTime" class="w-80" />
     </UFormField>
 
-    <UFormField label="Weight">
+    <UFormField :label="$t('Weight')">
       <UInputNumber v-model="animationState.weight" class="w-80" />
     </UFormField>
 

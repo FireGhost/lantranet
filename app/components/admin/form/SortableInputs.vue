@@ -68,7 +68,7 @@ onMounted(() => {
     <UFormField name="name">
       <UFieldGroup>
         <slot :item="newItem" />
-        <UButton label="Add" color="success" type="submit" />
+        <UButton :label="$t('Add')" color="success" type="submit" />
       </UFieldGroup>
     </UFormField>
   </UForm>

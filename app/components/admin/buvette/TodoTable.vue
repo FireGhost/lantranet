@@ -5,6 +5,8 @@ import type {
   OrderUpdateInput,
 } from "~~/prisma/generated/prisma/models";
 
+const settingsStrings = useSettingsStrings();
+
 const props = defineProps<{
   orders: OrderGetPayload<{
     include: {
@@ -20,6 +22,8 @@ const emit = defineEmits<{
 }>();
 
 const orderStatusesSorted = await getOrderStatusesSorted();
+const currencySuffix = await settingsStrings.get('app-currency-suffix');
+const datetimeLocale = await settingsStrings.get('app-datetime-locale');
 
 const ordersImproved = computed(() => {
   return props.orders.map((order) => {
@@ -33,7 +37,7 @@ const ordersImproved = computed(() => {
 function updateNextStatus(order: (typeof ordersImproved.value)[number]) {
   if (!order.nextStatus) {
     useToast().add({
-      title: "No next status",
+      title: $t("No next status"),
       color: "error",
     });
     return;
@@ -50,7 +54,7 @@ function updateNextStatus(order: (typeof ordersImproved.value)[number]) {
         },
       } satisfies OrderUpdateInput,
     },
-    successString: "Order updated with success",
+    successString: $t("Order updated with success"),
     onSuccess: () => emit("orderUpdated"),
   });
 }
@@ -66,7 +70,7 @@ function updateNextStatus(order: (typeof ordersImproved.value)[number]) {
       <div>{{ item.user.username }}</div>
       <NuxtTime
         :datetime="item.createdAt"
-        locale="fr-CH"
+        :locale="datetimeLocale"
         date-style="short"
         time-style="short"
       />
@@ -78,12 +82,12 @@ function updateNextStatus(order: (typeof ordersImproved.value)[number]) {
       <UBadge v-else label="Sans status" color="neutral" />
       <UButton
         v-if="item.nextStatus"
-        :label="`Passer à: -> ${item.nextStatus.name}`"
+        :label="`${$t('Go to ->')} ${item.nextStatus.name}`"
         color="primary"
         @click.stop="updateNextStatus(item)"
       />
-      <div>{{ item.orderItems.length }} items</div>
-      <div>{{ computeTotalPrice(item) }} CHF</div>
+      <div>{{ item.orderItems.length }} {{ $t("items") }}</div>
+      <div>{{ computeTotalPrice(item) }} {{ currencySuffix }}</div>
     </template>
 
     <template #content="{ item }">
@@ -93,7 +97,7 @@ function updateNextStatus(order: (typeof ordersImproved.value)[number]) {
             return {
               name: orderItem.nameAtOrder,
               comment: orderItem.comment,
-              price: `${orderItem.priceAtOrder} CHF`,
+              price: `${orderItem.priceAtOrder} ${currencySuffix}`,
             };
           })
         "

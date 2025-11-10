@@ -15,7 +15,7 @@ function onAdminChange(user: UserModel) {
         role: user.role === Role.ADMIN ? Role.USER : Role.ADMIN,
       } satisfies UserUpdateInput,
     },
-    successString: "User updated",
+    successString: $t("User updated"),
   });
 }
 </script>

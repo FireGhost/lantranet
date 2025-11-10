@@ -10,6 +10,9 @@ defineEmits<{
 }>();
 
 const { user } = useUserSession();
+const settingsString = useSettingsStrings();
+
+const currencySuffix = await settingsString.get("app-currency-suffix");
 
 const { data: menuCategories, refresh: refreshMenuItems } = await useFetch<
   MenuCategoryGetPayload<{
@@ -35,7 +38,7 @@ const isAdmin = user.value?.role === Role.ADMIN;
 </script>
 
 <template>
-  <UButton v-if="isAdmin" label="Add new entry" to="/buvette/menu-items/add" />
+  <UButton v-if="isAdmin" :label="$t('Add new entry')" to="/buvette/menu-items/add" />
 
   <template
     v-for="menuCategory in menuCategoriesComputed"
@@ -47,7 +50,7 @@ const isAdmin = user.value?.role === Role.ADMIN;
         v-for="menuItem in menuCategory.menuItems"
         :key="menuItem.id"
         :title="menuItem.name"
-        :description="`CHF ${menuItem.price}`"
+        :description="`${menuItem.price} ${currencySuffix}`"
       >
         <template #footer>
           <BuvetteMenuItem

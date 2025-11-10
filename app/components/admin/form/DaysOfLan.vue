@@ -20,7 +20,7 @@ function deleteLanDay(lanDayId: number) {
     fetchOptions: {
       method: "DELETE",
     },
-    successString: "Day removed",
+    successString: $t("Day removed"),
     onSuccess: () => refreshLanDays(),
   });
 }
@@ -41,7 +41,7 @@ function lanDayOrderUpdated(newKeysOrder: string[]) {
   }
   Promise.all(promises).then(() => {
     toast.add({
-      title: "Order saved",
+      title: $t("Order saved"),
     });
     refreshLanDays();
   });
@@ -55,7 +55,7 @@ function updateLanDay(lanDay: Partial<LanDayModel>) {
         name: lanDay.name,
       } satisfies LanDayUpdateInput,
     },
-    successString: "Day updated",
+    successString: $t("Day updated"),
     onSuccess: () => refreshLanDays(),
   });
 }
@@ -63,7 +63,7 @@ function updateLanDay(lanDay: Partial<LanDayModel>) {
 function createLanDay(newLanDay: Partial<LanDayModel>) {
   if (!newLanDay.name) {
     toast.add({
-      title: "Please enter a day name",
+      title: $t("Please enter a day name"),
       color: "error",
     });
     return;
@@ -77,7 +77,7 @@ function createLanDay(newLanDay: Partial<LanDayModel>) {
         weight: lanDaysSorted.value?.length ?? 0,
       } satisfies LanDayCreateInput,
     },
-    successString: "New day added",
+    successString: $t("New day added"),
     onSuccess: () => {
       newLanDay.name = "";
       refreshLanDays();
@@ -97,6 +97,6 @@ function createLanDay(newLanDay: Partial<LanDayModel>) {
     @delete-item="deleteLanDay"
     @order-updated="lanDayOrderUpdated"
   >
-    <UInput v-model="item.name" placeholder="Lan day name" />
+    <UInput v-model="item.name" :placeholder="$t('Lan day name')" />
   </AdminFormSortableInputs>
 </template>

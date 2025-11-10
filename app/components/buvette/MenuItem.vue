@@ -25,7 +25,7 @@ function deleteMenuItem(menuItemId: number) {
     fetchOptions: {
       method: "DELETE",
     },
-    successString: "Item removed with success",
+    successString: $t("Item removed with success"),
     onSuccess: () => emit("menuItemsUpdated"),
   });
 }
@@ -57,16 +57,16 @@ function addToCart(menuItem: MenuItemModel) {
           </UPageFeature>
 
           <UForm class="mt-8">
-            <UFormField label="Commentaire">
+            <UFormField :label="$t('Comment')">
               <UTextarea
                 v-model="orderComment"
-                placeholder="Indiquez nous ce que vous voulez..."
+                :placeholder="$t('Indicate what do you want...')"
                 :rows="6"
                 class="w-full"
               />
             </UFormField>
             <UButton
-              label="Ajouter au panier"
+              :label="$t('Add to basket')"
               type="submit"
               class="mt-2"
               @click="
@@ -81,18 +81,18 @@ function addToCart(menuItem: MenuItemModel) {
 
     <template v-if="isAdmin">
       <UButton
-        label="Edit"
+        :label="$t('Edit')"
         variant="soft"
         color="warning"
         class="ml-4"
         :to="`/buvette/menu-items/${menuItem.id}/edit`"
       />
-      <UModal title="Vous êtes sûr ?">
+      <UModal :title="$t('Are you sure ?')">
         <UButton label="Delete" variant="outline" color="error" class="ml-4" />
 
         <template #body>
           <UButton
-            label="Oui, supprime ça !"
+            :label="$t('Yes, delete this !')"
             color="error"
             @click="deleteMenuItem(menuItem.id)"
           />

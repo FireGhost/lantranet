@@ -13,13 +13,13 @@ function saveHomepageTexts() {
 <template>
   <UForm @submit="saveHomepageTexts">
     <UFormField>
-      <UInput v-model="homepageTitle" placeholder="Title text" class="w-60" />
+      <UInput v-model="homepageTitle" :placeholder="$t('Title text')" class="w-60" />
     </UFormField>
 
     <UFormField class="mt-2">
-      <UTextarea v-model="homepageContent" placeholder="Main content" :rows="7" class="w-60" />
+      <UTextarea v-model="homepageContent" :placeholder="$t('Main content')" :rows="7" class="w-60" />
     </UFormField>
 
-    <UButton type="submit" label="Save" class="mt-4" />
+    <UButton type="submit" :label="$t('Save')" class="mt-4" />
   </UForm>
 </template>

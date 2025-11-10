@@ -31,7 +31,7 @@ const { data: animation, refresh: refreshAnimation } = await useFetch<
 });
 
 useHead({
-  title: animation.value?.shortName ?? animation.value?.name ?? 'Animation not found',
+  title: animation.value?.shortName ?? animation.value?.name ?? $t('Animation not found'),
 });
 
 function deleteAnimation() {
@@ -39,7 +39,7 @@ function deleteAnimation() {
     fetchOptions: {
       method: "DELETE",
     },
-    successString: "Animation removed",
+    successString: $t("Animation removed"),
     onSuccess: () => {
       refreshNuxtData("animationsList");
       navigateTo("/animations");
@@ -49,15 +49,15 @@ function deleteAnimation() {
 
 function toggleSubscriptionOpen() {
   if (!animation.value) {
-    toast.add({title: 'Animation not found'});
+    toast.add({title: $t('Animation not found')});
     return;
   }
 
   let successString = "";
   if (animation.value.openSubscription) {
-    successString = "Subscriptions are now closed";
+    successString = $t("Subscriptions are now closed");
   } else {
-    successString = "Subscriptions are now open !";
+    successString = $t("Subscriptions are now open !");
   }
 
   useApi(`/api/animations/${route.params.id}`, {
@@ -76,19 +76,19 @@ function toggleSubscriptionOpen() {
 <template>
   <div>
     <template v-if="!animation">
-      <UPageHero title="Animation not found" />
+      <UPageHero :title="$t('Animation not found')" />
     </template>
 
     <template v-else>
       <div v-if="isAdmin">
-        <UButton label="Edit" :to="`/animations/${animation.id}/edit`" />
+        <UButton :label="$t('Edit')" :to="`/animations/${animation.id}/edit`" />
         <UButton
-          label="Toggle subscription"
+          :label="$t('Toggle subscription')"
           class="ml-4"
           @click="toggleSubscriptionOpen()"
         />
-        <USlideover title="Manage scores">
-          <UButton label="Manage scores" class="ml-4" />
+        <USlideover :title="$t('Manage scores')">
+          <UButton :label="$t('Manage scores')" class="ml-4" />
 
           <template #body>
             <FormAnimationScores
@@ -98,8 +98,8 @@ function toggleSubscriptionOpen() {
             />
           </template>
         </USlideover>
-        <USlideover v-if="animation.isTeamed" title="Manage teams">
-          <UButton label="Manage teams" class="ml-4" />
+        <USlideover v-if="animation.isTeamed" :title="$t('Manage teams')">
+          <UButton :label="$t('Manage teams')" class="ml-4" />
 
           <template #body>
             <AdminAnimationTeamsManagement
@@ -108,8 +108,8 @@ function toggleSubscriptionOpen() {
             />
           </template>
         </USlideover>
-        <USlideover v-else title="Manage players">
-          <UButton label="Manage players" class="ml-4" />
+        <USlideover v-else :title="$t('Manage players')">
+          <UButton :label="$t('Manage players')" class="ml-4" />
 
           <template #body>
             <AdminAnimationPlayersManagement
@@ -119,14 +119,14 @@ function toggleSubscriptionOpen() {
           </template>
         </USlideover>
         <UModal
-          title="Are you sure"
-          description="Do you really want to delete this animation ?"
+          :title="$t('Are you sure')"
+          :description="$t('Do you really want to delete this animation ?')"
         >
-          <UButton label="Delete animation" color="error" variant="outline" class="ml-16" />
+          <UButton :label="$t('Delete animation')" color="error" variant="outline" class="ml-16" />
 
           <template #body>
             <UButton
-              label="Yes, delete"
+              :label="$t('Yes, delete')"
               color="error"
               class="ml-4"
               @click="deleteAnimation()"

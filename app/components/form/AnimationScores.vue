@@ -32,7 +32,7 @@ function saveScoreTeams() {
           score: Number(team.score),
         } satisfies TeamUpdateInput,
       },
-      successString: "Teams scores saved",
+      successString: $t("Teams scores saved"),
       onSuccess: () => emit("teamScoreUpdated"),
     });
   }
@@ -49,7 +49,7 @@ function saveScorePlayers() {
             score: Number(playerAnimation.score),
           } satisfies AnimationsPlayersUpdateInput,
         },
-        successString: "Players scores saved",
+        successString: $t("Players scores saved"),
         onSuccess: () => emit("playerScoreUpdated"),
       },
     );
@@ -71,13 +71,13 @@ function saveScorePlayers() {
         v-model="team.score"
         color="neutral"
         variant="outline"
-        placeholder="Points"
+        :placeholder="$t('Points')"
         class="w-16"
       />
     </UFieldGroup>
 
     <UFormField class="mt-4">
-      <UButton type="submit" label="Save score" @click="saveScoreTeams()" />
+      <UButton type="submit" :label="$t('Save score')" @click="saveScoreTeams()" />
     </UFormField>
   </UForm>
 
@@ -97,13 +97,13 @@ function saveScorePlayers() {
         v-model="playerSubscription.score"
         color="neutral"
         variant="outline"
-        placeholder="Points"
+        :placeholder="$t('Points')"
         class="w-16"
       />
     </UFieldGroup>
 
     <UFormField class="mt-4">
-      <UButton type="submit" label="Save score" @click="saveScorePlayers()" />
+      <UButton type="submit" :label="$t('Save score')" @click="saveScorePlayers()" />
     </UFormField>
   </UForm>
 </template>

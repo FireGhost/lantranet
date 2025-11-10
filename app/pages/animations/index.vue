@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "Animations",
+  title: $t("Animations"),
 });
 
 definePageMeta({
@@ -9,5 +9,5 @@ definePageMeta({
 </script>
 
 <template>
-  <UPageHeader title="Choisis un jeu" description="<- là, sur la gauche" />
+  <UPageHeader :title="$t('Choose an animation')" :description="$t('<- here, on the left')" />
 </template>

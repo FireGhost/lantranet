@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: $t('admin'),
+  title: $t('Admin'),
 });
 
 definePageMeta({
@@ -10,56 +10,61 @@ definePageMeta({
 
 <template>
   <div class="pb-4">
-    <AdminFormSeparator :title="$t('lan')">
+    <AdminFormSeparator :title="$t('Lan')">
       <UCard class="w-fit">
-        <template #header>{{ $t('days of lan') }}</template>
+        <template #header>{{ $t('Days of lan') }}</template>
         <AdminFormDaysOfLan />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>{{ $t("all animations") }}</template>
+        <template #header>{{ $t("All animations") }}</template>
         <AdminFormAllAnimationsLinks />
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator :title="$t('buvette')">
+    <AdminFormSeparator :title="$t('Buvette')">
       <UCard class="w-fit">
-        <template #header>{{ $t("menu categories") }}</template>
+        <template #header>{{ $t("Menu categories") }}</template>
         <AdminFormMenuCategories />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>{{ $t("menu items available") }}</template>
+        <template #header>{{ $t("Menu items available") }}</template>
         <AdminFormMenuItems />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>{{ $t("order status") }}</template>
+        <template #header>{{ $t("Order status") }}</template>
         <AdminFormOrderStatus />
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator :title="$t('users')">
+    <AdminFormSeparator :title="$t('Users')">
       <UCard class="w-fit">
-        <template #header>{{ $t("admin users") }}</template>
+        <template #header>{{ $t("Admin users") }}</template>
         <AdminFormSwitchAdminUsers />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>{{ $t("reset password") }}</template>
+        <template #header>{{ $t("Reset password") }}</template>
         <AdminFormPasswordReset />
       </UCard>
     </AdminFormSeparator>
 
-    <AdminFormSeparator :title="$t('texts')">
+    <AdminFormSeparator :title="$t('Texts')">
       <UCard class="w-fit">
-        <template #header>{{ $t("homepage texts") }}</template>
+        <template #header>{{ $t("Homepage texts") }}</template>
         <AdminFormHomepageTexts />
       </UCard>
 
       <UCard class="w-fit">
-        <template #header>{{ $t("app texts") }}</template>
+        <template #header>{{ $t("App texts") }}</template>
         <AdminFormAppTexts />
+      </UCard>
+
+      <UCard class="w-fit">
+        <template #header>{{ $t("App locale") }}</template>
+        <AdminFormAppLocale />
       </UCard>
     </AdminFormSeparator>
   </div>

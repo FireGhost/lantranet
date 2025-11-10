@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: "Home",
+  title: $t("Home"),
 });
 
 const settingsStrings = useSettingsStrings();

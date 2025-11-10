@@ -23,7 +23,7 @@ function updatePassword() {
         newPasswordValidation: '',
       } satisfies PasswordChangeInput,
     },
-    successString: 'Password updated with success',
+    successString: $t('Password updated with success'),
     onSuccess: () => newPassword.value = '',
   });
 }

@@ -1,18 +1,21 @@
 <script setup lang="ts">
 import type { NavigationMenuItem } from "@nuxt/ui";
+import type { Locale } from "vue-i18n";
 import { Role } from "~~/prisma/generated/prisma/enums";
 
 const settingsStrings = useSettingsStrings();
+const { loggedIn, clear: clearUserSession, user } = useUserSession();
+const route = useRoute();
+const { setLocale } = useI18n();
+
 const appName = await settingsStrings.get('app-name');
+await setLocale(await settingsStrings.get('app-locale') as Locale);
 
 useHead({
   titleTemplate: (title) => {
     return title ? `${title} - ${appName}` : appName;
   },
 });
-
-const { loggedIn, clear: clearUserSession, user } = useUserSession();
-const route = useRoute();
 
 let eventSource: EventSource | null = null;
 onMounted(() => {
@@ -31,12 +34,12 @@ onUnmounted(() => {
 const items = computed<NavigationMenuItem[]>(() => {
   const items: NavigationMenuItem[] = [
     {
-      label: $t('animations'),
+      label: $t('Animations'),
       to: "/animations",
       active: route.path.startsWith('/animations'),
     },
     {
-      label: $t('buvette'),
+      label: $t('Buvette'),
       to: "/buvette",
       active: route.path.startsWith('/buvette'),
     },
@@ -44,7 +47,7 @@ const items = computed<NavigationMenuItem[]>(() => {
 
   if (user.value?.role === Role.ADMIN) {
     items.push({
-      label: $t('admin'),
+      label: $t('Admin'),
       to: "/admin",
       active: route.path.startsWith('/admin'),
     });
@@ -70,11 +73,11 @@ async function logout() {
         <template v-if="loggedIn">
           <ULink to="/user" variant="link" class="mr-2">{{ user?.username }}</ULink>
           <UColorModeButton class="mr-2" />
-          <UButton @click="logout()">{{ $t('logout') }}</UButton>
+          <UButton @click="logout()">{{ $t('Logout') }}</UButton>
         </template>
         <template v-else>
-          <UButton to="/login">{{ $t('login') }}</UButton>
-          <UButton to="/register">{{ $t('register') }}</UButton>
+          <UButton to="/login">{{ $t('Login') }}</UButton>
+          <UButton to="/register">{{ $t('Register') }}</UButton>
         </template>
       </template>
 

@@ -44,7 +44,7 @@ function subscribePlayer(userId: number) {
         },
       } satisfies AnimationsPlayersCreateInput,
     },
-    successString: 'Player added',
+    successString: $t('Player added'),
     onSuccess: () => emit("animationUpdated"),
   });
 }
@@ -54,14 +54,14 @@ function unsubscribePlayer(userId: number) {
     fetchOptions: {
       method: 'DELETE',
     },
-    successString: 'Player removed',
+    successString: $t('Player removed'),
     onSuccess: () => emit("animationUpdated"),
   });
 }
 </script>
 
 <template>
-  <div class="mb-2">Subscribed players</div>
+  <div class="mb-2">{{ $t("Subscribed players") }}</div>
   <template v-for="subscribedUser in subscribedUsers" :key="subscribedUser.id">
     <UFieldGroup class="w-2/3 flex">
       <UBadge :label="subscribedUser.username" class="flex-1" variant="outline" color="neutral" />
@@ -71,7 +71,7 @@ function unsubscribePlayer(userId: number) {
 
   <USeparator class="mb-2 mt-4" />
 
-  <div class="mb-2">Not subscribed players</div>
+  <div class="mb-2">{{ $t("Not subscribed players") }}</div>
   <template v-for="notSubscribedUser in notSubscribedUsers" :key="notSubscribedUser.id">
     <UFieldGroup class="w-2/3 flex">
       <UBadge :label="notSubscribedUser.username" class="flex-1" variant="outline" color="neutral" />

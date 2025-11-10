@@ -4,11 +4,11 @@
       <UNavigationMenu
         :items="[
           {
-            label: 'Order',
+            label: $t('Order'),
             to: '/buvette',
           },
           {
-            label: 'My orders',
+            label: $t('My orders'),
             to: '/buvette/my-orders',
           },
         ]"

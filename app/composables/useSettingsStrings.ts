@@ -1,12 +1,22 @@
 import type { SettingsStringsCreateInput } from "~~/prisma/generated/prisma/models";
 
+type settingStringKey = 
+  "app-name"
+  |"app-datetime-locale"
+  |"app-currency-suffix"
+  |"app-locale"
+  |"homepage-title"
+  |"homepage-content";
+
 export const useSettingsStrings = () => {
+  const { t } = useI18n();
+  
   return {
-    get: async (key: string) => {
+    get: async (key: settingStringKey) => {
       const { data } = await useFetch(`/api/settings-strings/${key}`);
       return data.value?.value ?? '';
     },
-    upsert: (key: string, value: string) => {
+    upsert: (key: settingStringKey, value: string) => {
       useApi("/api/settings-strings", {
         fetchOptions: {
           method: 'POST',
@@ -15,7 +25,7 @@ export const useSettingsStrings = () => {
             value: value,
           } satisfies SettingsStringsCreateInput,
         },
-        successString: 'String updated',
+        successString: t('String updated'),
       });
     }
   }

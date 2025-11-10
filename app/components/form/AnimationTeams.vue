@@ -37,7 +37,7 @@ const newTeam = ref<Partial<TeamModel>>({});
 function createNewTeam() {
   if (!newTeam.value.name?.length) {
     toast.add({
-      title: "Please enter a team name",
+      title: $t("Please enter a team name"),
       color: "error",
     });
     return;
@@ -55,7 +55,7 @@ function createNewTeam() {
         },
       } satisfies TeamCreateInput,
     },
-    successString: "New team created !",
+    successString: $t("New team created !"),
     onSuccess: () => {
       emit("teamsUpdated");
       newTeam.value.name = "";
@@ -68,7 +68,7 @@ function leaveTeam() {
     fetchOptions: {
       method: "DELETE",
     },
-    successString: "You left the team",
+    successString: $t("You left the team"),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -76,7 +76,7 @@ function leaveTeam() {
 function joinTeam(teamId: number) {
   if (!user.value) {
     toast.add({
-      title: "Please login",
+      title: $t("Please login"),
     });
     return;
   }
@@ -97,7 +97,7 @@ function joinTeam(teamId: number) {
         },
       } satisfies PlayersTeamsCreateInput,
     },
-    successString: "You joined a team",
+    successString: $t("You joined a team"),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -107,7 +107,7 @@ function deleteMyTeam() {
     fetchOptions: {
       method: "DELETE",
     },
-    successString: "You deleted the team",
+    successString: $t("You deleted the team"),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -120,7 +120,7 @@ function updateMyTeamName(myTeam: TeamModel) {
         name: myTeam.name,
       } satisfies TeamUpdateInput,
     },
-    successString: "You updated the team",
+    successString: $t("You updated the team"),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -137,7 +137,7 @@ function updateMyTeamName(myTeam: TeamModel) {
             <UButton
               color="success"
               variant="outline"
-              label="Save"
+              :label="$t('Save')"
               @click="updateMyTeamName(team)"
             />
           </UFieldGroup>
@@ -148,7 +148,7 @@ function updateMyTeamName(myTeam: TeamModel) {
       </template>
 
       <template #description>
-        {{ team.players.length }} inscrits
+        {{ team.players.length }} {{ $t("subscribed") }}
         <template v-if="animation.maxPlayerPerTeam !== null">
           / {{ animation.maxPlayerPerTeam }}
         </template>
@@ -156,13 +156,13 @@ function updateMyTeamName(myTeam: TeamModel) {
 
       <template #footer>
         <template v-if="myTeamId === team.id">
-          <UButton label="Quitter" color="error" @click="leaveTeam()" />
+          <UButton :label="$t('Leave')" color="error" @click="leaveTeam()" />
           <UModal
-            title="Are you sure"
-            description="Do you really want to delete your team ?"
+            :title="$t('Are you sure')"
+            :description="$t('Do you really want to delete your team ?')"
           >
             <UButton
-              label="Supprimer l'équipe"
+              :label="$t('Delete the team')"
               color="error"
               variant="outline"
               class="ml-16"
@@ -170,7 +170,7 @@ function updateMyTeamName(myTeam: TeamModel) {
 
             <template #body>
               <UButton
-                label="Oui, supprime mon équipe !"
+                :label="$t('Yes, delete my team !')"
                 color="error"
                 variant="outline"
                 class="ml-4"
@@ -181,7 +181,7 @@ function updateMyTeamName(myTeam: TeamModel) {
         </template>
         <UButton
           v-else-if="myTeamId === undefined"
-          label="Rejoindre"
+          :label="$t('Join')"
           class="block"
           @click="joinTeam(team.id)"
         />
@@ -194,9 +194,9 @@ function updateMyTeamName(myTeam: TeamModel) {
         <UFieldGroup>
           <UInput
             v-model="newTeam.name"
-            placeholder="Créer une nouvelle équipe"
+            :placeholder="$t('Create a new team')"
           />
-          <UButton color="success" label="Créer" type="submit" />
+          <UButton color="success" :label="$t('Create')" type="submit" />
         </UFieldGroup>
       </UForm>
     </UPageCard>

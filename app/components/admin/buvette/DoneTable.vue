@@ -2,6 +2,8 @@
 import type { BadgeProps } from "@nuxt/ui";
 import type { OrderGetPayload } from "~~/prisma/generated/prisma/models";
 
+const settingsStrings = useSettingsStrings();
+
 defineProps<{
   orders: OrderGetPayload<{
     include: {
@@ -11,6 +13,9 @@ defineProps<{
     };
   }>[];
 }>();
+
+const datetimeLocale = await settingsStrings.get('app-datetime-locale');
+const currencySuffix = await settingsStrings.get('app-currency-suffix');
 </script>
 
 <template>
@@ -23,7 +28,7 @@ defineProps<{
       <div>{{ item.user.username }}</div>
       <NuxtTime
         :datetime="item.createdAt"
-        locale="fr-CH"
+        :locale="datetimeLocale"
         date-style="short"
         time-style="short"
       />
@@ -32,9 +37,9 @@ defineProps<{
         :label="item.status.name"
         :color="item.status.color as BadgeProps['color']"
       />
-      <UBadge v-else label="Sans status" color="neutral" />
-      <div>{{ item.orderItems.length }} items</div>
-      <div>{{ computeTotalPrice(item) }} CHF</div>
+      <UBadge v-else label="$t('sans-status')" color="neutral" />
+      <div>{{ item.orderItems.length }} {{ $t("items") }}</div>
+      <div>{{ computeTotalPrice(item) }} {{ currencySuffix }}</div>
     </template>
 
     <template #content="{ item }">
@@ -44,7 +49,7 @@ defineProps<{
             return {
               name: orderItem.nameAtOrder,
               comment: orderItem.comment,
-              price: `${orderItem.priceAtOrder} CHF`,
+              price: `${orderItem.priceAtOrder} ${currencySuffix}`,
             };
           })
         "

@@ -2,7 +2,7 @@
 import type { MenuItemModel } from "~~/prisma/generated/prisma/models";
 
 useHead({
-  title: "Edit menu item",
+  title: $t("Edit menu item"),
 });
 
 definePageMeta({

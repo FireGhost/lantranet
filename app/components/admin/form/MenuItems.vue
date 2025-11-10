@@ -16,7 +16,7 @@ function onMenuItemChange(menuItemId: number) {
   );
   if (!menuItemUpdated) {
     toast.add({
-      title: "Menu item non-existant",
+      title: $t("Menu item non-existant"),
       color: "error",
     });
     return;
@@ -30,7 +30,7 @@ function onMenuItemChange(menuItemId: number) {
         isAvailable: menuItemUpdated.isAvailable,
       } satisfies MenuItemUpdateInput,
     },
-    successString: "Menu item updated",
+    successString: $t("Menu item updated"),
   });
 }
 </script>

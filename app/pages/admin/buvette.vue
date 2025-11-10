@@ -2,7 +2,7 @@
 import type { OrderGetPayload } from "~~/prisma/generated/prisma/models";
 
 useHead({
-  title: $t('buvette admin'),
+  title: $t('Buvette admin'),
 });
 
 const { data: orders, refresh: refreshOrders } = await useFetch<
@@ -53,7 +53,7 @@ const todoOrders = computed(() =>
       @order-updated="refreshOrders()"
     />
 
-    <UPageHeader :title="$t('done')" />
+    <UPageHeader :title="$t('Done')" />
     <AdminBuvetteDoneTable :orders="doneOrders" />
   </div>
 </template>

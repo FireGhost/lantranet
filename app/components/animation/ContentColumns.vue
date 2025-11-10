@@ -40,7 +40,7 @@ function indexToPos(index: number) {
   <div class="flex w-full gap-16 justify-center flex-wrap">
 
     <div v-if="animation.isTeamed" class="w-54">
-      <UBanner title="Team inscrites" color="secondary" />
+      <UBanner :title="$t('Team subscribed')" color="secondary" />
       <UPageList divide>
         <UPageCard
           v-for="team in animation.teams"
@@ -52,7 +52,7 @@ function indexToPos(index: number) {
       </UPageList>
     </div>
     <div v-else class="w-54">
-      <UBanner title="Inscrits" color="secondary" />
+      <UBanner :title="$t('Subscribed')" color="secondary" />
       <UPageList divide>
         <UPageCard v-for="player in animation.players" :key="player.playerId" orientation="horizontal" :highlight="player.playerId === user?.id">
           <UUser :name="player.player.username" size="md" class="h-1" />
@@ -61,7 +61,7 @@ function indexToPos(index: number) {
     </div>
 
     <div class="w-54">
-      <UBanner title="Responsable" color="secondary" />
+      <UBanner :title="$t('Responsible')" color="secondary" />
       <UPageList divide>
         <UPageCard>
           <UUser :name="animation.adminUser?.username" size="md" />
@@ -70,7 +70,7 @@ function indexToPos(index: number) {
     </div>
 
     <div class="w-54">
-      <UBanner title="Scores" color="secondary" />
+      <UBanner :title="$t('Scores')" color="secondary" />
       <UPageList divide>
         <template v-if="animation.isTeamed">
           

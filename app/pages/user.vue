@@ -10,7 +10,7 @@ const passwordChangeState = reactive<Partial<PasswordChangeInput>>({});
 function updateUsername() {
   if (!user.value) {
     toast.add({
-      title: 'Please login',
+      title: $t('Please login'),
       color: 'error',
     });
     return;
@@ -23,7 +23,7 @@ function updateUsername() {
         username: newUsername.value
       } satisfies UserUpdateInput
     },
-    successString: 'User updated',
+    successString: $t('User updated'),
     onSuccess: () => refreshUser(),
   });
 }
@@ -34,7 +34,7 @@ function updatePassword() {
       method: 'PUT',
       body: passwordChangeState
     },
-    successString: 'Password updated with success',
+    successString: $t('Password updated with success'),
   });
 }
 </script>
@@ -42,9 +42,9 @@ function updatePassword() {
 <template>
   <div class="pt-4 flex flex-wrap gap-8 justify-center">
     <UCard class="w-fit">
-      <template #header>Edit my username</template>
+      <template #header>{{ $t("Edit my username") }}</template>
         <UForm @submit="updateUsername">
-          <UFormField label="New username">
+          <UFormField :label="$t('New username')">
             <UFieldGroup>
               <UInput v-model="newUsername" type="text" />
               <UButton type="submit" icon="i-lucide-save" />
@@ -54,21 +54,21 @@ function updatePassword() {
     </UCard>
 
     <UCard class="w-fit">
-      <template #header>Edit my password</template>
+      <template #header>{{ $t("Edit my password") }}</template>
         <UForm :schema="PasswordChangeSchema" :state="passwordChangeState" @submit="updatePassword">
-          <UFormField label="Current password" name="currentPassword">
+          <UFormField :label="$t('Current password')" name="currentPassword">
             <UInput v-model="passwordChangeState.currentPassword" type="password" />
           </UFormField>
           
-          <UFormField label="New password" class="mt-2" name="newPassword">
+          <UFormField :label="$t('New password')" class="mt-2" name="newPassword">
             <UInput v-model="passwordChangeState.newPassword" type="password" />
           </UFormField>
           
-          <UFormField label="Verify new password" class="mt-2" name="newPasswordValidation">
+          <UFormField :label="$t('Verify new password')" class="mt-2" name="newPasswordValidation">
             <UInput v-model="passwordChangeState.newPasswordValidation" type="password" />
           </UFormField>
 
-          <UButton type="submit" label="Save new password" class="mt-4" />
+          <UButton type="submit" :label="$t('Save new password')" class="mt-4" />
         </UForm>
     </UCard>
   </div>
