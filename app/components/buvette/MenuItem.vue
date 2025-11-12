@@ -44,7 +44,7 @@ function addToCart(menuItem: MenuItemModel) {
 <template>
   <div class="mb-4 px-8">
     <UModal>
-      <UButton label="Add" class="px-6" @click="orderComment = ''" />
+      <UButton :label="$t('Add')" class="px-6" @click="orderComment = ''" />
 
       <template #content="{ close }">
         <UPage class="p-4">

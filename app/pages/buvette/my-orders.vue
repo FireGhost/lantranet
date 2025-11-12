@@ -11,6 +11,10 @@ definePageMeta({
 });
 
 const { user } = useUserSession();
+const settingsStrings = useSettingsStrings();
+
+const datetimeLocale = await settingsStrings.get('app-datetime-locale');
+const currencySuffix = await settingsStrings.get('app-currency-suffix');
 
 const { data: orders } = await useFetch<
   OrderGetPayload<{
@@ -35,7 +39,7 @@ const { data: orders } = await useFetch<
     <template #default="{ item }">
       <NuxtTime
         :datetime="item.createdAt"
-        locale="fr-CH"
+        :locale="datetimeLocale"
         date-style="short"
         time-style="short"
       />
@@ -44,9 +48,9 @@ const { data: orders } = await useFetch<
         :label="item.status.name"
         :color="item.status.color as BadgeProps['color']"
       />
-      <UBadge v-else :label="$t('Sans status')" color="neutral" />
-      <div>{{ item.orderItems.length }} items</div>
-      <div>{{ computeTotalPrice(item) }} CHF</div>
+      <UBadge v-else :label="$t('No status')" color="neutral" />
+      <div>{{ item.orderItems.length }} {{ $t("dishes") }}</div>
+      <div>{{ computeTotalPrice(item) }} {{ currencySuffix }}</div>
     </template>
 
     <template #content="{ item }">
@@ -56,7 +60,7 @@ const { data: orders } = await useFetch<
             return {
               name: orderItem.nameAtOrder,
               comment: orderItem.comment,
-              price: `${orderItem.priceAtOrder} CHF`,
+              price: `${orderItem.priceAtOrder} ${currencySuffix}`,
             };
           })
         "

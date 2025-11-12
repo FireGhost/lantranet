@@ -79,7 +79,7 @@ function updateNextStatus(order: (typeof ordersImproved.value)[number]) {
         :label="item.status.name"
         :color="item.status.color as BadgeProps['color']"
       />
-      <UBadge v-else label="Sans status" color="neutral" />
+      <UBadge v-else :label="$t('No status')" color="neutral" />
       <UButton
         v-if="item.nextStatus"
         :label="`${$t('Go to ->')} ${item.nextStatus.name}`"

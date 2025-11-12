@@ -37,6 +37,11 @@ definePageMeta({
         <template #header>{{ $t("Order status") }}</template>
         <AdminFormOrderStatus />
       </UCard>
+
+      <UCard class="w-fit">
+        <template #header>{{ $t("Buvette admin interface") }}</template>
+        <UButton :label="$t('Go to admin interface')" to="/admin/buvette" />
+      </UCard>
     </AdminFormSeparator>
 
     <AdminFormSeparator :title="$t('Users')">

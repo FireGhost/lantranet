@@ -37,7 +37,7 @@ const currencySuffix = await settingsStrings.get('app-currency-suffix');
         :label="item.status.name"
         :color="item.status.color as BadgeProps['color']"
       />
-      <UBadge v-else label="$t('sans-status')" color="neutral" />
+      <UBadge v-else label="$t('no-status')" color="neutral" />
       <div>{{ item.orderItems.length }} {{ $t("items") }}</div>
       <div>{{ computeTotalPrice(item) }} {{ currencySuffix }}</div>
     </template>
