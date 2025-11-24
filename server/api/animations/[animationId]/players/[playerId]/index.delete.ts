@@ -9,6 +9,15 @@ export default defineEventHandler(async (event) => {
     }).parse,
   );
 
+  const { user } = await getUserSession(event);
+
+  if (!isAdmin(event) && user?.id !== params.playerId) {
+    throw createError({
+      message: "You are not authorized",
+      statusCode: 401,
+    });
+  }
+
   await usePrisma().animationsPlayers.delete({
     where: {
       playerId_animationId: {

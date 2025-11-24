@@ -1,6 +1,8 @@
 import type { SettingsStringsCreateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
+  await needAdmin(event);
+
   const body = await readBody<SettingsStringsCreateInput>(event);
   await usePrisma().settingsStrings.upsert({
     create: body,

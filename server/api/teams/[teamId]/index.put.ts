@@ -10,6 +10,9 @@ export default defineEventHandler(async (event) => {
   );
 
   const body = await readBody<TeamUpdateInput>(event);
+  
+  // TODO: Check that the user is admin or in the team that will be modified.
+  // TODO: Check that only the admin can modify the score.
 
   await usePrisma().team.update({
     data: body,

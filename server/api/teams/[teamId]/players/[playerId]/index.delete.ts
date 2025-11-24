@@ -9,6 +9,14 @@ export default defineEventHandler(async (event) => {
     }).parse,
   );
 
+  const { user } = await getUserSession(event);
+  if (!isAdmin(event) && user?.id !== params.playerId) {
+    throw createError({
+      message: "Not authorized",
+      statusCode: 401,
+    });
+  }
+
   await usePrisma().playersTeams.delete({
     where: {
       teamId_playerId: {

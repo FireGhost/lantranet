@@ -2,6 +2,8 @@ import z from "zod";
 import type { AnimationsPlayersUpdateInput } from "~~/prisma/generated/prisma/models";
 
 export default defineEventHandler(async (event) => {
+  await needAdmin(event);
+
   const params = await getValidatedRouterParams(
     event,
     z.object({
