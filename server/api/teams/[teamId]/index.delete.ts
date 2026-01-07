@@ -8,7 +8,18 @@ export default defineEventHandler(async (event) => {
     }).parse,
   );
 
-  // TODO: Check that the user is admin or in the team that will be deleted.
+  const session = await getUserSession(event);
+
+  const playerIsInTeam = await usePrisma().playersTeams.count({
+    where: {
+      playerId: session.user?.id,
+      teamId: params.teamId
+    }
+  });
+
+  if (!playerIsInTeam) {
+    await needAdmin(event);
+  }
 
   await usePrisma().team.delete({
     where: {

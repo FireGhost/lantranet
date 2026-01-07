@@ -11,6 +11,12 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<UserUpdateInput>(event);
 
+  const { user: currentUser } = await getUserSession(event);
+
+  if (currentUser?.id !== params.userId) {
+    await needAdmin(event);
+  }
+
   if (body.username && await usePrisma().user.findByUsernameCI(body.username.toString())) {
     throw createError("Username already exists");
   }
@@ -22,7 +28,6 @@ export default defineEventHandler(async (event) => {
     },
   });
 
-  const { user: currentUser } = await getUserSession(event);
   if (currentUser?.id === params.userId) {
     await setUserSession(event, {
       user: {

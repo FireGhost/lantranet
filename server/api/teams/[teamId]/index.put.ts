@@ -11,8 +11,21 @@ export default defineEventHandler(async (event) => {
 
   const body = await readBody<TeamUpdateInput>(event);
   
-  // TODO: Check that the user is admin or in the team that will be modified.
-  // TODO: Check that only the admin can modify the score.
+  const session = await getUserSession(event);
+
+  const playerIsInTeam = await usePrisma().playersTeams.count({
+    where: {
+      playerId: session.user?.id,
+      teamId: params.teamId
+    }
+  });
+
+  if (body.score !== null && body.score !== undefined) {
+    await needAdmin(event);
+  }
+  else if (!playerIsInTeam) {
+    await needAdmin(event);
+  }
 
   await usePrisma().team.update({
     data: body,

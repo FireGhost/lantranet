@@ -5,14 +5,11 @@ export default defineEventHandler(async (event) => {
 
   const { user } = await getUserSession(event);
 
-  if (body.score) {
+  if (body.score !== null && body.score !== undefined) {
     await needAdmin(event);
   }
-  else if (user?.id !== body.player.connect?.id && await isAdmin(event)) {
-    throw createError({
-      message: "Not authorized",
-      statusCode: 401,
-    });
+  else if (user?.id !== body.player.connect?.id) {
+    await needAdmin(event);
   }
 
   await usePrisma().animationsPlayers.create({

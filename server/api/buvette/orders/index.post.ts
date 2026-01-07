@@ -20,11 +20,8 @@ export default defineEventHandler(async (event) => {
 
   const { user } = await getUserSession(event);
 
-  if (!isAdmin(event) && user?.id !== body.user.connect?.id) {
-    throw createError({
-      message: "Not authorized",
-      statusCode: 401,
-    });
+  if (user?.id !== body.user.connect?.id) {
+    await needAdmin(event);
   }
 
   await usePrisma().order.create({

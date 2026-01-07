@@ -11,5 +11,5 @@ export default defineEventHandler(async (event) => {
   setResponseHeader(event, "Content-Type", "text/event-stream");
   setResponseHeader(event, "Cache-Control", "no-cache");
 
-  return await eventStream.send();
+  return eventStream.send();
 });

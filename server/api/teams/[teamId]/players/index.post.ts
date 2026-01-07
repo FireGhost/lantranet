@@ -4,11 +4,8 @@ export default defineEventHandler(async (event) => {
   const body = await readBody<PlayersTeamsCreateInput>(event);
 
   const { user } = await getUserSession(event);
-  if (!isAdmin(event) && user?.id !== body.player.connect?.id) {
-    throw createError({
-      message: "Not authorized",
-      statusCode: 401,
-    });
+  if (user?.id !== body.player.connect?.id) {
+    await needAdmin(event);
   }
 
   await usePrisma().playersTeams.create({

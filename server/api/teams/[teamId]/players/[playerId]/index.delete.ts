@@ -10,11 +10,8 @@ export default defineEventHandler(async (event) => {
   );
 
   const { user } = await getUserSession(event);
-  if (!isAdmin(event) && user?.id !== params.playerId) {
-    throw createError({
-      message: "Not authorized",
-      statusCode: 401,
-    });
+  if (user?.id !== params.playerId) {
+    await needAdmin(event);
   }
 
   await usePrisma().playersTeams.delete({

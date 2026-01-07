@@ -2,7 +2,7 @@ import type { EventHandlerRequest, H3Event } from "h3";
 import { Role } from "~~/prisma/generated/prisma/enums";
 
 export const needAdmin = async (event: H3Event<EventHandlerRequest>) => {
-  if (await isAdmin(event) === false) {
+  if ((await isAdmin(event)) === false) {
     throw createError({
       message: "Admin role is needed !",
       statusCode: 401,

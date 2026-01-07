@@ -8,13 +8,10 @@ export default defineEventHandler(async (event) => {
   ];
 
   // If the api call is another paths than the ones listed, check that the user is authenticated.
-  if (event.path.startsWith("/api")) {
-
-    console.log(event.path);
-    if (!noAuthPaths.some((path) => event.path.startsWith(path))) {
-      console.log("Need auth");
-      await requireUserSession(event);
-    }
-
+  if (
+    event.path.startsWith("/api")
+    && !noAuthPaths.some((path) => event.path.startsWith(path))
+  ) {
+    await requireUserSession(event);
   }
 });
