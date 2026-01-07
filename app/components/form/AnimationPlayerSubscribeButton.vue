@@ -1,12 +1,15 @@
 <script setup lang="ts">
-import type { AnimationGetPayload, AnimationsPlayersCreateInput } from "~~/prisma/generated/prisma/models";
+import type {
+  AnimationGetPayload,
+  AnimationsPlayersCreateInput,
+} from "~~/prisma/generated/prisma/models";
 
 const props = defineProps<{
   animation: AnimationGetPayload<{
     include: {
-      players: true,
-    },
-  }>,
+      players: true;
+    };
+  }>;
 }>();
 
 const emit = defineEmits<{

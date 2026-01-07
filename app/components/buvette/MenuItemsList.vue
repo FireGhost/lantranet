@@ -38,7 +38,11 @@ const isAdmin = user.value?.role === Role.ADMIN;
 </script>
 
 <template>
-  <UButton v-if="isAdmin" :label="$t('Add new entry')" to="/buvette/menu-items/add" />
+  <UButton
+    v-if="isAdmin"
+    :label="$t('Add new entry')"
+    to="/buvette/menu-items/add"
+  />
 
   <template
     v-for="menuCategory in menuCategoriesComputed"

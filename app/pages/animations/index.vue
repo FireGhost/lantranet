@@ -9,5 +9,8 @@ definePageMeta({
 </script>
 
 <template>
-  <UPageHeader :title="$t('Choose an animation')" :description="$t('<- here, on the left')" />
+  <UPageHeader
+    :title="$t('Choose an animation')"
+    :description="$t('<- here, on the left')"
+  />
 </template>

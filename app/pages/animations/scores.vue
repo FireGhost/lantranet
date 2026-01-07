@@ -44,13 +44,20 @@ const { data: usersScores } = await useFetch<
   query: { withTeams: true, withAnimationsAsPlayer: true },
 });
 
+type UserData = {
+  [key: string]: string | number;
+  username: string;
+  scoreTotal: number;
+};
+
 let firstLoop = true;
-const data = ref<{ username: string; scoreTotal: number }[]>([]);
+const data = ref<UserData[]>([]);
 const columns: TableColumn<TableData>[] = [];
 usersScores.value?.forEach((userScores) => {
-  const userData: any = {};
-  let scoreTotal = 0;
-  userData.username = userScores.username;
+  const userData: UserData = {
+    username: userScores.username,
+    scoreTotal: 0,
+  };
 
   if (firstLoop) {
     columns.push({
@@ -85,11 +92,10 @@ usersScores.value?.forEach((userScores) => {
       }
 
       userData[`${animation.id}`] = score;
-      scoreTotal += score;
+      userData.scoreTotal += score;
     });
   });
 
-  userData.scoreTotal = scoreTotal;
   if (firstLoop) {
     columns.push({
       accessorKey: "scoreTotal",

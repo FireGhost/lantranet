@@ -27,11 +27,14 @@ const { data: animation, refresh: refreshAnimation } = await useFetch<
     withLanDay: true,
     withPlayers: true,
     withTeams: true,
-  }
+  },
 });
 
 useHead({
-  title: animation.value?.shortName ?? animation.value?.name ?? $t('Animation not found'),
+  title:
+    animation.value?.shortName ??
+    animation.value?.name ??
+    $t("Animation not found"),
 });
 
 function deleteAnimation() {
@@ -49,7 +52,7 @@ function deleteAnimation() {
 
 function toggleSubscriptionOpen() {
   if (!animation.value) {
-    toast.add({title: $t('Animation not found')});
+    toast.add({ title: $t("Animation not found") });
     return;
   }
 
@@ -122,7 +125,12 @@ function toggleSubscriptionOpen() {
           :title="$t('Are you sure')"
           :description="$t('Do you really want to delete this animation ?')"
         >
-          <UButton :label="$t('Delete animation')" color="error" variant="outline" class="ml-16" />
+          <UButton
+            :label="$t('Delete animation')"
+            color="error"
+            variant="outline"
+            class="ml-16"
+          />
 
           <template #body>
             <UButton

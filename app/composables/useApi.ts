@@ -1,4 +1,5 @@
 import type { NitroFetchOptions, NitroFetchRequest } from "nitropack";
+import type { FetchError } from "ofetch";
 
 export const useApi = (
   apiPath: NitroFetchRequest,
@@ -6,8 +7,8 @@ export const useApi = (
     fetchOptions?: NitroFetchOptions<NitroFetchRequest>;
     successString?: string;
     errorString?: string;
-    onSuccess?: Function;
-    onError?: Function;
+    onSuccess?: (success: unknown) => void;
+    onError?: (error: FetchError) => void;
   },
 ) => {
   const toast = useToast();

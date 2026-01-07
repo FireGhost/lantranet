@@ -13,8 +13,8 @@ export default defineEventHandler(async (event) => {
   const playerIsInTeam = await usePrisma().playersTeams.count({
     where: {
       playerId: session.user?.id,
-      teamId: params.teamId
-    }
+      teamId: params.teamId,
+    },
   });
 
   if (!playerIsInTeam) {

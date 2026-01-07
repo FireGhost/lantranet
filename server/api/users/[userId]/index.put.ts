@@ -17,7 +17,10 @@ export default defineEventHandler(async (event) => {
     await needAdmin(event);
   }
 
-  if (body.username && await usePrisma().user.findByUsernameCI(body.username.toString())) {
+  if (
+    body.username &&
+    (await usePrisma().user.findByUsernameCI(body.username.toString()))
+  ) {
     throw createError("Username already exists");
   }
 

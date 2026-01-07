@@ -1,10 +1,10 @@
 <script setup lang="ts">
 const settingsStrings = useSettingsStrings();
 
-const appName = ref(await settingsStrings.get('app-name'));
+const appName = ref(await settingsStrings.get("app-name"));
 
 function saveAppTexts() {
-  settingsStrings.upsert('app-name', appName.value);
+  settingsStrings.upsert("app-name", appName.value);
 }
 </script>
 

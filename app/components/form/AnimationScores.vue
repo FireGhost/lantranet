@@ -15,7 +15,7 @@ const props = defineProps<{
         };
       };
     };
-  }>,
+  }>;
 }>();
 
 const emit = defineEmits<{
@@ -77,7 +77,11 @@ function saveScorePlayers() {
     </UFieldGroup>
 
     <UFormField class="mt-4">
-      <UButton type="submit" :label="$t('Save score')" @click="saveScoreTeams()" />
+      <UButton
+        type="submit"
+        :label="$t('Save score')"
+        @click="saveScoreTeams()"
+      />
     </UFormField>
   </UForm>
 
@@ -103,7 +107,11 @@ function saveScorePlayers() {
     </UFieldGroup>
 
     <UFormField class="mt-4">
-      <UButton type="submit" :label="$t('Save score')" @click="saveScorePlayers()" />
+      <UButton
+        type="submit"
+        :label="$t('Save score')"
+        @click="saveScorePlayers()"
+      />
     </UFormField>
   </UForm>
 </template>

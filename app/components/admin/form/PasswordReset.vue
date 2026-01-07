@@ -1,30 +1,33 @@
 <script setup lang="ts">
-import type { SelectItem } from '@nuxt/ui';
+import type { SelectItem } from "@nuxt/ui";
 
-const { data: usersItems } = useFetch('/api/users', {
-  transform: ((users) => {
-    return users.map((user) => ({
-      label: user.username,
-      value: user.id,
-    }) as SelectItem);
-  }),
+const { data: usersItems } = useFetch("/api/users", {
+  transform: (users) => {
+    return users.map(
+      (user) =>
+        ({
+          label: user.username,
+          value: user.id,
+        }) as SelectItem,
+    );
+  },
 });
 
-const newPassword = ref('');
+const newPassword = ref("");
 const selectedUser = ref(null);
 
 function updatePassword() {
   useApi(`/api/users/${selectedUser.value}/change-password`, {
     fetchOptions: {
-      method: 'PUT',
+      method: "PUT",
       body: {
-        currentPassword: '',
+        currentPassword: "",
         newPassword: newPassword.value,
-        newPasswordValidation: '',
+        newPasswordValidation: "",
       } satisfies PasswordChangeInput,
     },
-    successString: $t('Password updated with success'),
-    onSuccess: () => newPassword.value = '',
+    successString: $t("Password updated with success"),
+    onSuccess: () => (newPassword.value = ""),
   });
 }
 </script>

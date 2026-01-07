@@ -8,8 +8,8 @@ const { loggedIn, clear: clearUserSession, user } = useUserSession();
 const route = useRoute();
 const { setLocale } = useI18n();
 
-const appName = await settingsStrings.get('app-name');
-await setLocale(await settingsStrings.get('app-locale') as Locale);
+const appName = await settingsStrings.get("app-name");
+await setLocale((await settingsStrings.get("app-locale")) as Locale);
 
 useHead({
   titleTemplate: (title) => {
@@ -34,22 +34,22 @@ onUnmounted(() => {
 const items = computed<NavigationMenuItem[]>(() => {
   const items: NavigationMenuItem[] = [
     {
-      label: $t('Animations'),
+      label: $t("Animations"),
       to: "/animations",
-      active: route.path.startsWith('/animations'),
+      active: route.path.startsWith("/animations"),
     },
     {
-      label: $t('Buvette'),
+      label: $t("Buvette"),
       to: "/buvette",
-      active: route.path.startsWith('/buvette'),
+      active: route.path.startsWith("/buvette"),
     },
   ];
 
   if (user.value?.role === Role.ADMIN) {
     items.push({
-      label: $t('Admin'),
+      label: $t("Admin"),
       to: "/admin",
-      active: route.path.startsWith('/admin'),
+      active: route.path.startsWith("/admin"),
     });
   }
 
@@ -71,18 +71,20 @@ async function logout() {
 
       <template #right>
         <template v-if="loggedIn">
-          <ULink to="/user" variant="link" class="mr-2">{{ user?.username }}</ULink>
+          <ULink to="/user" variant="link" class="mr-2">
+            {{ user?.username }}
+          </ULink>
           <UColorModeButton class="mr-2" />
-          <UButton @click="logout()">{{ $t('Logout') }}</UButton>
+          <UButton @click="logout()">{{ $t("Logout") }}</UButton>
         </template>
         <template v-else>
-          <UButton to="/login">{{ $t('Login') }}</UButton>
-          <UButton to="/register">{{ $t('Register') }}</UButton>
+          <UButton to="/login">{{ $t("Login") }}</UButton>
+          <UButton to="/register">{{ $t("Register") }}</UButton>
         </template>
       </template>
 
       <template #body>
-        <UNavigationMenu :items="items" orientation="vertical"/>
+        <UNavigationMenu :items="items" orientation="vertical" />
       </template>
     </UHeader>
 

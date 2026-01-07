@@ -12,5 +12,5 @@ export const needAdmin = async (event: H3Event<EventHandlerRequest>) => {
 
 export const isAdmin = async (event: H3Event<EventHandlerRequest>) => {
   const session = await getUserSession(event);
-  return session.user?.role === Role.ADMIN
+  return session.user?.role === Role.ADMIN;
 };

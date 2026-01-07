@@ -2,7 +2,7 @@
 import type { AnimationModel } from "~~/prisma/generated/prisma/models";
 
 useHead({
-  title: $t('Edit animation'),
+  title: $t("Edit animation"),
 });
 
 definePageMeta({

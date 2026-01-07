@@ -4,15 +4,15 @@ import type { AnimationGetPayload } from "~~/prisma/generated/prisma/models";
 defineProps<{
   animation: AnimationGetPayload<{
     include: {
-      lanDay: true,
-      players: true,
+      lanDay: true;
+      players: true;
       teams: {
         include: {
-          players: true,
-        },
-      },
-    },
-  }>,
+          players: true;
+        };
+      };
+    };
+  }>;
 }>();
 
 defineEmits<{
@@ -27,12 +27,11 @@ defineEmits<{
     :headline="`${animation.lanDay?.name ?? ''} ${animation.startTime ?? ''}`"
     :title="animation.name"
   >
-
     <template #links>
       <template v-if="animation.openSubscription">
         <USlideover v-if="animation.isTeamed" :title="$t('Team management')">
           <UButton :label="$t('Team management')" />
-  
+
           <template #body>
             <FormAnimationTeams
               :animation="animation"
@@ -40,7 +39,7 @@ defineEmits<{
             />
           </template>
         </USlideover>
-  
+
         <FormAnimationPlayerSubscribeButton
           v-if="!animation.isTeamed"
           :animation="animation"
@@ -48,7 +47,11 @@ defineEmits<{
         />
       </template>
       <template v-else>
-        <UBadge color="error" variant="outline" :label="$t('Subscription closed')" />
+        <UBadge
+          color="error"
+          variant="outline"
+          :label="$t('Subscription closed')"
+        />
       </template>
     </template>
 
@@ -57,6 +60,5 @@ defineEmits<{
         {{ animation.description }}
       </p>
     </template>
-
   </UPageSection>
 </template>

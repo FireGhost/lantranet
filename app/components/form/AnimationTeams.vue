@@ -12,11 +12,11 @@ const props = defineProps<{
     include: {
       teams: {
         include: {
-          players: true,
-        },
-      },
-    },
-  }>,
+          players: true;
+        };
+      };
+    };
+  }>;
 }>();
 
 const emit = defineEmits<{
@@ -28,7 +28,9 @@ const toast = useToast();
 
 const myTeamId = computed(() => {
   return props.animation.teams.find((team) => {
-    return team.players.find((teamUser) => teamUser.playerId === user.value?.id)
+    return team.players.find(
+      (teamUser) => teamUser.playerId === user.value?.id,
+    );
   })?.id;
 });
 
@@ -129,7 +131,6 @@ function updateMyTeamName(myTeam: TeamModel) {
 <template>
   <UPageList>
     <UPageCard v-for="team in animation.teams" :key="team.id">
-
       <template #title>
         <template v-if="myTeamId === team.id">
           <UFieldGroup>
@@ -186,7 +187,6 @@ function updateMyTeamName(myTeam: TeamModel) {
           @click="joinTeam(team.id)"
         />
       </template>
-      
     </UPageCard>
 
     <UPageCard v-if="myTeamId === undefined">
@@ -200,6 +200,5 @@ function updateMyTeamName(myTeam: TeamModel) {
         </UFieldGroup>
       </UForm>
     </UPageCard>
-
   </UPageList>
 </template>

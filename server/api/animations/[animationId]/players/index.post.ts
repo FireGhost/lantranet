@@ -7,8 +7,7 @@ export default defineEventHandler(async (event) => {
 
   if (body.score !== null && body.score !== undefined) {
     await needAdmin(event);
-  }
-  else if (user?.id !== body.player.connect?.id) {
+  } else if (user?.id !== body.player.connect?.id) {
     await needAdmin(event);
   }
 

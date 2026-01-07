@@ -2,7 +2,7 @@
 import type { OrderGetPayload } from "~~/prisma/generated/prisma/models";
 
 useHead({
-  title: $t('Buvette admin'),
+  title: $t("Buvette admin"),
 });
 
 const { data: orders, refresh: refreshOrders } = await useFetch<
