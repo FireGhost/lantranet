@@ -1,2 +1,3 @@
 # Ignore generated code
 prisma
+renovate.json
