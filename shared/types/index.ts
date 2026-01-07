@@ -42,23 +42,26 @@ export type CartItem = {
   comment: string;
 };
 
-export const PasswordChangeSchema = z.object({
-  currentPassword: z.string().min(8),
-  newPassword: z.string().min(8),
-  newPasswordValidation: z.string().min(8),
-}).refine((args) => args.newPassword === args.newPasswordValidation, {
-  error: 'Password validation does not match the new password',
-  path: ['newPasswordValidation'],
-});
+export const PasswordChangeSchema = z
+  .object({
+    currentPassword: z.string().min(8),
+    newPassword: z.string().min(8),
+    newPasswordValidation: z.string().min(8),
+  })
+  .refine((args) => args.newPassword === args.newPasswordValidation, {
+    error: "Password validation does not match the new password",
+    path: ["newPasswordValidation"],
+  });
 export type PasswordChangeInput = z.infer<typeof PasswordChangeSchema>;
 
-export const UserRegisterSchema = z.object({
-  username: z.string().min(1),
-  password: z.string().min(8),
-  passwordConfirm: z.string().min(8),
-})
-.refine((args) => args.password === args.passwordConfirm, {
-  error: 'Passwords are not identical',
-  path: ['passwordConfirm'],
-});
+export const UserRegisterSchema = z
+  .object({
+    username: z.string().min(1),
+    password: z.string().min(8),
+    passwordConfirm: z.string().min(8),
+  })
+  .refine((args) => args.password === args.passwordConfirm, {
+    error: "Passwords are not identical",
+    path: ["passwordConfirm"],
+  });
 export type UserRegisterInput = z.infer<typeof UserRegisterSchema>;

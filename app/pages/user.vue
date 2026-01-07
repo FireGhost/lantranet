@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { UserUpdateInput } from '~~/prisma/generated/prisma/models';
+import type { UserUpdateInput } from "~~/prisma/generated/prisma/models";
 
 const toast = useToast();
 const { user, fetch: refreshUser } = useUserSession();
@@ -10,20 +10,20 @@ const passwordChangeState = reactive<Partial<PasswordChangeInput>>({});
 function updateUsername() {
   if (!user.value) {
     toast.add({
-      title: $t('Please login'),
-      color: 'error',
+      title: $t("Please login"),
+      color: "error",
     });
     return;
   }
 
   useApi(`/api/users/${user.value.id}`, {
     fetchOptions: {
-      method: 'PUT',
+      method: "PUT",
       body: {
-        username: newUsername.value
-      } satisfies UserUpdateInput
+        username: newUsername.value,
+      } satisfies UserUpdateInput,
     },
-    successString: $t('User updated'),
+    successString: $t("User updated"),
     onSuccess: () => refreshUser(),
   });
 }
@@ -31,10 +31,10 @@ function updateUsername() {
 function updatePassword() {
   useApi(`/api/users/${user.value?.id}/change-password`, {
     fetchOptions: {
-      method: 'PUT',
-      body: passwordChangeState
+      method: "PUT",
+      body: passwordChangeState,
     },
-    successString: $t('Password updated with success'),
+    successString: $t("Password updated with success"),
   });
 }
 </script>
@@ -43,33 +43,47 @@ function updatePassword() {
   <div class="pt-4 flex flex-wrap gap-8 justify-center">
     <UCard class="w-fit">
       <template #header>{{ $t("Edit my username") }}</template>
-        <UForm @submit="updateUsername">
-          <UFormField :label="$t('New username')">
-            <UFieldGroup>
-              <UInput v-model="newUsername" type="text" />
-              <UButton type="submit" icon="i-lucide-save" />
-            </UFieldGroup>
-          </UFormField>
-        </UForm>
+      <UForm @submit="updateUsername">
+        <UFormField :label="$t('New username')">
+          <UFieldGroup>
+            <UInput v-model="newUsername" type="text" />
+            <UButton type="submit" icon="i-lucide-save" />
+          </UFieldGroup>
+        </UFormField>
+      </UForm>
     </UCard>
 
     <UCard class="w-fit">
       <template #header>{{ $t("Edit my password") }}</template>
-        <UForm :schema="PasswordChangeSchema" :state="passwordChangeState" @submit="updatePassword">
-          <UFormField :label="$t('Current password')" name="currentPassword">
-            <UInput v-model="passwordChangeState.currentPassword" type="password" />
-          </UFormField>
-          
-          <UFormField :label="$t('New password')" class="mt-2" name="newPassword">
-            <UInput v-model="passwordChangeState.newPassword" type="password" />
-          </UFormField>
-          
-          <UFormField :label="$t('Verify new password')" class="mt-2" name="newPasswordValidation">
-            <UInput v-model="passwordChangeState.newPasswordValidation" type="password" />
-          </UFormField>
+      <UForm
+        :schema="PasswordChangeSchema"
+        :state="passwordChangeState"
+        @submit="updatePassword"
+      >
+        <UFormField :label="$t('Current password')" name="currentPassword">
+          <UInput
+            v-model="passwordChangeState.currentPassword"
+            type="password"
+          />
+        </UFormField>
 
-          <UButton type="submit" :label="$t('Save new password')" class="mt-4" />
-        </UForm>
+        <UFormField :label="$t('New password')" class="mt-2" name="newPassword">
+          <UInput v-model="passwordChangeState.newPassword" type="password" />
+        </UFormField>
+
+        <UFormField
+          :label="$t('Verify new password')"
+          class="mt-2"
+          name="newPasswordValidation"
+        >
+          <UInput
+            v-model="passwordChangeState.newPasswordValidation"
+            type="password"
+          />
+        </UFormField>
+
+        <UButton type="submit" :label="$t('Save new password')" class="mt-4" />
+      </UForm>
     </UCard>
   </div>
 </template>

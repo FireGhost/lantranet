@@ -8,22 +8,24 @@ const props = defineProps<{
     include: {
       teams: {
         include: {
-          players: true,
-        },
-      },
+          players: true;
+        };
+      };
       players: {
         include: {
-          player: true,
-        },
-      },
-      adminUser: true,
-    },
-  }>,
+          player: true;
+        };
+      };
+      adminUser: true;
+    };
+  }>;
 }>();
 
 const myTeamId = computed(() => {
   return props.animation.teams.find((team) => {
-    return team.players.find((teamUser) => teamUser.playerId === user.value?.id)
+    return team.players.find(
+      (teamUser) => teamUser.playerId === user.value?.id,
+    );
   })?.id;
 });
 
@@ -38,7 +40,6 @@ function indexToPos(index: number) {
 
 <template>
   <div class="flex w-full gap-16 justify-center flex-wrap">
-
     <div v-if="animation.isTeamed" class="w-54">
       <UBanner :title="$t('Team subscribed')" color="secondary" />
       <UPageList divide>
@@ -54,7 +55,12 @@ function indexToPos(index: number) {
     <div v-else class="w-54">
       <UBanner :title="$t('Subscribed')" color="secondary" />
       <UPageList divide>
-        <UPageCard v-for="player in animation.players" :key="player.playerId" orientation="horizontal" :highlight="player.playerId === user?.id">
+        <UPageCard
+          v-for="player in animation.players"
+          :key="player.playerId"
+          orientation="horizontal"
+          :highlight="player.playerId === user?.id"
+        >
           <UUser :name="player.player.username" size="md" class="h-1" />
         </UPageCard>
       </UPageList>
@@ -73,7 +79,6 @@ function indexToPos(index: number) {
       <UBanner :title="$t('Scores')" color="secondary" />
       <UPageList divide>
         <template v-if="animation.isTeamed">
-          
           <UPageCard
             v-for="(team, index) in animation.teams?.toSorted(
               (a, b) => (b.score ?? 0) - (a.score ?? 0),
@@ -91,10 +96,8 @@ function indexToPos(index: number) {
               </template>
             </UUser>
           </UPageCard>
-
         </template>
         <template v-else>
-          
           <UPageCard
             v-for="(player, index) in animation.players?.toSorted(
               (a, b) => (b.score ?? 0) - (a.score ?? 0),
@@ -112,10 +115,8 @@ function indexToPos(index: number) {
               </template>
             </UUser>
           </UPageCard>
-          
         </template>
       </UPageList>
     </div>
-
   </div>
 </template>

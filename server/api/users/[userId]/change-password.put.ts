@@ -28,11 +28,16 @@ export default defineEventHandler(async (event) => {
       },
     });
     if (!fullUser) {
-      throw createError('User not found');
+      throw createError("User not found");
     }
 
-    if (await verifyPassword(fullUser.passwordHash, body.currentPassword.concat(fullUser.salt)) !== true) {
-      throw createError('Wrong current password');
+    if (
+      (await verifyPassword(
+        fullUser.passwordHash,
+        body.currentPassword.concat(fullUser.salt),
+      )) !== true
+    ) {
+      throw createError("Wrong current password");
     }
   }
 
@@ -45,7 +50,7 @@ export default defineEventHandler(async (event) => {
       salt: salt,
     },
     where: {
-      id: params.userId
-    }
+      id: params.userId,
+    },
   });
 });

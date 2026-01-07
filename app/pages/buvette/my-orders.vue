@@ -13,8 +13,8 @@ definePageMeta({
 const { user } = useUserSession();
 const settingsStrings = useSettingsStrings();
 
-const datetimeLocale = await settingsStrings.get('app-datetime-locale');
-const currencySuffix = await settingsStrings.get('app-currency-suffix');
+const datetimeLocale = await settingsStrings.get("app-datetime-locale");
+const currencySuffix = await settingsStrings.get("app-currency-suffix");
 
 const { data: orders } = await useFetch<
   OrderGetPayload<{

@@ -10,20 +10,19 @@ export default defineEventHandler(async (event) => {
   );
 
   const body = await readBody<TeamUpdateInput>(event);
-  
+
   const session = await getUserSession(event);
 
   const playerIsInTeam = await usePrisma().playersTeams.count({
     where: {
       playerId: session.user?.id,
-      teamId: params.teamId
-    }
+      teamId: params.teamId,
+    },
   });
 
   if (body.score !== null && body.score !== undefined) {
     await needAdmin(event);
-  }
-  else if (!playerIsInTeam) {
+  } else if (!playerIsInTeam) {
     await needAdmin(event);
   }
 

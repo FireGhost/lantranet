@@ -45,9 +45,9 @@ const { data: usersScores } = await useFetch<
 });
 
 type UserData = {
-  [key: string]: string|number,
-  username: string,
-  scoreTotal: number,
+  [key: string]: string | number;
+  username: string;
+  scoreTotal: number;
 };
 
 let firstLoop = true;

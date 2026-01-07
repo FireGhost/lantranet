@@ -1,6 +1,11 @@
 <script setup lang="ts">
-import type { SelectItem } from '@nuxt/ui';
-import type { AnimationGetPayload, PlayersTeamsCreateInput, TeamCreateInput, TeamUpdateInput } from '~~/prisma/generated/prisma/models';
+import type { SelectItem } from "@nuxt/ui";
+import type {
+  AnimationGetPayload,
+  PlayersTeamsCreateInput,
+  TeamCreateInput,
+  TeamUpdateInput,
+} from "~~/prisma/generated/prisma/models";
 
 const props = defineProps<{
   animation: AnimationGetPayload<{
@@ -9,50 +14,52 @@ const props = defineProps<{
         include: {
           players: {
             include: {
-              player: true,
-            },
-          },
-        },
-      },
-    },
-  }>,
+              player: true;
+            };
+          };
+        };
+      };
+    };
+  }>;
 }>();
 
 const emit = defineEmits<{
-  teamsUpdated: [],
+  teamsUpdated: [];
 }>();
 
-const { data: users } = useFetch('/api/users', {
+const { data: users } = useFetch("/api/users", {
   default: () => [],
 });
 const availableUsers = computed(() => {
   return users.value
-  .filter((user) => {
-    return !props.animation.teams.find((team) => {
-      return team.players.find((teamPlayer) => teamPlayer.playerId === user.id);
+    .filter((user) => {
+      return !props.animation.teams.find((team) => {
+        return team.players.find(
+          (teamPlayer) => teamPlayer.playerId === user.id,
+        );
+      });
+    })
+    .map((user) => {
+      return {
+        label: user.username,
+        value: user.id,
+      } satisfies SelectItem;
     });
-  })
-  .map((user) => {
-    return {
-      label: user.username,
-      value: user.id,
-    } satisfies SelectItem;
-  });
 });
 
-const newTeamName = ref('');
+const newTeamName = ref("");
 const selectedUser = ref();
 
 function updateTeamName(teamId: number, teamName: string) {
   console.log(teamName);
   useApi(`/api/teams/${teamId}`, {
     fetchOptions: {
-      method: 'PUT',
+      method: "PUT",
       body: {
         name: teamName,
       } satisfies TeamUpdateInput,
     },
-    successString: $t('Team updated'),
+    successString: $t("Team updated"),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -60,9 +67,9 @@ function updateTeamName(teamId: number, teamName: string) {
 function deleteTeam(teamId: number) {
   useApi(`/api/teams/${teamId}`, {
     fetchOptions: {
-      method: 'DELETE',
+      method: "DELETE",
     },
-    successString: $t('Team deleted'),
+    successString: $t("Team deleted"),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -70,7 +77,7 @@ function deleteTeam(teamId: number) {
 function createTeam(teamName: string) {
   useApi("/api/teams", {
     fetchOptions: {
-      method: 'POST',
+      method: "POST",
       body: {
         animation: {
           connect: {
@@ -80,7 +87,7 @@ function createTeam(teamName: string) {
         name: teamName,
       } satisfies TeamCreateInput,
     },
-    successString: $t('Team created with success'),
+    successString: $t("Team created with success"),
     onSuccess: () => {
       emit("teamsUpdated");
       newTeamName.value = "";
@@ -91,7 +98,7 @@ function createTeam(teamName: string) {
 function addPlayerTeam(userId: number, teamId: number) {
   useApi(`/api/teams/${teamId}/players`, {
     fetchOptions: {
-      method: 'POST',
+      method: "POST",
       body: {
         player: {
           connect: {
@@ -105,7 +112,7 @@ function addPlayerTeam(userId: number, teamId: number) {
         },
       } satisfies PlayersTeamsCreateInput,
     },
-    successString: $t('Player added'),
+    successString: $t("Player added"),
     onSuccess: () => {
       emit("teamsUpdated");
       selectedUser.value = null;
@@ -116,9 +123,9 @@ function addPlayerTeam(userId: number, teamId: number) {
 function removePlayer(teamId: number, playerId: number) {
   useApi(`/api/teams/${teamId}/players/${playerId}`, {
     fetchOptions: {
-      method: 'DELETE',
+      method: "DELETE",
     },
-    successString: $t('Player removed'),
+    successString: $t("Player removed"),
     onSuccess: () => emit("teamsUpdated"),
   });
 }
@@ -127,7 +134,6 @@ function removePlayer(teamId: number, playerId: number) {
 <template>
   <UPageList>
     <UPageCard v-for="team in animation.teams" :key="team.id" class="mb-2">
-
       <template #title>
         <UButton
           icon="i-lucide-trash"
@@ -140,11 +146,7 @@ function removePlayer(teamId: number, playerId: number) {
         <UForm @submit="updateTeamName(team.id, team.name)">
           <UFieldGroup>
             <UInput v-model="team.name" class="w-60" />
-            <UButton
-              icon="i-lucide-save"
-              color="success"
-              type="submit"
-            />
+            <UButton icon="i-lucide-save" color="success" type="submit" />
           </UFieldGroup>
         </UForm>
       </template>
@@ -153,8 +155,19 @@ function removePlayer(teamId: number, playerId: number) {
         <div v-if="team.players.length" class="mt-4">
           <div class="mb-2">{{ $t("Subscribed") }}</div>
           <UFieldGroup v-for="player in team.players" :key="player.playerId">
-            <UBadge :label="player.player.username" variant="outline" class="w-52" color="neutral" size="lg" />
-            <UButton icon="i-lucide-user-minus" variant="outline" color="error" @click="removePlayer(team.id, player.playerId)" />
+            <UBadge
+              :label="player.player.username"
+              variant="outline"
+              class="w-52"
+              color="neutral"
+              size="lg"
+            />
+            <UButton
+              icon="i-lucide-user-minus"
+              variant="outline"
+              color="error"
+              @click="removePlayer(team.id, player.playerId)"
+            />
           </UFieldGroup>
         </div>
       </template>
@@ -162,12 +175,15 @@ function removePlayer(teamId: number, playerId: number) {
       <template #footer>
         <UForm @submit="addPlayerTeam(selectedUser, team.id)">
           <UFieldGroup>
-            <USelect v-model="selectedUser" :items="availableUsers" class="w-52" />
+            <USelect
+              v-model="selectedUser"
+              :items="availableUsers"
+              class="w-52"
+            />
             <UButton type="submit" icon="i-lucide-user-plus" />
           </UFieldGroup>
         </UForm>
       </template>
-
     </UPageCard>
 
     <UPageCard>
@@ -181,6 +197,5 @@ function removePlayer(teamId: number, playerId: number) {
         </UFieldGroup>
       </UForm>
     </UPageCard>
-
   </UPageList>
 </template>

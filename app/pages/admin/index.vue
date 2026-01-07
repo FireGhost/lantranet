@@ -1,6 +1,6 @@
 <script setup lang="ts">
 useHead({
-  title: $t('Admin'),
+  title: $t("Admin"),
 });
 
 definePageMeta({
@@ -12,7 +12,7 @@ definePageMeta({
   <div class="pb-4">
     <AdminFormSeparator :title="$t('Lan')">
       <UCard class="w-fit">
-        <template #header>{{ $t('Days of lan') }}</template>
+        <template #header>{{ $t("Days of lan") }}</template>
         <AdminFormDaysOfLan />
       </UCard>
 

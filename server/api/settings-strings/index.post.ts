@@ -10,7 +10,7 @@ export default defineEventHandler(async (event) => {
       value: body.value,
     },
     where: {
-      key: body.key
-    }
+      key: body.key,
+    },
   });
 });
