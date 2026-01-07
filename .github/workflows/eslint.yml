@@ -1,5 +1,8 @@
 name: Run ESLint in PRs
 
+permissions:
+  contents: read
+
 on: pull_request
 
 jobs:
@@ -8,4 +11,4 @@ jobs:
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
-      - run: npm lint
+      - run: npm run lint
