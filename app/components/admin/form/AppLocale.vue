@@ -5,7 +5,9 @@ import type { Locale } from "vue-i18n";
 const settingsStrings = useSettingsStrings();
 const { locales } = useI18n();
 
-const selectedLocale = ref<Locale>(await settingsStrings.get("app-locale") as Locale);
+const selectedLocale = ref<Locale>(
+  (await settingsStrings.get("app-locale")) as Locale,
+);
 const localeSelectItems = computed(() => {
   return locales.value.map((locale) => {
     return {
