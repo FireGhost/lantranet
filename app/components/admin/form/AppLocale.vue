@@ -5,7 +5,7 @@ import type { Locale } from "vue-i18n";
 const settingsStrings = useSettingsStrings();
 const { locales } = useI18n();
 
-const selectedLocale = ref(await settingsStrings.get("app-locale"));
+const selectedLocale = ref<Locale>(await settingsStrings.get("app-locale") as Locale);
 const localeSelectItems = computed(() => {
   return locales.value.map((locale) => {
     return {
@@ -35,7 +35,7 @@ function saveDatetimeLocale() {
   <UForm @submit="saveAppLocale">
     <UFieldGroup>
       <USelect
-        v-model="selectedLocale as Locale"
+        v-model="selectedLocale"
         :items="localeSelectItems"
         class="w-40"
       />
