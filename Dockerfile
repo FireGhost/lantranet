@@ -30,6 +30,4 @@ COPY --from=build /app/.output .
 COPY --from=build /app/prisma ./prisma
 COPY --from=build /app/bin ./bin
 
-RUN npm install --verbose prisma
-
 CMD ["/bin/sh", "-c", "node ./bin/prisma/build/index.cjs migrate deploy && node /app/server/index.mjs"]
