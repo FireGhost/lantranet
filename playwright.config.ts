@@ -70,7 +70,8 @@ export default defineConfig({
   /* Run your local dev server before starting the tests */
   webServer: [
     {
-      command: 'npm run build && npx prisma migrate deploy && npm run preview',
+      //command: 'npm run build && npx prisma migrate deploy && npm run preview',
+      command: 'npx prisma migrate deploy && npm run preview',
       url: 'http://localhost:3000',
       env: {
         "PORT": "3000",

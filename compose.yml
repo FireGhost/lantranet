@@ -1,20 +1,23 @@
 services:
-  lantranet:
+
+  base-node-service:
     image: node:24
     working_dir: /app
     user: "node" #UID=1000
     env_file: .env
+    volumes:
+      - ./:/app
+
+  lantranet:
+    extends: base-node-service
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost"]
       interval: 30s
-      timeout: 30s
       retries: 10
     environment:
       - PORT=80
     ports:
       - 80:80
-    volumes:
-      - ./:/app
     command:
       - "bash"
       - "-c"
@@ -23,15 +26,10 @@ services:
         && npm run dev"
 
   prisma-studio:
-    image: node:24
-    working_dir: /app
-    user: "node" #UID=1000
+    extends: base-node-service
     profiles: ["prisma-studio"]
-    env_file: .env
     ports:
       - 5555:5555
-    volumes:
-      - ./:/app
     command: "npx prisma studio"
 
   # To run the playwright tests, run "docker compose run --rm playwright"
@@ -55,5 +53,4 @@ services:
     extends: playwright
     ports:
       - 9323:9323
-    entrypoint: "npx playwright"
     command: "show-report --host=0.0.0.0 --port=9323"
