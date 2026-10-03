@@ -11,11 +11,11 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     session: {
-      password: '',
+      password: "",
       cookie: {
         secure: true,
       },
-    }
+    },
   },
   i18n: {
     defaultLocale: "en",
