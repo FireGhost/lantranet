@@ -9,6 +9,14 @@ export default defineNuxtConfig({
   typescript: {
     typeCheck: true,
   },
+  runtimeConfig: {
+    session: {
+      password: '',
+      cookie: {
+        secure: true,
+      },
+    }
+  },
   i18n: {
     defaultLocale: "en",
     strategy: "no_prefix",
